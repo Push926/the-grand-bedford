@@ -26,14 +26,16 @@
   </head>
   <body>
     <header class="hero">
-      <a href="#" class="site-logo" aria-label="The Grand Bedford home">
-        <img src="assets/GB logo.png" alt="The Grand Bedford" />
-      </a>
-      <nav class="site-nav">
-        <a href="#included">Included</a>
-        <a href="#features">Packages</a>
-        <a href="#inquire">Inquire</a>
-      </nav>
+      <div class="header-bar container">
+        <a href="#" class="site-logo" aria-label="The Grand Bedford home">
+          <img src="assets/GB logo.png" alt="The Grand Bedford" />
+        </a>
+        <nav class="site-nav">
+          <a href="#included">Included</a>
+          <a href="#features">Packages</a>
+          <a href="#inquire">Inquire</a>
+        </nav>
+      </div>
       <div class="container hero-grid">
         <div class="hero-image">
           <img
@@ -220,13 +222,15 @@
             </form>
             <div class="calendar">
               <div class="calendar-nav">
-                <button class="icon-button" type="button" id="calendar-prev" aria-label="Previous month">
-                  &#8249;
-                </button>
                 <span class="calendar-range" id="calendar-range"></span>
-                <button class="icon-button" type="button" id="calendar-next" aria-label="Next month">
-                  &#8250;
-                </button>
+                <div class="calendar-nav-buttons">
+                  <button class="icon-button" type="button" id="calendar-prev" aria-label="Previous month">
+                    &#8249;
+                  </button>
+                  <button class="icon-button" type="button" id="calendar-next" aria-label="Next month">
+                    &#8250;
+                  </button>
+                </div>
               </div>
               <div class="calendar-months" id="calendar-months"></div>
               <p class="calendar-note">

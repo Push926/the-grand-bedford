@@ -67,14 +67,28 @@ p {
   position: relative;
 }
 
+.header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 32px;
+  margin-bottom: 0;
+}
+
 .site-logo {
-  display: none;
+  display: block;
+  line-height: 0;
+  background: transparent;
+}
+
+.site-logo img {
+  display: block;
+  max-width: 140px;
+  height: auto;
+  background: transparent;
 }
 
 .site-nav {
-  position: absolute;
-  top: 28px;
-  right: 5%;
   display: flex;
   gap: 18px;
   font-size: 0.85rem;
@@ -351,6 +365,11 @@ textarea {
   gap: 12px;
 }
 
+.calendar-nav-buttons {
+  display: flex;
+  gap: 8px;
+}
+
 .calendar-range {
   font-weight: 600;
   color: #5f534b;
@@ -550,28 +569,26 @@ textarea {
     padding-top: 40px;
   }
 
+  .header-bar {
+    flex-direction: column;
+    padding-bottom: 20px;
+  }
+
   .site-logo {
-    display: block;
     text-align: center;
     margin-bottom: 20px;
-    background: transparent;
-    line-height: 0;
   }
 
   .site-logo img {
-    display: block;
     max-width: min(200px, 55vw);
-    height: auto;
     margin: 0 auto;
-    background: transparent;
   }
 
   .site-nav {
-    position: static;
     justify-content: center;
     flex-wrap: wrap;
     gap: 12px;
-    margin-bottom: 20px;
+    margin-bottom: 0;
     font-size: 0.75rem;
   }
 
