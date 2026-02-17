@@ -248,10 +248,6 @@ p {
   stroke-linejoin: round;
 }
 
-.features-mobile {
-  display: none;
-}
-
 .features-table {
   border: 1px solid rgba(126, 105, 90, 0.16);
   border-radius: 12px;
@@ -262,7 +258,7 @@ p {
 
 .table-row {
   display: grid;
-  grid-template-columns: 1.3fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   border-top: 1px solid rgba(126, 105, 90, 0.08);
 }
 
@@ -274,11 +270,6 @@ p {
 .cell {
   padding: 20px 22px;
   font-size: 0.95rem;
-}
-
-.cell.label {
-  color: var(--text);
-  font-weight: 500;
 }
 
 .cell.header-cell {
@@ -300,7 +291,7 @@ p {
   color: #6a5e55;
 }
 
-.table-row .cell:nth-child(3) {
+.table-row .cell:nth-child(2) {
   background: #f6ede4;
   box-shadow: inset 1px 0 0 rgba(126, 105, 90, 0.05);
 }
@@ -594,85 +585,8 @@ textarea {
     padding: 10px;
   }
 
-  .features-table-desktop {
-    display: none;
-  }
-
-  .features-mobile {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-  }
-
-  .package-card {
-    background: #fdf8f3;
-    border: 1px solid rgba(126, 105, 90, 0.16);
-    border-radius: 12px;
-    padding: 24px 20px;
-    box-shadow: 0 4px 12px rgba(60, 50, 40, 0.06);
-  }
-
-  .package-card.package-signature {
-    background: #f6ede4;
-    border-color: rgba(126, 105, 90, 0.22);
-    box-shadow: 0 6px 16px rgba(60, 50, 40, 0.08);
-  }
-
-  .package-title {
-    font-family: var(--serif);
-    font-size: 1.35rem;
-    font-weight: 600;
-    color: var(--text);
-    margin: 0 0 6px 0;
-  }
-
-  .package-desc {
+  .features-table .cell {
+    padding: 14px 16px;
     font-size: 0.9rem;
-    color: var(--muted);
-    margin: 0 0 20px 0;
-    padding-bottom: 16px;
-    border-bottom: 1px solid rgba(126, 105, 90, 0.12);
-  }
-
-  .package-features {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  .package-features li {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    grid-template-areas: "cat cat" "check value";
-    gap: 2px 12px;
-    padding: 12px 0;
-    font-size: 0.95rem;
-    color: var(--text);
-    border-bottom: 1px solid rgba(126, 105, 90, 0.08);
-  }
-
-  .package-features li:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-  }
-
-  .feature-cat {
-    grid-area: cat;
-    font-weight: 600;
-    color: var(--muted);
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-  }
-
-  .package-features li::before {
-    content: "✓";
-    grid-area: check;
-    color: #6b7b6a;
-    font-weight: 700;
-  }
-
-  .feature-value {
-    grid-area: value;
   }
 }
