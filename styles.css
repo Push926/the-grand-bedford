@@ -554,12 +554,16 @@ textarea {
     display: block;
     text-align: center;
     margin-bottom: 20px;
+    background: transparent;
+    line-height: 0;
   }
 
   .site-logo img {
+    display: block;
     max-width: min(200px, 55vw);
     height: auto;
     margin: 0 auto;
+    background: transparent;
   }
 
   .site-nav {
