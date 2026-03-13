@@ -1,4 +1,38 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const heroSlideshow = document.querySelector(".hero-slideshow");
+  const heroSlides = document.querySelectorAll(".hero-slide");
+  const heroDots = document.querySelectorAll(".hero-dot");
+
+  if (heroSlideshow && heroSlides.length && heroDots.length) {
+    let currentIndex = 0;
+    let autoAdvanceTimer = null;
+
+    const goToSlide = (index) => {
+      currentIndex = (index + heroSlides.length) % heroSlides.length;
+      heroSlides.forEach((slide, i) =>
+        slide.classList.toggle("active", i === currentIndex),
+      );
+      heroDots.forEach((dot, i) => {
+        dot.classList.toggle("active", i === currentIndex);
+        dot.setAttribute("aria-current", i === currentIndex ? "true" : "false");
+      });
+    };
+
+    const scheduleAutoAdvance = () => {
+      if (autoAdvanceTimer) clearInterval(autoAdvanceTimer);
+      autoAdvanceTimer = setInterval(() => goToSlide(currentIndex + 1), 3000);
+    };
+
+    heroDots.forEach((dot, index) => {
+      dot.addEventListener("click", () => {
+        goToSlide(index);
+        scheduleAutoAdvance();
+      });
+    });
+
+    scheduleAutoAdvance();
+  }
+
   const year = new Date().getFullYear();
   const footer = document.querySelector(".site-footer p");
 
