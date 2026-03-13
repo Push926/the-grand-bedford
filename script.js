@@ -32,6 +32,48 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
+    /* Swipe support for mobile */
+    let touchStartX = 0;
+    let touchStartY = 0;
+    const swipeThreshold = 50;
+
+    heroSlideshow.addEventListener(
+      "touchstart",
+      (e) => {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+      },
+      { passive: true },
+    );
+
+    heroSlideshow.addEventListener(
+      "touchmove",
+      (e) => {
+        const dx = e.touches[0].clientX - touchStartX;
+        const dy = e.touches[0].clientY - touchStartY;
+        if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 10) {
+          e.preventDefault();
+        }
+      },
+      { passive: false },
+    );
+
+    heroSlideshow.addEventListener("touchend", (e) => {
+      const touchEndX = e.changedTouches[0].clientX;
+      const touchEndY = e.changedTouches[0].clientY;
+      const dx = touchEndX - touchStartX;
+      const dy = touchEndY - touchStartY;
+
+      if (Math.abs(dx) > swipeThreshold && Math.abs(dx) > Math.abs(dy)) {
+        if (dx > 0) {
+          goToSlide(currentIndex - 1);
+        } else {
+          goToSlide(currentIndex + 1);
+        }
+        scheduleAutoAdvance();
+      }
+    });
+
     scheduleAutoAdvance();
   }
 

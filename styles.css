@@ -124,6 +124,7 @@ p {
   border-radius: 18px;
   overflow: hidden;
   box-shadow: var(--shadow);
+  touch-action: pan-y; /* Allow vertical scroll, we handle horizontal swipe */
 }
 
 /* Spacer reserves height so absolute slides have a containing block */
