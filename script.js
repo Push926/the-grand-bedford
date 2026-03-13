@@ -18,6 +18,8 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     };
 
+    goToSlide(0);
+
     const scheduleAutoAdvance = () => {
       if (autoAdvanceTimer) clearInterval(autoAdvanceTimer);
       autoAdvanceTimer = setInterval(() => goToSlide(currentIndex + 1), 3000);
