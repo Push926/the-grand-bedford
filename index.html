@@ -189,17 +189,18 @@
           <div class="inquire-grid">
             <form
               class="inquire-form"
-              action="mailto:hello@thegrandbedford.com"
-              method="post"
-              enctype="text/plain"
+              action="https://formsubmit.co/info@thegrandbedford.com"
+              method="POST"
             >
+              <input type="hidden" name="_subject" value="Grand Bedford Inquiry" />
+              <input type="hidden" name="_captcha" value="false" />
               <label>
                 Name
-                <input type="text" name="name" placeholder="Name" />
+                <input type="text" name="name" placeholder="Name" required />
               </label>
               <label>
                 Email
-                <input type="email" name="email" placeholder="Email" />
+                <input type="email" name="email" placeholder="Email" required />
               </label>
               <label>
                 Phone
@@ -211,6 +212,7 @@
                   rows="4"
                   name="message"
                   placeholder="Message"
+                  required
                 ></textarea>
               </label>
               <input
