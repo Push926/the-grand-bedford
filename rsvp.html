@@ -8,6 +8,8 @@
       name="description"
       content="Join the celebration. RSVP for the official opening of The Grand Bedford, Williamsburg."
     />
+    <!-- RSVP delivery: free Web3Forms key at https://web3forms.com (use info@thegrandbedford.com). Paste the key into the content attribute below. -->
+    <meta name="web3forms-access-key" content="" />
     <link rel="stylesheet" href="rsvp.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="anonymous" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
@@ -97,20 +99,13 @@
       <div class="rsvp-panel" id="rsvp">
         <div id="rsvp-form-wrap">
           <h2 id="rsvp-title">Join the celebration</h2>
-          <form
-            id="rsvp-form"
-            class="rsvp-form"
-            action="https://formsubmit.co/info@thegrandbedford.com"
-            method="POST"
-          >
-            <input type="hidden" name="_subject" value="Grand Bedford — Opening Night RSVP" />
-            <input type="hidden" name="_captcha" value="false" />
-            <input
-              type="hidden"
-              name="_next"
-              value="https://thegrandbedford.com/rsvp.html?sent=1"
-            />
-            <input type="text" name="_gotcha" class="skip-visual" tabindex="-1" autocomplete="off" />
+          <noscript>
+            <p class="form-banner">JavaScript must be enabled to submit this RSVP.</p>
+          </noscript>
+          <p id="w3f-config-banner" class="form-banner" hidden></p>
+          <p id="w3f-submit-error" class="form-submit-error" hidden></p>
+          <form id="rsvp-form" class="rsvp-form" action="#" method="post">
+            <input type="checkbox" name="botcheck" class="skip-visual" tabindex="-1" autocomplete="off" />
 
             <label for="guest-name">Your name</label>
             <input
@@ -159,6 +154,11 @@
 
     <script>
       (function () {
+        var REDIRECT =
+          "https://thegrandbedford.com/rsvp.html?sent=1";
+        var SUBJECT = "Grand Bedford — Opening Night RSVP";
+        var API = "https://api.web3forms.com/submit";
+
         if (new URLSearchParams(window.location.search).get("sent") === "1") {
           var wrap = document.getElementById("rsvp-form-wrap");
           var thanks = document.getElementById("rsvp-thanks");
@@ -168,13 +168,89 @@
           }
         }
 
+        var meta = document.querySelector('meta[name="web3forms-access-key"]');
+        var accessKey = meta ? (meta.getAttribute("content") || "").trim() : "";
+        var cfg = document.getElementById("w3f-config-banner");
+        var err = document.getElementById("w3f-submit-error");
         var form = document.getElementById("rsvp-form");
-        if (form) {
-          form.addEventListener("submit", function () {
-            var btn = form.querySelector('button[type="submit"]');
-            if (btn) btn.disabled = true;
-          });
+
+        function showCfg(msg) {
+          if (!cfg) return;
+          cfg.textContent = msg;
+          cfg.hidden = false;
         }
+        function showErr(msg) {
+          if (!err) return;
+          err.textContent = msg;
+          err.hidden = false;
+        }
+        function hideErr() {
+          if (err) err.hidden = true;
+        }
+
+        if (form && !accessKey) {
+          showCfg(
+            "RSVP email is not configured yet: add your free Web3Forms access key in rsvp.html (meta tag web3forms-access-key). Create the key at web3forms.com using info@thegrandbedford.com."
+          );
+          var btnEarly = form.querySelector('button[type="submit"]');
+          if (btnEarly) btnEarly.disabled = true;
+          return;
+        }
+
+        if (!form) return;
+
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          hideErr();
+
+          var nameEl = document.getElementById("guest-name");
+          var emailEl = document.getElementById("guest-email");
+          var countEl = document.getElementById("guest-count");
+          var botcheck = form.querySelector('input[name="botcheck"]');
+          if (botcheck && botcheck.checked) {
+            return;
+          }
+
+          if (!form.reportValidity()) return;
+
+          var btn = form.querySelector('button[type="submit"]');
+          if (btn) btn.disabled = true;
+
+          var body = {
+            access_key: accessKey,
+            subject: SUBJECT,
+            name: nameEl ? nameEl.value.trim() : "",
+            email: emailEl ? emailEl.value.trim() : "",
+            message:
+              "Opening night RSVP\nGuests attending (including guest): " +
+              (countEl ? countEl.value : "") +
+              "\n",
+          };
+
+          fetch(API, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+            body: JSON.stringify(body),
+          })
+            .then(function (res) {
+              return res.json();
+            })
+            .then(function (data) {
+              if (data && data.success) {
+                window.location.href = REDIRECT;
+                return;
+              }
+              showErr((data && data.message) || "Unable to send RSVP. Please try again.");
+              if (btn) btn.disabled = false;
+            })
+            .catch(function () {
+              showErr("Network error. Please check your connection and try again.");
+              if (btn) btn.disabled = false;
+            });
+        });
       })();
     </script>
   </body>

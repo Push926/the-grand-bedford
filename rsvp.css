@@ -355,6 +355,27 @@ a:hover {
   cursor: wait;
 }
 
+.form-banner {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  line-height: 1.45;
+  margin: 0 0 14px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 220, 120, 0.55);
+  color: #ffe9a8;
+  background: rgba(255, 200, 80, 0.08);
+}
+
+.form-submit-error {
+  font-size: 11px;
+  text-transform: none;
+  letter-spacing: 0.04em;
+  margin: 0 0 12px;
+  line-height: 1.45;
+  color: #ffb3b3;
+}
+
 .form-foot {
   font-size: 10px;
   letter-spacing: 0.06em;
