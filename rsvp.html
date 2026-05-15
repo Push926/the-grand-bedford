@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RSVP — The Official Opening of The Grand Bedford</title>
+    <meta
+      name="description"
+      content="Join the celebration. RSVP for the official opening of The Grand Bedford, Williamsburg."
+    />
+    <link rel="stylesheet" href="rsvp.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="anonymous" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;1,500&family=Oswald:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="rsvp-splash">
+    <a class="skip-visual" href="#rsvp-form">Skip to RSVP form</a>
+    <div class="flyer-wrap">
+      <div class="flyer-grid" aria-hidden="false">
+        <section class="cell cell-tl">
+          <div>
+            <p class="kicker">The official opening of</p>
+            <div class="title-block">
+              <h1 class="title-main">The Grand Bedford</h1>
+            </div>
+            <p class="site-url">
+              <a href="https://thegrandbedford.com/">thegrandbedford.com</a>
+            </p>
+            <p class="label-italic">Location</p>
+            <p class="address">
+              165 Bedford Ave<br />
+              Williamsburg, NY 11211
+            </p>
+          </div>
+        </section>
+
+        <section class="cell cell-tr" aria-label="Venue photograph">
+          <img
+            src="assets/Grand_Bedford_Front-a0e70409-7994-433a-bbf8-5802e04e6e1d.png"
+            alt=""
+            width="800"
+            height="600"
+          />
+        </section>
+
+        <section class="cell cell-bl">
+          <div>
+            <p class="date-line">Thurs May 28th</p>
+            <p class="schedule">4 PM friends &amp; family</p>
+            <p class="schedule">7 PM general admission</p>
+          </div>
+          <div class="talent-block">
+            <div class="talent-portrait" role="presentation" aria-hidden="true"></div>
+            <div class="talent-copy">
+              <p>
+                Music curated by <strong>Soni WithAnEye</strong>
+              </p>
+              <p>
+                Live painting performance by <strong>Thomas Lovell</strong>
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="cell cell-br">
+          <div>
+            <p class="br-header">An immersive evening celebrating</p>
+            <ul class="checklist">
+              <li>Music</li>
+              <li>Art</li>
+              <li>Community</li>
+              <li>Creativity</li>
+            </ul>
+          </div>
+          <div>
+            <div class="br-art" role="presentation" aria-hidden="true"></div>
+            <div class="flyfish">
+              <svg viewBox="0 0 64 32" aria-hidden="true" focusable="false">
+                <path
+                  d="M8 16c6-6 18-8 28-6 4 1 8 3 10 6-2 3-6 5-10 6-10 2-22 0-28-6zm26-2c-2 2-2 6 0 8M18 12c-4 2-6 6-6 10M12 16H4l2-2-2-2h8"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <span>Flyfish Club</span>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="rsvp-panel" id="rsvp">
+        <div id="rsvp-form-wrap">
+          <h2 id="rsvp-title">Join the celebration</h2>
+          <form
+            id="rsvp-form"
+            class="rsvp-form"
+            action="https://formsubmit.co/info@thegrandbedford.com"
+            method="POST"
+          >
+            <input type="hidden" name="_subject" value="Grand Bedford — Opening Night RSVP" />
+            <input type="hidden" name="_captcha" value="false" />
+            <input
+              type="hidden"
+              name="_next"
+              value="https://thegrandbedford.com/rsvp.html?sent=1"
+            />
+            <input type="text" name="_gotcha" class="skip-visual" tabindex="-1" autocomplete="off" />
+
+            <label for="guest-name">Your name</label>
+            <input
+              id="guest-name"
+              type="text"
+              name="name"
+              placeholder="Your name"
+              required
+              autocomplete="name"
+            />
+
+            <label for="guest-email">Email</label>
+            <input
+              id="guest-email"
+              type="email"
+              name="email"
+              placeholder="Your email"
+              required
+              autocomplete="email"
+            />
+
+            <label for="guest-count">Number attending (including yourself)</label>
+            <select id="guest-count" name="guests_attending" required>
+              <option value="" disabled selected>Select</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+            </select>
+            <p class="attending-hint">Email is used for your confirmation.</p>
+
+            <button type="submit">Submit RSVP</button>
+            <p class="form-foot">You receive email confirmation.</p>
+          </form>
+        </div>
+
+        <div id="rsvp-thanks" class="rsvp-thanks" hidden>
+          <h2 class="thanks-title">Thank you</h2>
+          <p>Your RSVP was sent. Check your email for confirmation.</p>
+          <p><a href="https://thegrandbedford.com/">Back to The Grand Bedford</a></p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        if (new URLSearchParams(window.location.search).get("sent") === "1") {
+          var wrap = document.getElementById("rsvp-form-wrap");
+          var thanks = document.getElementById("rsvp-thanks");
+          if (wrap && thanks) {
+            wrap.hidden = true;
+            thanks.hidden = false;
+          }
+        }
+
+        var form = document.getElementById("rsvp-form");
+        if (form) {
+          form.addEventListener("submit", function () {
+            var btn = form.querySelector('button[type="submit"]');
+            if (btn) btn.disabled = true;
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>

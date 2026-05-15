@@ -1,0 +1,441 @@
+/* RSVP opening splash — flyer-inspired B&W grid */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  color-scheme: dark;
+  --ink: #000;
+  --paper: #fff;
+  --overlay: rgba(0, 0, 0, 0.88);
+}
+
+html {
+  height: 100%;
+}
+
+body.rsvp-splash {
+  margin: 0;
+  min-height: 100%;
+  min-height: 100dvh;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: clamp(12px, 1.5vw, 15px);
+  line-height: 1.35;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+
+a:hover {
+  opacity: 0.85;
+}
+
+.flyer-wrap {
+  position: relative;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* White grid lines via gap */
+.flyer-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 1px;
+  min-height: 0;
+  min-height: min(100dvh, 900px);
+  background: var(--paper);
+}
+
+.cell {
+  background: var(--ink);
+  padding: clamp(16px, 3.5vw, 36px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+  overflow: hidden;
+}
+
+.cell-tl {
+  justify-content: flex-start;
+}
+
+.kicker {
+  font-size: clamp(10px, 1.2vw, 12px);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  margin: 0 0 0.35rem;
+}
+
+.title-block {
+  margin: 0 0 0.75rem;
+}
+
+.title-main {
+  font-family: "Oswald", "Arial Narrow", sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.75rem, 5.5vw, 3.25rem);
+  line-height: 0.95;
+  letter-spacing: 0.02em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.site-url {
+  font-size: clamp(10px, 1.1vw, 11px);
+  letter-spacing: 0.18em;
+  margin: 0.75rem 0 0;
+  font-weight: 500;
+}
+
+.label-italic {
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(11px, 1.2vw, 12px);
+  letter-spacing: 0.12em;
+  margin: 1.25rem 0 0.35rem;
+}
+
+.address {
+  font-size: clamp(11px, 1.25vw, 13px);
+  letter-spacing: 0.08em;
+  line-height: 1.45;
+  margin: 0;
+  max-width: 18em;
+}
+
+.cell-tr {
+  padding: 0;
+  position: relative;
+}
+
+.cell-tr img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  min-height: 200px;
+  filter: grayscale(1) contrast(1.15) brightness(0.95);
+}
+
+.cell-bl .date-line {
+  font-family: "Oswald", sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.5rem, 4vw, 2.75rem);
+  line-height: 1;
+  letter-spacing: 0.03em;
+  margin: 0 0 0.75rem;
+}
+
+.schedule {
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(11px, 1.2vw, 13px);
+  letter-spacing: 0.06em;
+  margin: 0 0 0.35rem;
+}
+
+.talent-block {
+  margin-top: auto;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px 14px;
+  align-items: start;
+}
+
+.talent-portrait {
+  width: clamp(56px, 12vw, 88px);
+  aspect-ratio: 1;
+  border: 1px solid var(--paper);
+  background: repeating-linear-gradient(
+    -45deg,
+    #111,
+    #111 4px,
+    #222 4px,
+    #222 8px
+  );
+  flex-shrink: 0;
+}
+
+.talent-copy {
+  font-size: clamp(10px, 1.1vw, 12px);
+  letter-spacing: 0.07em;
+  line-height: 1.5;
+}
+
+.talent-copy strong {
+  font-weight: 700;
+  font-style: normal;
+}
+
+.cell-br {
+  position: relative;
+}
+
+.br-header {
+  font-size: clamp(10px, 1.15vw, 12px);
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  margin: 0 0 0.75rem;
+  max-width: 22em;
+}
+
+.checklist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-family: "Oswald", sans-serif;
+  font-size: clamp(1rem, 2.2vw, 1.35rem);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.checklist li {
+  display: flex;
+  align-items: center;
+  gap: 0.35em;
+  margin-bottom: 0.2em;
+}
+
+.checklist li::before {
+  content: "×";
+  font-size: 1.15em;
+  line-height: 1;
+  font-weight: 400;
+  transform: translateY(-0.05em);
+}
+
+.br-art {
+  margin-top: auto;
+  position: relative;
+  min-height: clamp(80px, 18vw, 160px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: var(--ink)
+    url("assets/127E76CC-0DE3-4BED-BC3C-7DEFEE53B818-36f97c9b-cba3-49cc-b6f0-3d91779fbc2b.png")
+    center / cover no-repeat;
+  filter: grayscale(1) contrast(1.2);
+  opacity: 0.9;
+}
+
+.flyfish {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  font-weight: 600;
+}
+
+.flyfish svg {
+  width: 36px;
+  height: auto;
+  fill: currentColor;
+}
+
+/* Center RSVP panel */
+.rsvp-panel {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(92vw, 380px);
+  z-index: 10;
+  background: var(--overlay);
+  border: 1px solid var(--paper);
+  padding: clamp(20px, 4vw, 28px);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.65);
+}
+
+.rsvp-panel h2 {
+  font-family: "Oswald", sans-serif;
+  font-size: clamp(1.1rem, 3vw, 1.35rem);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  margin: 0 0 1rem;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.rsvp-form label {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  margin-bottom: 0.35rem;
+  font-weight: 600;
+}
+
+.rsvp-form input[type="text"],
+.rsvp-form input[type="email"],
+.rsvp-form select {
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--paper);
+  color: var(--paper);
+  font-family: inherit;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: none;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+}
+
+.rsvp-form input::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.rsvp-form select {
+  text-transform: none;
+  cursor: pointer;
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, #fff 50%),
+    linear-gradient(135deg, #fff 50%, transparent 50%);
+  background-position: calc(100% - 18px) calc(50% + 3px), calc(100% - 12px) calc(50% + 3px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+}
+
+.rsvp-form select option {
+  color: #000;
+  background: #fff;
+}
+
+.attending-hint {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  margin: -8px 0 14px;
+  text-transform: none;
+  opacity: 0.85;
+}
+
+.rsvp-form button[type="submit"] {
+  width: 100%;
+  margin-top: 4px;
+  padding: 14px 16px;
+  border: none;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Oswald", sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.rsvp-form button[type="submit"]:hover {
+  opacity: 0.92;
+}
+
+.rsvp-form button[type="submit"]:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+.form-foot {
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: none;
+  margin: 12px 0 0;
+  text-align: center;
+  opacity: 0.75;
+  line-height: 1.4;
+}
+
+.thanks-title {
+  font-family: "Oswald", sans-serif;
+  font-size: clamp(1.35rem, 4vw, 1.75rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin: 0 0 0.75rem;
+  text-transform: uppercase;
+}
+
+.rsvp-thanks {
+  text-align: center;
+  padding: 8px 0 0;
+}
+
+.rsvp-thanks p {
+  margin: 0 0 0.75rem;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  line-height: 1.5;
+  text-transform: none;
+}
+
+.rsvp-thanks a {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+}
+
+.skip-visual {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 720px) {
+  .flyer-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    min-height: unset;
+  }
+
+  .cell-tr {
+    min-height: 220px;
+  }
+
+  .cell-tr img {
+    min-height: 220px;
+  }
+
+  .rsvp-panel {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    width: 100%;
+    max-width: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    margin-top: -1px;
+    box-shadow: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
