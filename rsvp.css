@@ -13,6 +13,7 @@
   --panel: rgba(0, 0, 0, 0.94);
   --line: 1px;
   --desktop-min: 768px;
+  --content-max: 1200px;
 }
 
 html {
@@ -500,8 +501,14 @@ a:hover {
   }
 }
 
-/* Hide mobile layout tweaks on desktop */
+/* Desktop: constrained content width */
 @media (min-width: 768px) {
+  .flyer-wrap {
+    width: 100%;
+    max-width: var(--content-max);
+    margin: 0 auto;
+  }
+
   .flyer-grid {
     min-height: max(100dvh, 720px);
   }
