@@ -50,17 +50,23 @@ a:hover {
   opacity: 0.85;
 }
 
+.page-shell {
+  width: 100%;
+}
+
 .flyer-wrap {
+  width: 100%;
   min-height: 100dvh;
 }
 
 /* Desktop: 3 columns — corners + center RSVP (no overlap) */
 .flyer-grid {
   display: grid;
+  width: 100%;
   min-height: 100dvh;
   background: var(--paper);
   gap: var(--line);
-  grid-template-columns: 1fr minmax(300px, 400px) 1fr;
+  grid-template-columns: 1fr minmax(260px, 340px) 1fr;
   grid-template-rows: 1fr 1fr;
   grid-template-areas:
     "tl rsvp tr"
@@ -503,10 +509,19 @@ a:hover {
 
 /* Desktop: constrained content width */
 @media (min-width: 768px) {
-  .flyer-wrap {
-    width: 100%;
+  body.rsvp-splash {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .page-shell,
+  .flyer-wrap,
+  .flyer-grid {
+    width: min(100%, var(--content-max));
     max-width: var(--content-max);
-    margin: 0 auto;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .flyer-grid {
