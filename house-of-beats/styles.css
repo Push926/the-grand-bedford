@@ -554,7 +554,7 @@ p {
   text-align: center;
 }
 
-/* ——— Mobile nav toggle ——— */
+/* ——— Mobile nav toggle (desktop: hidden) ——— */
 .nav-toggle {
   display: none;
   background: transparent;
@@ -564,8 +564,13 @@ p {
   cursor: pointer;
 }
 
-/* ——— Responsive ——— */
-@media (max-width: 960px) {
+.nav-overlay,
+.mobile-cta-bar {
+  display: none;
+}
+
+/* ——— Tablet ——— */
+@media (max-width: 960px) and (min-width: 768px) {
   .features-inner {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -580,68 +585,6 @@ p {
 
   .footer-newsletter {
     grid-column: 1 / -1;
-  }
-}
-
-@media (max-width: 720px) {
-  .site-nav {
-    display: none;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    flex-direction: column;
-    align-items: flex-end;
-    background: var(--green-deep);
-    padding: 16px 20px;
-    border-radius: var(--radius);
-    margin-top: 8px;
-    gap: 12px;
-  }
-
-  .site-nav.is-open {
-    display: flex;
-  }
-
-  .header-cta {
-    display: none;
-  }
-
-  .nav-toggle {
-    display: block;
-  }
-
-  .header-inner {
-    position: relative;
-  }
-
-  .hero-content {
-    padding-top: 120px;
-  }
-
-  .about-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .about-image {
-    order: -1;
-  }
-
-  .features-inner {
-    grid-template-columns: 1fr;
-    margin-top: -32px;
-  }
-
-  .cards {
-    grid-template-columns: 1fr;
-  }
-
-  .footer-grid {
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
-
-  .footer-links {
-    grid-template-columns: 1fr;
   }
 }
 

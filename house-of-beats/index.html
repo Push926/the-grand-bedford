@@ -9,6 +9,7 @@
       content="A Brooklyn neighborhood space for wellness, healing, creativity, and belonging. Classes, workshops, and community at The House of Beats."
     />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="mobile.css" media="(max-width: 767px)" />
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="anonymous" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
     <link
@@ -17,6 +18,8 @@
     />
   </head>
   <body>
+    <div class="nav-overlay" id="nav-overlay" hidden aria-hidden="true"></div>
+
     <header class="site-header">
       <div class="container header-inner">
         <a href="#" class="brand" aria-label="The House of Beats home">
@@ -270,17 +273,50 @@
       <p class="container footer-bottom">© 2026 The House of Beats. All rights reserved.</p>
     </footer>
 
+    <aside class="mobile-cta-bar" aria-label="Quick actions">
+      <a class="btn btn-green btn-arrow" href="#classes">Book a Class</a>
+      <a class="btn btn-outline-dark" href="#connect">Explore</a>
+    </aside>
+
     <script>
       (function () {
         var toggle = document.getElementById("nav-toggle");
         var nav = document.getElementById("site-nav");
-        if (toggle && nav) {
-          toggle.addEventListener("click", function () {
-            var open = nav.classList.toggle("is-open");
+        var overlay = document.getElementById("nav-overlay");
+        var body = document.body;
+
+        function setMenuOpen(open) {
+          if (!nav) return;
+          nav.classList.toggle("is-open", open);
+          if (overlay) {
+            overlay.hidden = !open;
+            overlay.setAttribute("aria-hidden", open ? "false" : "true");
+          }
+          body.classList.toggle("menu-open", open);
+          if (toggle) {
             toggle.setAttribute("aria-expanded", open ? "true" : "false");
             toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+          }
+        }
+
+        if (toggle && nav) {
+          toggle.addEventListener("click", function () {
+            setMenuOpen(!nav.classList.contains("is-open"));
           });
         }
+
+        if (overlay) {
+          overlay.addEventListener("click", function () {
+            setMenuOpen(false);
+          });
+        }
+
+        nav &&
+          nav.querySelectorAll("a").forEach(function (link) {
+            link.addEventListener("click", function () {
+              setMenuOpen(false);
+            });
+          });
       })();
     </script>
   </body>
