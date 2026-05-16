@@ -8,7 +8,6 @@
       name="description"
       content="Join the celebration. RSVP for the official opening of The Grand Bedford, Williamsburg."
     />
-    <!-- RSVP delivery: free Web3Forms key at https://web3forms.com (use info@thegrandbedford.com). Paste the key into the content attribute below. -->
     <meta name="web3forms-access-key" content="9cedc28c-5996-4b00-9df8-6233d2b1c317" />
     <link rel="stylesheet" href="rsvp.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="anonymous" />
@@ -20,14 +19,13 @@
   </head>
   <body class="rsvp-splash">
     <a class="skip-visual" href="#rsvp-form">Skip to RSVP form</a>
+
     <div class="flyer-wrap">
-      <div class="flyer-grid" aria-hidden="false">
+      <div class="flyer-grid">
         <section class="cell cell-tl">
-          <div>
+          <div class="cell-inner">
             <p class="kicker">The official opening of</p>
-            <div class="title-block">
-              <h1 class="title-main">The Grand Bedford</h1>
-            </div>
+            <h1 class="title-main">The Grand Bedford</h1>
             <p class="site-url">
               <a href="https://thegrandbedford.com/">thegrandbedford.com</a>
             </p>
@@ -39,36 +37,94 @@
           </div>
         </section>
 
-        <section class="cell cell-tr" aria-label="Evening event photograph">
+        <section class="cell cell-tr" aria-label="City skyline photograph">
           <img
-            src="assets/rsvp-hero-event.png"
-            alt="Guests in formal attire at an evening reception with art and a bar"
-            width="1024"
-            height="768"
+            class="cell-photo"
+            src="assets/rsvp-skyline.png"
+            alt="Black and white long-exposure city skyline at night"
+            width="275"
+            height="183"
           />
         </section>
 
+        <aside class="rsvp-panel" id="rsvp">
+          <div id="rsvp-form-wrap">
+            <h2 id="rsvp-title">Join the celebration</h2>
+            <noscript>
+              <p class="form-banner">JavaScript must be enabled to submit this RSVP.</p>
+            </noscript>
+            <p id="w3f-config-banner" class="form-banner" hidden></p>
+            <p id="w3f-submit-error" class="form-submit-error" hidden></p>
+            <form id="rsvp-form" class="rsvp-form" action="#" method="post">
+              <input type="checkbox" name="botcheck" class="skip-visual" tabindex="-1" autocomplete="off" />
+
+              <label for="guest-name">Your name</label>
+              <input
+                id="guest-name"
+                type="text"
+                name="name"
+                placeholder="Your name"
+                required
+                autocomplete="name"
+              />
+
+              <label for="guest-email">Email</label>
+              <input
+                id="guest-email"
+                type="email"
+                name="email"
+                placeholder="Your email"
+                required
+                autocomplete="email"
+              />
+
+              <label for="guest-count">Number attending (including yourself)</label>
+              <select id="guest-count" name="guests_attending" required>
+                <option value="" disabled selected>Select</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+              </select>
+              <p class="attending-hint">Email is used for your confirmation.</p>
+
+              <button type="submit">Submit RSVP</button>
+              <p class="form-foot">You receive email confirmation.</p>
+            </form>
+          </div>
+
+          <div id="rsvp-thanks" class="rsvp-thanks" hidden>
+            <h2 class="thanks-title">Thank you</h2>
+            <p>Your RSVP was sent. Check your email for confirmation.</p>
+            <p><a href="https://thegrandbedford.com/">Back to The Grand Bedford</a></p>
+          </div>
+        </aside>
+
         <section class="cell cell-bl">
-          <div>
+          <div class="cell-inner">
             <p class="date-line">Thurs May 28th</p>
             <p class="schedule">4 PM friends &amp; family</p>
             <p class="schedule">7 PM general admission</p>
           </div>
           <div class="talent-block">
-            <div class="talent-portrait" role="presentation" aria-hidden="true"></div>
+            <img
+              class="talent-portrait"
+              src="assets/rsvp-soni-portrait.png"
+              alt="Soni WithAnEye"
+              width="947"
+              height="1024"
+            />
             <div class="talent-copy">
-              <p>
-                Music curated by <strong>Soni WithAnEye</strong>
-              </p>
-              <p>
-                Live painting performance by <strong>Thomas Lovell</strong>
-              </p>
+              <p>Music curated by <strong>Soni WithAnEye</strong></p>
+              <p>Live painting performance by <strong>Thomas Lovell</strong></p>
             </div>
           </div>
         </section>
 
         <section class="cell cell-br">
-          <div>
+          <div class="cell-inner">
             <p class="br-header">An immersive evening celebrating</p>
             <ul class="checklist">
               <li>Music</li>
@@ -77,85 +133,27 @@
               <li>Creativity</li>
             </ul>
           </div>
-          <div>
-            <div class="br-art" role="presentation" aria-hidden="true"></div>
-            <div class="flyfish">
-              <svg viewBox="0 0 64 32" aria-hidden="true" focusable="false">
-                <path
-                  d="M8 16c6-6 18-8 28-6 4 1 8 3 10 6-2 3-6 5-10 6-10 2-22 0-28-6zm26-2c-2 2-2 6 0 8M18 12c-4 2-6 6-6 10M12 16H4l2-2-2-2h8"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-              <span>Flyfish Club</span>
-            </div>
-          </div>
+          <img
+            class="br-art"
+            src="assets/rsvp-haring-art.png"
+            alt="Keith Haring line drawing"
+            width="1024"
+            height="693"
+          />
+          <img
+            class="flyfish-logo"
+            src="assets/rsvp-flyfish-logo.png"
+            alt="Flyfish Club"
+            width="1024"
+            height="512"
+          />
         </section>
-      </div>
-
-      <div class="rsvp-panel" id="rsvp">
-        <div id="rsvp-form-wrap">
-          <h2 id="rsvp-title">Join the celebration</h2>
-          <noscript>
-            <p class="form-banner">JavaScript must be enabled to submit this RSVP.</p>
-          </noscript>
-          <p id="w3f-config-banner" class="form-banner" hidden></p>
-          <p id="w3f-submit-error" class="form-submit-error" hidden></p>
-          <form id="rsvp-form" class="rsvp-form" action="#" method="post">
-            <input type="checkbox" name="botcheck" class="skip-visual" tabindex="-1" autocomplete="off" />
-
-            <label for="guest-name">Your name</label>
-            <input
-              id="guest-name"
-              type="text"
-              name="name"
-              placeholder="Your name"
-              required
-              autocomplete="name"
-            />
-
-            <label for="guest-email">Email</label>
-            <input
-              id="guest-email"
-              type="email"
-              name="email"
-              placeholder="Your email"
-              required
-              autocomplete="email"
-            />
-
-            <label for="guest-count">Number attending (including yourself)</label>
-            <select id="guest-count" name="guests_attending" required>
-              <option value="" disabled selected>Select</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-            </select>
-            <p class="attending-hint">Email is used for your confirmation.</p>
-
-            <button type="submit">Submit RSVP</button>
-            <p class="form-foot">You receive email confirmation.</p>
-          </form>
-        </div>
-
-        <div id="rsvp-thanks" class="rsvp-thanks" hidden>
-          <h2 class="thanks-title">Thank you</h2>
-          <p>Your RSVP was sent. Check your email for confirmation.</p>
-          <p><a href="https://thegrandbedford.com/">Back to The Grand Bedford</a></p>
-        </div>
       </div>
     </div>
 
     <script>
       (function () {
-        var REDIRECT =
-          "https://thegrandbedford.com/rsvp.html?sent=1";
+        var REDIRECT = "https://thegrandbedford.com/rsvp.html?sent=1";
         var SUBJECT = "Grand Bedford — Opening Night RSVP";
         var API = "https://api.web3forms.com/submit";
 
@@ -190,7 +188,7 @@
 
         if (form && !accessKey) {
           showCfg(
-            "RSVP email is not configured yet: add your free Web3Forms access key in rsvp.html (meta tag web3forms-access-key). Create the key at web3forms.com using info@thegrandbedford.com."
+            "RSVP email is not configured yet: add your Web3Forms access key in rsvp.html."
           );
           var btnEarly = form.querySelector('button[type="submit"]');
           if (btnEarly) btnEarly.disabled = true;
@@ -207,25 +205,12 @@
           var emailEl = document.getElementById("guest-email");
           var countEl = document.getElementById("guest-count");
           var botcheck = form.querySelector('input[name="botcheck"]');
-          if (botcheck && botcheck.checked) {
-            return;
-          }
+          if (botcheck && botcheck.checked) return;
 
           if (!form.reportValidity()) return;
 
           var btn = form.querySelector('button[type="submit"]');
           if (btn) btn.disabled = true;
-
-          var body = {
-            access_key: accessKey,
-            subject: SUBJECT,
-            name: nameEl ? nameEl.value.trim() : "",
-            email: emailEl ? emailEl.value.trim() : "",
-            message:
-              "Opening night RSVP\nGuests attending (including guest): " +
-              (countEl ? countEl.value : "") +
-              "\n",
-          };
 
           fetch(API, {
             method: "POST",
@@ -233,7 +218,16 @@
               "Content-Type": "application/json",
               Accept: "application/json",
             },
-            body: JSON.stringify(body),
+            body: JSON.stringify({
+              access_key: accessKey,
+              subject: SUBJECT,
+              name: nameEl ? nameEl.value.trim() : "",
+              email: emailEl ? emailEl.value.trim() : "",
+              message:
+                "Opening night RSVP\nGuests attending (including guest): " +
+                (countEl ? countEl.value : "") +
+                "\n",
+            }),
           })
             .then(function (res) {
               return res.json();

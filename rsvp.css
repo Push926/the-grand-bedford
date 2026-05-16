@@ -1,4 +1,4 @@
-/* RSVP opening splash — flyer-inspired B&W grid */
+/* RSVP opening splash — flyer grid + dedicated mobile layout */
 
 *,
 *::before,
@@ -10,7 +10,9 @@
   color-scheme: dark;
   --ink: #000;
   --paper: #fff;
-  --overlay: rgba(0, 0, 0, 0.88);
+  --panel: rgba(0, 0, 0, 0.94);
+  --line: 1px;
+  --desktop-min: 768px;
 }
 
 html {
@@ -48,36 +50,63 @@ a:hover {
 }
 
 .flyer-wrap {
-  position: relative;
   min-height: 100dvh;
-  display: flex;
-  flex-direction: column;
 }
 
-/* White grid lines via gap */
+/* Desktop: 3 columns — corners + center RSVP (no overlap) */
 .flyer-grid {
-  flex: 1;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  gap: 1px;
-  min-height: 0;
-  min-height: min(100dvh, 900px);
+  min-height: 100dvh;
   background: var(--paper);
+  gap: var(--line);
+  grid-template-columns: 1fr minmax(300px, 400px) 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas:
+    "tl rsvp tr"
+    "bl rsvp br";
+}
+
+.cell-tl {
+  grid-area: tl;
+}
+.cell-tr {
+  grid-area: tr;
+}
+.cell-bl {
+  grid-area: bl;
+}
+.cell-br {
+  grid-area: br;
+}
+.rsvp-panel {
+  grid-area: rsvp;
 }
 
 .cell {
   background: var(--ink);
-  padding: clamp(16px, 3.5vw, 36px);
+  padding: clamp(18px, 3vw, 36px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: 1rem;
   overflow: hidden;
+  min-height: 0;
 }
 
 .cell-tl {
   justify-content: flex-start;
+}
+
+.cell-tr {
+  padding: 0;
+}
+
+.cell-photo {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.12);
 }
 
 .kicker {
@@ -87,24 +116,20 @@ a:hover {
   margin: 0 0 0.35rem;
 }
 
-.title-block {
-  margin: 0 0 0.75rem;
-}
-
 .title-main {
   font-family: "Oswald", "Arial Narrow", sans-serif;
   font-weight: 700;
   font-size: clamp(1.75rem, 5.5vw, 3.25rem);
   line-height: 0.95;
   letter-spacing: 0.02em;
-  margin: 0;
+  margin: 0 0 0.75rem;
   text-transform: uppercase;
 }
 
 .site-url {
   font-size: clamp(10px, 1.1vw, 11px);
   letter-spacing: 0.18em;
-  margin: 0.75rem 0 0;
+  margin: 0;
   font-weight: 500;
 }
 
@@ -124,20 +149,7 @@ a:hover {
   max-width: 18em;
 }
 
-.cell-tr {
-  padding: 0;
-  position: relative;
-}
-
-.cell-tr img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  min-height: 200px;
-  filter: grayscale(1) contrast(1.15) brightness(0.95);
-}
-
-.cell-bl .date-line {
+.date-line {
   font-family: "Oswald", sans-serif;
   font-weight: 700;
   font-size: clamp(1.5rem, 4vw, 2.75rem);
@@ -163,17 +175,12 @@ a:hover {
 }
 
 .talent-portrait {
-  width: clamp(56px, 12vw, 88px);
+  width: clamp(64px, 10vw, 96px);
   aspect-ratio: 1;
+  object-fit: cover;
+  object-position: center top;
   border: 1px solid var(--paper);
-  background: repeating-linear-gradient(
-    -45deg,
-    #111,
-    #111 4px,
-    #222 4px,
-    #222 8px
-  );
-  flex-shrink: 0;
+  filter: grayscale(1) contrast(1.05);
 }
 
 .talent-copy {
@@ -182,13 +189,13 @@ a:hover {
   line-height: 1.5;
 }
 
+.talent-copy p {
+  margin: 0 0 0.5em;
+}
+
 .talent-copy strong {
   font-weight: 700;
   font-style: normal;
-}
-
-.cell-br {
-  position: relative;
 }
 
 .br-header {
@@ -225,51 +232,38 @@ a:hover {
 }
 
 .br-art {
+  width: 100%;
+  max-height: clamp(100px, 16vw, 180px);
+  object-fit: contain;
+  object-position: left bottom;
   margin-top: auto;
-  position: relative;
-  min-height: clamp(80px, 18vw, 160px);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  background: var(--ink)
-    url("assets/127E76CC-0DE3-4BED-BC3C-7DEFEE53B818-36f97c9b-cba3-49cc-b6f0-3d91779fbc2b.png")
-    center / cover no-repeat;
-  filter: grayscale(1) contrast(1.2);
-  opacity: 0.9;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.flyfish {
+.flyfish-logo {
+  width: min(100%, 200px);
+  margin: 12px auto 0;
+  object-fit: contain;
+}
+
+/* RSVP panel — in grid flow, not overlaid */
+.rsvp-panel {
+  position: relative;
+  z-index: 1;
+  background: var(--panel);
+  border-left: var(--line) solid var(--paper);
+  border-right: var(--line) solid var(--paper);
+  padding: clamp(20px, 2.5vw, 28px);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  margin-top: 12px;
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  font-weight: 600;
-}
-
-.flyfish svg {
-  width: 36px;
-  height: auto;
-  fill: currentColor;
-}
-
-/* Center RSVP panel */
-.rsvp-panel {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: min(92vw, 380px);
-  z-index: 10;
-  background: var(--overlay);
-  border: 1px solid var(--paper);
-  padding: clamp(20px, 4vw, 28px);
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.65);
+  justify-content: center;
+  min-height: 0;
+  overflow-y: auto;
 }
 
 .rsvp-panel h2 {
   font-family: "Oswald", sans-serif;
-  font-size: clamp(1.1rem, 3vw, 1.35rem);
+  font-size: clamp(1.1rem, 2.5vw, 1.35rem);
   font-weight: 700;
   letter-spacing: 0.1em;
   margin: 0 0 1rem;
@@ -425,33 +419,91 @@ a:hover {
   border: 0;
 }
 
-@media (max-width: 720px) {
+/* ——— Mobile-only layout (below 768px) ——— */
+@media (max-width: 767px) {
+  body.rsvp-splash {
+    font-size: 13px;
+  }
+
   .flyer-grid {
     grid-template-columns: 1fr;
     grid-template-rows: auto;
+    grid-template-areas:
+      "tr"
+      "tl"
+      "rsvp"
+      "bl"
+      "br";
+    min-height: unset;
+  }
+
+  .cell {
+    padding: 20px;
     min-height: unset;
   }
 
   .cell-tr {
-    min-height: 220px;
+    min-height: 42vw;
+    max-height: 280px;
   }
 
-  .cell-tr img {
-    min-height: 220px;
+  .cell-photo {
+    min-height: 42vw;
+    max-height: 280px;
+  }
+
+  .title-main {
+    font-size: 2.25rem;
+  }
+
+  .date-line {
+    font-size: 2rem;
+  }
+
+  .talent-portrait {
+    width: 88px;
+  }
+
+  .cell-br {
+    gap: 16px;
+  }
+
+  .br-art {
+    max-height: 200px;
+    object-position: center;
+  }
+
+  .flyfish-logo {
+    width: min(72vw, 240px);
+    margin-top: 8px;
   }
 
   .rsvp-panel {
-    position: relative;
-    left: auto;
-    top: auto;
-    transform: none;
-    width: 100%;
-    max-width: none;
     border-left: none;
     border-right: none;
-    border-bottom: none;
-    margin-top: -1px;
-    box-shadow: none;
+    border-top: var(--line) solid var(--paper);
+    border-bottom: var(--line) solid var(--paper);
+    padding: 24px 20px;
+    min-height: unset;
+  }
+
+  .rsvp-form input[type="text"],
+  .rsvp-form input[type="email"],
+  .rsvp-form select {
+    font-size: 16px;
+    padding: 14px;
+  }
+
+  .rsvp-form button[type="submit"] {
+    padding: 16px;
+    font-size: 15px;
+  }
+}
+
+/* Hide mobile layout tweaks on desktop */
+@media (min-width: 768px) {
+  .flyer-grid {
+    min-height: max(100dvh, 720px);
   }
 }
 
