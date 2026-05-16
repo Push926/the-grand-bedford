@@ -9,7 +9,7 @@
       content="Join the celebration. RSVP for the official opening of The Grand Bedford, Williamsburg."
     />
     <meta name="web3forms-access-key" content="9cedc28c-5996-4b00-9df8-6233d2b1c317" />
-    <link rel="stylesheet" href="rsvp.css?v=5" />
+    <link rel="stylesheet" href="rsvp.css?v=6" />
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="anonymous" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
     <link
@@ -79,16 +79,22 @@
                 autocomplete="email"
               />
 
-              <label for="guest-count">Number attending (including yourself)</label>
-              <select id="guest-count" name="guests_attending" required>
-                <option value="" disabled selected>Select</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-              </select>
+              <div class="plus-one">
+                <label class="plus-one-toggle" for="plus-one-check">
+                  <input type="checkbox" id="plus-one-check" name="plus_one" value="yes" />
+                  <span class="plus-one-label">+1</span>
+                </label>
+                <div id="plus-one-name-wrap" class="plus-one-name-wrap" hidden>
+                  <label for="plus-one-name">Guest name</label>
+                  <input
+                    id="plus-one-name"
+                    type="text"
+                    name="plus_one_name"
+                    placeholder="Guest name"
+                    autocomplete="name"
+                  />
+                </div>
+              </div>
               <p class="attending-hint">Email is used for your confirmation.</p>
 
               <button type="submit">Submit RSVP</button>
@@ -199,20 +205,51 @@
 
         if (!form) return;
 
+        var plusOneCheck = document.getElementById("plus-one-check");
+        var plusOneWrap = document.getElementById("plus-one-name-wrap");
+        var plusOneName = document.getElementById("plus-one-name");
+        if (plusOneCheck && plusOneWrap && plusOneName) {
+          plusOneCheck.addEventListener("change", function () {
+            var on = plusOneCheck.checked;
+            plusOneWrap.hidden = !on;
+            plusOneName.required = on;
+            if (!on) {
+              plusOneName.value = "";
+            } else {
+              plusOneName.focus();
+            }
+          });
+        }
+
         form.addEventListener("submit", function (e) {
           e.preventDefault();
           hideErr();
 
           var nameEl = document.getElementById("guest-name");
           var emailEl = document.getElementById("guest-email");
-          var countEl = document.getElementById("guest-count");
+          var plusOneCheck = document.getElementById("plus-one-check");
+          var plusOneName = document.getElementById("plus-one-name");
           var botcheck = form.querySelector('input[name="botcheck"]');
           if (botcheck && botcheck.checked) return;
+
+          if (plusOneCheck && plusOneCheck.checked && plusOneName && !plusOneName.value.trim()) {
+            plusOneName.focus();
+            plusOneName.reportValidity();
+            return;
+          }
 
           if (!form.reportValidity()) return;
 
           var btn = form.querySelector('button[type="submit"]');
           if (btn) btn.disabled = true;
+
+          var attending = 1;
+          var message = "Opening night RSVP\nAttending: 1";
+          if (plusOneCheck && plusOneCheck.checked && plusOneName) {
+            attending = 2;
+            message =
+              "Opening night RSVP\nAttending: 2\n+1 guest: " + plusOneName.value.trim();
+          }
 
           fetch(API, {
             method: "POST",
@@ -225,10 +262,8 @@
               subject: SUBJECT,
               name: nameEl ? nameEl.value.trim() : "",
               email: emailEl ? emailEl.value.trim() : "",
-              message:
-                "Opening night RSVP\nGuests attending (including guest): " +
-                (countEl ? countEl.value : "") +
-                "\n",
+              message: message,
+              guests_attending: String(attending),
             }),
           })
             .then(function (res) {
