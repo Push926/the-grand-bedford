@@ -8,8 +8,7 @@
       name="description"
       content="Join the celebration. RSVP for the official opening of The Grand Bedford, Williamsburg."
     />
-    <meta name="web3forms-access-key" content="9cedc28c-5996-4b00-9df8-6233d2b1c317" />
-    <link rel="stylesheet" href="rsvp.css?v=6" />
+    <link rel="stylesheet" href="rsvp.css?v=7" />
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="anonymous" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
     <link
@@ -54,8 +53,7 @@
             <noscript>
               <p class="form-banner">JavaScript must be enabled to submit this RSVP.</p>
             </noscript>
-            <p id="w3f-config-banner" class="form-banner" hidden></p>
-            <p id="w3f-submit-error" class="form-submit-error" hidden></p>
+            <p id="rsvp-submit-error" class="form-submit-error" hidden></p>
             <form id="rsvp-form" class="rsvp-form" action="#" method="post">
               <input type="checkbox" name="botcheck" class="skip-visual" tabindex="-1" autocomplete="off" />
 
@@ -163,7 +161,7 @@
       (function () {
         var REDIRECT = "https://thegrandbedford.com/rsvp.html?sent=1";
         var SUBJECT = "Grand Bedford — Opening Night RSVP";
-        var API = "https://api.web3forms.com/submit";
+        var API = "https://formsubmit.co/ajax/info@thegrandbedford.com";
 
         if (new URLSearchParams(window.location.search).get("sent") === "1") {
           var wrap = document.getElementById("rsvp-form-wrap");
@@ -174,17 +172,9 @@
           }
         }
 
-        var meta = document.querySelector('meta[name="web3forms-access-key"]');
-        var accessKey = meta ? (meta.getAttribute("content") || "").trim() : "";
-        var cfg = document.getElementById("w3f-config-banner");
-        var err = document.getElementById("w3f-submit-error");
+        var err = document.getElementById("rsvp-submit-error");
         var form = document.getElementById("rsvp-form");
 
-        function showCfg(msg) {
-          if (!cfg) return;
-          cfg.textContent = msg;
-          cfg.hidden = false;
-        }
         function showErr(msg) {
           if (!err) return;
           err.textContent = msg;
@@ -192,15 +182,6 @@
         }
         function hideErr() {
           if (err) err.hidden = true;
-        }
-
-        if (form && !accessKey) {
-          showCfg(
-            "RSVP email is not configured yet: add your Web3Forms access key in rsvp.html."
-          );
-          var btnEarly = form.querySelector('button[type="submit"]');
-          if (btnEarly) btnEarly.disabled = true;
-          return;
         }
 
         if (!form) return;
@@ -227,8 +208,6 @@
 
           var nameEl = document.getElementById("guest-name");
           var emailEl = document.getElementById("guest-email");
-          var plusOneCheck = document.getElementById("plus-one-check");
-          var plusOneName = document.getElementById("plus-one-name");
           var botcheck = form.querySelector('input[name="botcheck"]');
           if (botcheck && botcheck.checked) return;
 
@@ -258,19 +237,24 @@
               Accept: "application/json",
             },
             body: JSON.stringify({
-              access_key: accessKey,
-              subject: SUBJECT,
+              _subject: SUBJECT,
+              _captcha: "false",
+              _template: "table",
               name: nameEl ? nameEl.value.trim() : "",
               email: emailEl ? emailEl.value.trim() : "",
               message: message,
               guests_attending: String(attending),
+              plus_one_name:
+                plusOneCheck && plusOneCheck.checked && plusOneName
+                  ? plusOneName.value.trim()
+                  : "",
             }),
           })
             .then(function (res) {
               return res.json();
             })
             .then(function (data) {
-              if (data && data.success) {
+              if (data && (data.success === "true" || data.success === true)) {
                 window.location.href = REDIRECT;
                 return;
               }
