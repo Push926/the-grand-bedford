@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Investor Portal — The Grand Bedford</title>
+    <meta
+      name="description"
+      content="Investor portal for The Grand Bedford — a multi-engine cultural asset in Williamsburg, Brooklyn."
+    />
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="investors.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="anonymous" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="investor-page">
+
+    <!-- Header / anchor navigation -->
+    <header class="investor-header">
+      <div class="container investor-header-inner">
+        <a href="../index.html" class="site-logo" aria-label="The Grand Bedford home">
+          <img src="../assets/GB logo.png" alt="The Grand Bedford" />
+        </a>
+        <button
+          type="button"
+          class="investor-nav-toggle"
+          id="investor-nav-toggle"
+          aria-expanded="false"
+          aria-controls="investor-nav"
+          aria-label="Toggle section navigation"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 7h16M4 12h16M4 17h16" />
+          </svg>
+        </button>
+        <nav class="investor-nav" id="investor-nav" aria-label="Investor sections"></nav>
+      </div>
+    </header>
+
+    <main>
+
+      <!-- 1. Hero / Investor Overview -->
+      <section class="investor-hero" id="overview">
+        <div class="container">
+          <div class="investor-hero-grid">
+            <div class="investor-hero-content" id="hero-content"></div>
+            <div class="investor-hero-image" id="hero-image"></div>
+          </div>
+          <div class="investor-kpi-row" id="hero-kpis"></div>
+        </div>
+      </section>
+
+      <!-- 2. What The Grand Bedford Is -->
+      <section class="investor-section" id="what-is">
+        <div class="container">
+          <header class="investor-section-header">
+            <span class="divider"></span>
+            <h2>What The Grand Bedford Is</h2>
+            <p class="intro">
+              A street-level cultural venue in Williamsburg, Brooklyn — designed as a living gallery, event platform, and partnership hub.
+            </p>
+          </header>
+          <div class="investor-two-col">
+            <ul class="investor-bullet-list" id="what-is-bullets"></ul>
+            <div class="investor-chart-card">
+              <span class="placeholder-label">Venue Overview</span>
+              <p>Interactive venue map and space breakdown — coming in Phase 2.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Four Connected Engines -->
+      <section class="investor-section" id="engines">
+        <div class="container">
+          <header class="investor-section-header">
+            <span class="divider"></span>
+            <h2>Four Connected Engines</h2>
+            <p class="intro">
+              Each engine reinforces the others — shared foot traffic, shared brand, shared infrastructure.
+            </p>
+          </header>
+          <div class="investor-card-grid" id="engines-grid"></div>
+        </div>
+      </section>
+
+      <!-- 4. Early Traction -->
+      <section class="investor-section" id="traction">
+        <div class="container">
+          <header class="investor-section-header">
+            <span class="divider"></span>
+            <h2>Early Traction</h2>
+            <p class="intro">
+              Operational proof points from the first phase of gallery and event activity.
+            </p>
+          </header>
+          <div class="investor-stat-grid investor-kpi-row" id="traction-kpis"></div>
+        </div>
+      </section>
+
+      <!-- 5. Financial Overview -->
+      <section class="investor-section" id="financials">
+        <div class="container">
+          <header class="investor-section-header">
+            <span class="divider"></span>
+            <h2>Financial Overview</h2>
+            <p class="intro">
+              High-level snapshot of revenue, collections, and forward projections.
+            </p>
+          </header>
+          <div class="investor-stat-grid investor-kpi-row" id="financials-kpis"></div>
+          <div class="investor-chart-card" style="margin-top: 32px">
+            <span class="placeholder-label">Revenue Chart</span>
+            <p>12-month revenue forecast visualization — Phase 2.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. Accounts Receivable / Collections -->
+      <section class="investor-section" id="receivables">
+        <div class="container">
+          <header class="investor-section-header">
+            <span class="divider"></span>
+            <h2>Accounts Receivable / Collections</h2>
+            <p class="intro">
+              Gallery sales ledger with collection status and outstanding balances.
+            </p>
+          </header>
+          <div class="investor-stat-grid investor-kpi-row" id="receivables-kpis"></div>
+          <div class="investor-chart-card" style="margin-top: 32px">
+            <span class="placeholder-label">Collections Timeline</span>
+            <p>A/R aging and collection progress chart — Phase 2.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. Art Inventory + Sales Engine -->
+      <section class="investor-section" id="art-inventory">
+        <div class="container">
+          <header class="investor-section-header">
+            <span class="divider"></span>
+            <h2>Art Inventory + Sales Engine</h2>
+            <p class="intro">
+              Current consignment inventory and sales performance.
+            </p>
+          </header>
+          <div class="investor-stat-grid investor-kpi-row" id="art-kpis"></div>
+          <div class="investor-placeholder" style="margin-top: 32px">
+            Filterable art inventory grid
+            <span class="tag">Phase 2 — interactive filters</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 8. Events Pipeline -->
+      <section class="investor-section" id="events">
+        <div class="container">
+          <header class="investor-section-header">
+            <span class="divider"></span>
+            <h2>Events Pipeline</h2>
+            <p class="intro">
+              Scheduled and projected events with revenue and attendance estimates.
+            </p>
+          </header>
+          <div class="investor-stat-grid investor-kpi-row" id="events-kpis"></div>
+          <div class="investor-table-wrap" style="margin-top: 32px">
+            <table class="investor-table">
+              <thead>
+                <tr>
+                  <th>Event</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="events-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 9. Partnership Ecosystem -->
+      <section class="investor-section" id="partnerships">
+        <div class="container">
+          <header class="investor-section-header">
+            <span class="divider"></span>
+            <h2>Partnership Ecosystem</h2>
+            <p class="intro">
+              Active and prospective brand, artist, and community partnerships.
+            </p>
+          </header>
+          <div class="investor-table-wrap">
+            <table class="investor-table">
+              <thead>
+                <tr>
+                  <th>Partner</th>
+                  <th>Type</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="partners-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 10. Partnership Pipeline -->
+      <section class="investor-section" id="pipeline">
+        <div class="container">
+          <header class="investor-section-header">
+            <span class="divider"></span>
+            <h2>Partnership Pipeline</h2>
+            <p class="intro">
+              Weighted pipeline of partnership opportunities by stage.
+            </p>
+          </header>
+          <div class="investor-stat-grid investor-kpi-row" id="pipeline-kpis"></div>
+          <div class="investor-two-col" style="margin-top: 32px">
+            <div class="investor-table-wrap">
+              <table class="investor-table">
+                <thead>
+                  <tr>
+                    <th>Stage</th>
+                    <th>Count</th>
+                    <th>Value</th>
+                  </tr>
+                </thead>
+                <tbody id="pipeline-table-body"></tbody>
+              </table>
+            </div>
+            <div class="investor-chart-card">
+              <span class="placeholder-label">Pipeline Funnel</span>
+              <p>Stage-weighted pipeline visualization — Phase 2.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 11. Investor Access / Capital Strategy -->
+      <section class="investor-section" id="capital">
+        <div class="container">
+          <header class="investor-section-header">
+            <span class="divider"></span>
+            <h2>Investor Access / Capital Strategy</h2>
+            <p class="intro">
+              Structured approach to growth capital and investor participation.
+            </p>
+          </header>
+          <div class="investor-stat-grid investor-kpi-row" id="capital-kpis"></div>
+          <ul class="investor-bullet-list" id="capital-bullets" style="margin-top: 32px"></ul>
+        </div>
+      </section>
+
+      <!-- 12. Williamsburg / Location Story -->
+      <section class="investor-section" id="location">
+        <div class="container">
+          <header class="investor-section-header">
+            <span class="divider"></span>
+            <h2>Williamsburg / Location Story</h2>
+            <p class="intro">
+              Street-level retail on a high-foot-traffic corridor in one of Brooklyn's most dynamic neighborhoods.
+            </p>
+          </header>
+          <div class="investor-two-col">
+            <ul class="investor-bullet-list" id="location-highlights"></ul>
+            <div class="investor-proof-card">
+              <img
+                src="../assets/Grand_Bedford_Front-a0e70409-7994-433a-bbf8-5802e04e6e1d.png"
+                alt="The Grand Bedford storefront on Williamsburg street"
+                loading="lazy"
+              />
+              <figcaption>Street-level storefront, Williamsburg, Brooklyn</figcaption>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 13. Evidence Behind the Story -->
+      <section class="investor-section" id="evidence">
+        <div class="container">
+          <header class="investor-section-header">
+            <span class="divider"></span>
+            <h2>Evidence Behind the Story</h2>
+            <p class="intro">
+              Documented operational activity supporting the investment thesis.
+            </p>
+          </header>
+          <div class="investor-card-grid" id="evidence-grid"></div>
+        </div>
+      </section>
+
+      <!-- 14. Visual Proof Archive -->
+      <section class="investor-section" id="proof">
+        <div class="container">
+          <header class="investor-section-header">
+            <span class="divider"></span>
+            <h2>Visual Proof Archive</h2>
+            <p class="intro">
+              Photographic documentation of the venue, events, and artwork.
+            </p>
+          </header>
+          <div class="investor-proof-grid" id="proof-grid"></div>
+          <div class="investor-placeholder" style="margin-top: 24px">
+            Expandable proof cards with full documentation
+            <span class="tag">Phase 2 — expandable archive</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 15. Risk + Mitigation -->
+      <section class="investor-section" id="risk">
+        <div class="container">
+          <header class="investor-section-header">
+            <span class="divider"></span>
+            <h2>Risk + Mitigation</h2>
+            <p class="intro">
+              Key risks and how The Grand Bedford addresses them.
+            </p>
+          </header>
+          <div class="investor-risk-grid" id="risk-grid"></div>
+        </div>
+      </section>
+
+      <!-- 16. Continue Diligence / Investor Inquiry Form -->
+      <section class="investor-section" id="inquiry">
+        <div class="container">
+          <header class="investor-section-header">
+            <span class="divider"></span>
+            <h2>Continue Diligence / Investor Inquiry</h2>
+            <p class="intro">
+              Request access to detailed financials, pipeline data, and investor materials.
+            </p>
+          </header>
+          <form
+            class="investor-form"
+            action="https://formsubmit.co/brian@thegrandbedford.com"
+            method="POST"
+          >
+            <input type="hidden" name="_subject" value="Investor Inquiry — The Grand Bedford" />
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="text" name="_honey" style="display: none" tabindex="-1" autocomplete="off" />
+            <label>
+              Name
+              <input type="text" name="name" placeholder="Your name" required />
+            </label>
+            <label>
+              Email
+              <input type="email" name="email" placeholder="Email address" required />
+            </label>
+            <label>
+              Organization
+              <input type="text" name="organization" placeholder="Firm or fund name" />
+            </label>
+            <label>
+              Message
+              <textarea name="message" rows="4" placeholder="What would you like to learn more about?" required></textarea>
+            </label>
+            <button type="submit" class="investor-cta primary">Submit Investor Inquiry</button>
+          </form>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- 17. Footer -->
+    <footer class="investor-footer">
+      <div class="container">
+        <p>© <span id="investor-year">2026</span> The Grand Bedford. All rights reserved.</p>
+        <p>
+          <a href="../index.html">Main Site</a>
+          &nbsp;·&nbsp;
+          <a href="mailto:info@thegrandbedford.com">info@thegrandbedford.com</a>
+        </p>
+      </div>
+    </footer>
+
+    <script type="module" src="investors.js"></script>
+  </body>
+</html>
