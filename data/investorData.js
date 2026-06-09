@@ -924,6 +924,226 @@ export const sections = {
     },
     footerNote:
       "Pipeline values are estimates and subject to change. Weighted pipeline value reflects probability-adjusted opportunity value.",
+    networkCta: {
+      label: "View Operating Network",
+      href: "#people",
+    },
+  },
+  people: {
+    eyebrow: "People / Network",
+    headline: "Team, advisors, and strategic network.",
+    intro:
+      "A cultural platform is only as strong as the people who activate it. The Grand Bedford is supported by a growing network of leadership, operators, creative contributors, advisors, partners, and relationship-based collaborators across sales, events, partnerships, hospitality, media, and community.",
+    supportingText:
+      "The network is designed to support a lean operating model while expanding the platform's ability to generate collector activity, private events, brand activations, sponsorship opportunities, hospitality collaborations, and strategic introductions.",
+    roleNote:
+      "Roles vary by project, scope, and formal engagement. Network participation does not imply employment, equity ownership, exclusivity, or guaranteed revenue.",
+    featuredLabel: "Featured Contributors",
+    networkHeadline: "Operating coverage across the platform.",
+    networkIntro:
+      "The Grand Bedford's network is organized around the functions required to convert a physical cultural space into recurring activity, revenue, and investor-visible proof.",
+    opportunitiesHeadline: "What the network helps unlock through the storefront.",
+    opportunitiesIntro:
+      "The Bedford Avenue storefront is more than a room. It can function as a sales floor, venue, brand platform, hospitality node, content engine, and community hub — with the people network serving as the mechanism that activates each opportunity.",
+    featured: [
+      {
+        id: "founder",
+        initials: "FP",
+        name: "Founder / Principal",
+        role: "Platform Strategy, Capital, and Operations",
+        status: "Core Leadership",
+        image: "",
+        alt: "",
+        bio: "Leads the platform strategy, investor materials, commercial structure, diligence organization, and long-term operating model for The Grand Bedford.",
+        contributions: [
+          "Investor strategy and diligence organization",
+          "Legal, commercial, and operating structure",
+          "Financial visibility and risk controls",
+          "Partnership and capital strategy",
+        ],
+        engines: ["Capital", "Operations", "Partnerships", "Financials"],
+      },
+      {
+        id: "gallery",
+        initials: "GO",
+        name: "Gallery & Operations Partner",
+        role: "Gallery Activity, Sales, and Guest Experience",
+        status: "Core / Operating Partner",
+        image: "",
+        alt: "",
+        bio: "Supports gallery activity, artist coordination, collector experience, opening events, and day-to-day cultural programming.",
+        contributions: [
+          "Gallery presentation and visitor experience",
+          "Artist and collector coordination",
+          "Exhibition and opening support",
+          "Sales follow-up and relationship management",
+        ],
+        engines: ["Art Sales", "Events", "Gallery", "Community"],
+      },
+      {
+        id: "programming",
+        initials: "PP",
+        name: "Programming & Partnerships Partner",
+        role: "Events, Activations, and Relationship Development",
+        status: "Strategic / Project-Based",
+        image: "",
+        alt: "",
+        bio: "Supports event concepts, partner outreach, brand activation opportunities, and relationship-based growth across the platform.",
+        contributions: [
+          "Event and activation development",
+          "Partner and sponsor outreach",
+          "Creative programming concepts",
+          "Relationship-based opportunity development",
+        ],
+        engines: ["Events", "Partnerships", "Sponsorship", "Media"],
+      },
+    ],
+    networkCategories: [
+      {
+        title: "Core Leadership",
+        icon: "shield",
+        description:
+          "Founder-led strategy, operating structure, financial visibility, and investor communication.",
+        unlocks: "Diligence, capital strategy, execution discipline.",
+        status: "Active",
+      },
+      {
+        title: "Gallery & Art Sales",
+        icon: "gallery",
+        description:
+          "Artists, curators, sales support, collector relationships, inventory presentation, and follow-up.",
+        unlocks: "Art sales, collector previews, exhibition activity.",
+        status: "Active / Developing",
+      },
+      {
+        title: "Events & Production",
+        icon: "calendar",
+        description:
+          "Event producers, vendors, hosts, production contributors, and programming support.",
+        unlocks: "Private rentals, openings, workshops, brand nights.",
+        status: "Developing",
+      },
+      {
+        title: "Hospitality & Vendors",
+        icon: "dining",
+        description:
+          "Food, beverage, café, catering, and guest-experience partners.",
+        unlocks:
+          "Longer dwell time, better event experience, vendor revenue, hospitality sponsorship.",
+        status: "Partner-Based",
+      },
+      {
+        title: "Brand Partnerships",
+        icon: "handshake",
+        description:
+          "Relationship-based contributors who can support sponsor outreach, activations, and aligned collaborations.",
+        unlocks: "Brand activation fees, sponsorships, in-kind support.",
+        status: "Pipeline",
+      },
+      {
+        title: "Creative / Content / Media",
+        icon: "newspaper",
+        description:
+          "Photographers, videographers, designers, writers, and media connectors.",
+        unlocks: "Event recaps, sponsor decks, proof archive, investor updates.",
+        status: "Contributor-Based",
+      },
+      {
+        title: "Advisors & Specialists",
+        icon: "shield",
+        description:
+          "Legal, finance, hospitality, real estate, marketing, technology, and operating specialists.",
+        unlocks: "Better diligence, execution support, risk management.",
+        status: "Available Where Applicable",
+      },
+      {
+        title: "Relationship / Commission Network",
+        icon: "partners",
+        description:
+          "Commission-aligned and relationship-based contributors who may support introductions, sales, sponsorships, or event opportunities.",
+        unlocks:
+          "Deal flow, bookings, collector introductions, partnership conversations.",
+        status: "Commission-Aligned",
+      },
+    ],
+    opportunities: [
+      {
+        title: "Collector Sales",
+        icon: "art",
+        supportedBy:
+          "Artists, curators, sales contributors, collector relationships.",
+        revenueRelevance:
+          "Artwork sales, commissions, previews, repeat collector follow-up.",
+        status: "Active / Developing",
+      },
+      {
+        title: "Private Events",
+        icon: "calendar",
+        supportedBy:
+          "Event producers, hospitality partners, vendors, programming contributors.",
+        revenueRelevance:
+          "Venue rental fees, deposits, catering partnerships, recurring programming.",
+        status: "Active Pipeline",
+      },
+      {
+        title: "Brand Activations",
+        icon: "megaphone",
+        supportedBy:
+          "Partnership contributors, creative producers, media/content support, hospitality partners.",
+        revenueRelevance:
+          "Activation fees, sponsorships, in-kind support, audience growth.",
+        status: "Pipeline / Target",
+      },
+      {
+        title: "Hospitality Partnerships",
+        icon: "dining",
+        supportedBy: "Food, beverage, coffee, catering, and service partners.",
+        revenueRelevance:
+          "Better guest experience, event upsells, vendor fees, partner revenue share.",
+        status: "Partner-Based",
+      },
+      {
+        title: "Artist & Curator Pipeline",
+        icon: "gallery",
+        supportedBy:
+          "Artists, curators, art advisors, installers, photographers, writers.",
+        revenueRelevance:
+          "Exhibition calendar, inventory expansion, collector engagement.",
+        status: "Developing",
+      },
+      {
+        title: "Sponsorship & Media",
+        icon: "newspaper",
+        supportedBy:
+          "Content producers, designers, media connectors, brand relationship network.",
+        revenueRelevance:
+          "Sponsor recap decks, proof archive, marketing visibility, sponsor renewals.",
+        status: "Developing",
+      },
+      {
+        title: "Strategic Introductions",
+        icon: "handshake",
+        supportedBy:
+          "Relationship-based contributors, advisors, founder network, aligned partners.",
+        revenueRelevance:
+          "Investor conversations, sponsor conversations, partner opportunities.",
+        status: "Where Applicable",
+      },
+    ],
+    ctas: [
+      {
+        label: "Review Investor Access Process",
+        href: "#capital",
+        icon: "lock",
+        variant: "primary",
+      },
+      {
+        label: "Review Partnership Pipeline",
+        href: "#pipeline",
+        icon: "handshake",
+        variant: "secondary",
+      },
+    ],
   },
   capital: {
     title: "Investor Access / Capital Strategy",

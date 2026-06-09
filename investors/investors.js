@@ -1382,11 +1382,210 @@ function renderPipelineSection() {
   }
 
   if (footer) {
+    const networkLink = pl.networkCta
+      ? `<a class="pipeline-network-cta" href="${pl.networkCta.href}">${pl.networkCta.label} ${iconMarkup("arrow")}</a>`
+      : "";
     footer.innerHTML = `
-      <span class="pipeline-footer-icon">${iconMarkup("shield")}</span>
-      <span>${pl.footerNote}</span>
+      <div class="pipeline-footer-inner">
+        <p class="pipeline-footer-note">
+          <span class="pipeline-footer-icon">${iconMarkup("shield")}</span>
+          <span>${pl.footerNote}</span>
+        </p>
+        ${networkLink}
+      </div>
     `;
   }
+}
+
+function renderPeopleProfileMedia(profile) {
+  if (profile.image) {
+    return `<img src="${profile.image}" alt="${profile.alt || profile.name}" loading="lazy" />`;
+  }
+  return `
+    <div class="people-profile-placeholder" aria-hidden="true">
+      <span class="people-profile-initials">${profile.initials || "—"}</span>
+    </div>
+  `;
+}
+
+function renderPeopleProfileContent(profile) {
+  const contributions = profile.contributions
+    .map((item) => `<li>${item}</li>`)
+    .join("");
+  const engines = profile.engines
+    .map((tag) => `<span class="people-engine-tag">${tag}</span>`)
+    .join("");
+
+  return `
+    <div class="people-profile-content">
+      <span class="people-status">${profile.status}</span>
+      <h3 class="people-profile-name">${profile.name}</h3>
+      <p class="people-profile-role">${profile.role}</p>
+      <p class="people-profile-bio">${profile.bio}</p>
+      <ul class="people-profile-contributions">${contributions}</ul>
+      <div class="people-engine-tags" aria-label="Business engines">${engines}</div>
+    </div>
+  `;
+}
+
+function renderPeopleFeaturedPanel(profile, { hidden = false, mobile = false } = {}) {
+  const hiddenAttr = hidden ? ' hidden style="display:none"' : "";
+  const panelClass = mobile
+    ? "people-profile-panel people-profile-panel--mobile"
+    : "people-profile-panel";
+  const panelId = mobile ? "" : ` id="people-profile-panel-${profile.id}"`;
+
+  return `
+    <article class="${panelClass}"${panelId}${hiddenAttr} data-profile-id="${profile.id}">
+      <div class="people-profile-media">${renderPeopleProfileMedia(profile)}</div>
+      ${renderPeopleProfileContent(profile)}
+    </article>
+  `;
+}
+
+function initPeopleFeaturedTabs() {
+  const tabs = document.querySelectorAll(".people-featured-tab");
+  const panels = document.querySelectorAll(
+    ".people-profile-panel:not(.people-profile-panel--mobile)",
+  );
+  if (!tabs.length || !panels.length) return;
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const profileId = tab.dataset.profileId;
+      tabs.forEach((btn) => {
+        const isActive = btn.dataset.profileId === profileId;
+        btn.classList.toggle("is-active", isActive);
+        btn.setAttribute("aria-selected", isActive ? "true" : "false");
+      });
+      panels.forEach((panel) => {
+        const isActive = panel.dataset.profileId === profileId;
+        panel.hidden = !isActive;
+        panel.style.display = isActive ? "" : "none";
+      });
+    });
+  });
+}
+
+function renderPeopleSection() {
+  const people = sections.people;
+  const header = document.getElementById("people-header");
+  const featured = document.getElementById("people-featured");
+  const network = document.getElementById("people-network");
+  const opportunities = document.getElementById("people-opportunities");
+  const footer = document.getElementById("people-footer");
+
+  if (!people) return;
+
+  if (header) {
+    header.innerHTML = `
+      <span class="people-eyebrow">${people.eyebrow}</span>
+      <h2 id="people-title">${people.headline}</h2>
+      <span class="people-divider" aria-hidden="true"></span>
+      <p class="people-intro">${people.intro}</p>
+      <p class="people-supporting">${people.supportingText}</p>
+    `;
+  }
+
+  if (featured) {
+    const tabs = people.featured
+      .map(
+        (profile, index) => `
+      <button
+        type="button"
+        class="people-featured-tab${index === 0 ? " is-active" : ""}"
+        data-profile-id="${profile.id}"
+        role="tab"
+        aria-selected="${index === 0 ? "true" : "false"}"
+        aria-controls="people-profile-panel-${profile.id}"
+        id="people-tab-${profile.id}"
+      >
+        ${profile.name}
+      </button>
+    `,
+      )
+      .join("");
+
+    const desktopPanels = people.featured
+      .map((profile, index) =>
+        renderPeopleFeaturedPanel(profile, { hidden: index !== 0, mobile: false }),
+      )
+      .join("");
+
+    const mobilePanels = people.featured
+      .map((profile) => renderPeopleFeaturedPanel(profile, { mobile: true }))
+      .join("");
+
+    featured.innerHTML = `
+      <div class="people-featured-label">${people.featuredLabel}</div>
+      <div class="people-featured-desktop" role="tablist" aria-label="Featured contributors">
+        <div class="people-featured-tabs">${tabs}</div>
+        <div class="people-featured-panels">${desktopPanels}</div>
+      </div>
+      <div class="people-featured-mobile">${mobilePanels}</div>
+    `;
+  }
+
+  if (network) {
+    const cards = people.networkCategories
+      .map(
+        (cat) => `
+      <article class="people-network-card">
+        <span class="people-network-icon">${iconMarkup(cat.icon)}</span>
+        <h3 class="people-network-title">${cat.title}</h3>
+        <p class="people-network-desc">${cat.description}</p>
+        <p class="people-network-unlocks"><span>Unlocks:</span> ${cat.unlocks}</p>
+        <span class="people-network-status">${cat.status}</span>
+      </article>
+    `,
+      )
+      .join("");
+
+    network.innerHTML = `
+      <header class="people-subheader">
+        <h3>${people.networkHeadline}</h3>
+        <p>${people.networkIntro}</p>
+      </header>
+      <div class="people-network-grid">${cards}</div>
+    `;
+  }
+
+  if (opportunities) {
+    const cards = people.opportunities
+      .map(
+        (item) => `
+      <article class="people-opportunity-card">
+        <span class="people-opportunity-icon">${iconMarkup(item.icon)}</span>
+        <h3 class="people-opportunity-title">${item.title}</h3>
+        <p class="people-opportunity-supported"><span>Supported by:</span> ${item.supportedBy}</p>
+        <p class="people-opportunity-revenue"><span>Revenue relevance:</span> ${item.revenueRelevance}</p>
+        <span class="people-opportunity-status">${item.status}</span>
+      </article>
+    `,
+      )
+      .join("");
+
+    opportunities.innerHTML = `
+      <header class="people-subheader">
+        <h3>${people.opportunitiesHeadline}</h3>
+        <p>${people.opportunitiesIntro}</p>
+      </header>
+      <div class="people-opportunity-grid">${cards}</div>
+    `;
+  }
+
+  if (footer) {
+    const ctas = people.ctas
+      .map((cta) => renderCtaButton(cta, cta.variant))
+      .join("");
+
+    footer.innerHTML = `
+      <p class="people-note">${people.roleNote}</p>
+      <div class="people-ctas">${ctas}</div>
+    `;
+  }
+
+  initPeopleFeaturedTabs();
 }
 
 function renderLocationAbstractMap(label, caption) {
@@ -1898,6 +2097,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderEventsSection();
   renderPartnershipEcosystemSection();
   renderPipelineSection();
+  renderPeopleSection();
   renderCapitalSection();
   renderLocationSection();
   renderVisualProofArchiveSection();
