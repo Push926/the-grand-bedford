@@ -335,6 +335,134 @@ function renderComparisonChartSvg(chart) {
   `;
 }
 
+function renderStatusPill(status, label) {
+  return `<span class="receivables-status receivables-status--${status}">${label}</span>`;
+}
+
+function renderReceivablesSection() {
+  const { receivables } = sections;
+  const breadcrumb = document.getElementById("receivables-breadcrumb");
+  const header = document.getElementById("receivables-header");
+  const summary = document.getElementById("receivables-summary");
+  const table = document.getElementById("receivables-table");
+  const cards = document.getElementById("receivables-cards");
+  const footer = document.getElementById("receivables-footer");
+
+  if (breadcrumb) {
+    breadcrumb.innerHTML = `
+      <span class="receivables-breadcrumb-label">${receivables.breadcrumb}</span>
+      <span class="receivables-breadcrumb-icon">${iconMarkup("shield")}</span>
+    `;
+  }
+
+  if (header) {
+    header.innerHTML = `
+      <h2>${receivables.headline}</h2>
+      <p class="receivables-intro">${receivables.intro}</p>
+    `;
+  }
+
+  if (summary) {
+    const maxVal = parseMetricValue(receivables.barBaseKey) || 1;
+    const metrics = receivables.summary
+      .map(
+        (item) => `
+      <div class="receivables-metric receivables-metric--${item.tone}">
+        <span class="receivables-metric-label">${item.label}</span>
+        <span class="receivables-metric-value">${formatMetric(item.key)}</span>
+        <span class="receivables-metric-accent" aria-hidden="true"></span>
+      </div>
+    `,
+      )
+      .join("");
+
+    const bars = receivables.summary
+      .map((item) => {
+        const value = parseMetricValue(item.key);
+        const pct = Math.min(100, (value / maxVal) * 100);
+        return `
+        <div class="receivables-bar-row">
+          <span class="receivables-bar-label">${item.label}</span>
+          <div class="receivables-bar-track" role="presentation">
+            <div class="receivables-bar-fill receivables-bar-fill--${item.tone}" style="width: ${pct}%"></div>
+          </div>
+          <span class="receivables-bar-value">${formatMetric(item.key)}</span>
+        </div>
+      `;
+      })
+      .join("");
+
+    const axis = receivables.barAxis.map((tick) => `<span>${tick}</span>`).join("");
+
+    summary.innerHTML = `
+      <p class="receivables-summary-label">${receivables.summaryLabel}</p>
+      <div class="receivables-metrics">${metrics}</div>
+      <div class="receivables-bars" role="img" aria-label="Revenue summary comparison bars">${bars}</div>
+      <div class="receivables-bar-axis" aria-hidden="true">${axis}</div>
+    `;
+  }
+
+  if (table) {
+    const headers = receivables.tableColumns
+      .map((col) => `<th scope="col">${col.label}</th>`)
+      .join("");
+    const rows = receivables.rows
+      .map(
+        (row) => `
+      <tr>
+        <td>${row.buyer}</td>
+        <td>${row.category}</td>
+        <td>${row.grossAmount}</td>
+        <td>${row.collectedAmount}</td>
+        <td>${row.balanceDue}</td>
+        <td>${row.dueDate}</td>
+        <td>${renderStatusPill(row.status, row.statusLabel)}</td>
+      </tr>
+    `,
+      )
+      .join("");
+
+    table.innerHTML = `
+      <div class="receivables-table-wrap">
+        <table class="receivables-table">
+          <caption class="visually-hidden">Accounts receivable ledger with collection status</caption>
+          <thead><tr>${headers}</tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    `;
+  }
+
+  if (cards) {
+    cards.innerHTML = receivables.rows
+      .map(
+        (row) => `
+      <article class="receivables-card">
+        <div class="receivables-card-top">
+          <h3 class="receivables-card-buyer">${row.buyer}</h3>
+          ${renderStatusPill(row.status, row.statusLabel)}
+        </div>
+        <p class="receivables-card-category">${row.category}</p>
+        <dl class="receivables-card-details">
+          <div><dt>Gross Amount</dt><dd>${row.grossAmount}</dd></div>
+          <div><dt>Collected</dt><dd>${row.collectedAmount}</dd></div>
+          <div><dt>Balance Due</dt><dd>${row.balanceDue}</dd></div>
+          <div><dt>Due Date</dt><dd>${row.dueDate}</dd></div>
+        </dl>
+      </article>
+    `,
+      )
+      .join("");
+  }
+
+  if (footer) {
+    footer.innerHTML = `
+      <span class="receivables-footer-icon">${iconMarkup("shield")}</span>
+      <span>${receivables.footerNote}</span>
+    `;
+  }
+}
+
 function renderFinancialsSection() {
   const { financials } = sections;
   const header = document.getElementById("financials-header");
@@ -502,7 +630,6 @@ function renderTractionSection() {
 
 function renderSectionKpis() {
   const map = {
-    "receivables-kpis": sections.receivables.kpis,
     "art-kpis": sections.artInventory.kpis,
     "events-kpis": sections.events.kpis,
     "pipeline-kpis": sections.pipeline.kpis,
@@ -765,6 +892,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderSectionKpis();
   renderTractionSection();
   renderFinancialsSection();
+  renderReceivablesSection();
   renderEngines();
   renderEventsTable();
   renderPartnersTable();
