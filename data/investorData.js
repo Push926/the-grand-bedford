@@ -1164,13 +1164,89 @@ export const sections = {
   },
   evidence: {
     title: "Evidence Behind the Story",
-    intro: "Documented operational activity supporting the investment thesis.",
-    items: [
-      { label: "Gallery sales ledger", status: "Documented" },
-      { label: "Event booking pipeline", status: "Active" },
-      { label: "Partnership agreements", status: "In progress" },
-      { label: "Venue renovation complete", status: "Complete" },
+    eyebrow: "Transparency. Verification. Confidence.",
+    headline: "Evidence behind the story.",
+    intro:
+      "A curated library of verifiable materials that substantiate the opportunity, mitigate risk, and support informed investment decisions.",
+    supportingNote:
+      "Materials are organized to support investor diligence while protecting private buyer, artist, and partner information.",
+    categories: [
+      {
+        title: "Sales Proof",
+        copy: "Sales ledger summaries, invoices, collector activity, payment status, and supporting transaction records.",
+        icon: "ledger",
+        accessBadge: "Redacted Summary",
+        availabilityBadge: "Available Upon Review",
+        href: "#receivables",
+      },
+      {
+        title: "Event Proof",
+        copy: "Event pipeline summaries, attendance assumptions, event recaps, programming materials, and supporting planning documents.",
+        icon: "calendar",
+        accessBadge: "Internal Working File",
+        availabilityBadge: "Investor Access",
+        href: "#events",
+      },
+      {
+        title: "Inventory Proof",
+        copy: "Artwork inventory, status tracking, list prices, sold works, open balances, and artist payable visibility.",
+        icon: "inventory",
+        accessBadge: "Redacted Summary",
+        availabilityBadge: "Investor Access",
+        href: "#art-inventory",
+      },
+      {
+        title: "Partnership Proof",
+        copy: "Partner pipeline summaries, outreach records, opportunity notes, status categories, and probability-weighted assumptions.",
+        icon: "handshake",
+        accessBadge: "Internal Working File",
+        availabilityBadge: "Approved Investors",
+        href: "#pipeline",
+      },
+      {
+        title: "Financial Proof",
+        copy: "Revenue, expenses, forecasts, operating assumptions, source data, and working financial models.",
+        icon: "chart",
+        accessBadge: "Redacted Summary",
+        availabilityBadge: "Approved Investors",
+        href: "#financials",
+      },
+      {
+        title: "Legal / Site Control Proof",
+        copy: "Lease, access rights, operating documents, insurance, permits, and other diligence materials where available.",
+        icon: "shield",
+        accessBadge: "Available Upon Review",
+        availabilityBadge: "Approved Investors",
+        href: "#inquiry",
+      },
     ],
+    protocol: {
+      headline: "Organized for diligence. Protected by access control.",
+      copy: "The evidence library is designed to give serious investors a clear path to inspect supporting materials while preserving confidentiality around buyers, artists, partners, legal documents, and private operating information.",
+      steps: [
+        {
+          step: 1,
+          title: "Public Summary",
+          copy: "High-level portal materials available on this page.",
+        },
+        {
+          step: 2,
+          title: "Approved Access",
+          copy: "Selected investors may receive access to redacted or private materials.",
+        },
+        {
+          step: 3,
+          title: "Diligence Review",
+          copy: "Financial, legal, sales, inventory, event, and partnership materials can be reviewed in context.",
+        },
+        {
+          step: 4,
+          title: "Follow-Up Questions",
+          copy: "Investors may request clarification, backup, or supporting documentation during diligence.",
+        },
+      ],
+    },
+    footer: "Transparency is most valuable when it is organized.",
   },
   proof: {
     title: "Visual Proof Archive",

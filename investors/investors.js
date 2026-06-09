@@ -1592,19 +1592,100 @@ function renderWhatIsSection() {
   }
 }
 
-function renderEvidenceList() {
-  const grid = document.getElementById("evidence-grid");
-  if (!grid) return;
-  grid.innerHTML = sections.evidence.items
-    .map(
-      (item) => `
-    <div class="investor-card">
-      <h3>${item.label}</h3>
-      <p><span class="status">${item.status}</span></p>
+function renderEvidenceDocPreview(label) {
+  return `
+    <div class="evidence-card-doc" aria-hidden="true">
+      <span class="evidence-card-doc-label">${label}</span>
+      <div class="evidence-card-doc-preview">
+        <span class="evidence-card-doc-line evidence-card-doc-line--wide"></span>
+        <span class="evidence-card-doc-line"></span>
+        <span class="evidence-card-doc-line"></span>
+        <span class="evidence-card-doc-bar"></span>
+      </div>
     </div>
-  `,
-    )
-    .join("");
+  `;
+}
+
+function renderEvidenceSection() {
+  const ev = sections.evidence;
+  const header = document.getElementById("evidence-header");
+  const grid = document.getElementById("evidence-grid");
+  const protocol = document.getElementById("evidence-protocol");
+  const note = document.getElementById("evidence-note");
+  const footer = document.getElementById("evidence-footer");
+
+  if (header) {
+    header.innerHTML = `
+      <span class="evidence-eyebrow">${ev.eyebrow}</span>
+      <h2>${ev.headline}</h2>
+      <p class="evidence-intro">${ev.intro}</p>
+    `;
+  }
+
+  if (grid) {
+    grid.innerHTML = ev.categories
+      .map(
+        (cat) => `
+        <article class="evidence-card">
+          <div class="evidence-card-main">
+            <div class="evidence-card-top">
+              <span class="evidence-card-icon">${iconMarkup(cat.icon)}</span>
+              <div class="evidence-card-text">
+                <h3 class="evidence-card-title">${cat.title}</h3>
+                <p class="evidence-card-copy">${cat.copy}</p>
+              </div>
+            </div>
+            ${renderEvidenceDocPreview("Summary")}
+          </div>
+          <div class="evidence-card-footer">
+            <span class="evidence-badge evidence-badge--access">
+              <span class="evidence-badge-icon">${iconMarkup("lock")}</span>
+              ${cat.accessBadge}
+            </span>
+            <span class="evidence-badge evidence-badge--availability">${cat.availabilityBadge}</span>
+          </div>
+        </article>
+      `,
+      )
+      .join("");
+  }
+
+  if (protocol) {
+    const steps = ev.protocol.steps
+      .map(
+        (item) => `
+        <li class="evidence-protocol-step">
+          <span class="evidence-protocol-num">${String(item.step).padStart(2, "0")}</span>
+          <div>
+            <span class="evidence-protocol-step-title">${item.title}</span>
+            <p class="evidence-protocol-step-copy">${item.copy}</p>
+          </div>
+        </li>
+      `,
+      )
+      .join("");
+
+    protocol.innerHTML = `
+      <span class="evidence-protocol-icon">${iconMarkup("shield")}</span>
+      <h3 class="evidence-protocol-title">${ev.protocol.headline}</h3>
+      <p class="evidence-protocol-copy">${ev.protocol.copy}</p>
+      <ol class="evidence-protocol-steps">${steps}</ol>
+    `;
+  }
+
+  if (note) {
+    note.innerHTML = `
+      <span class="evidence-note-icon">${iconMarkup("shield")}</span>
+      <span>${ev.supportingNote}</span>
+    `;
+  }
+
+  if (footer) {
+    footer.innerHTML = `
+      <span class="evidence-footer-divider" aria-hidden="true"></span>
+      <span>${ev.footer}</span>
+    `;
+  }
 }
 
 function initNavToggle() {
@@ -1667,7 +1748,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderLocationSection();
   renderProofGrid();
   renderRiskGrid();
-  renderEvidenceList();
+  renderEvidenceSection();
   renderWhatIsSection();
   initNavToggle();
   initScrollSpy();
