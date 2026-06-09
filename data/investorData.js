@@ -1250,17 +1250,117 @@ export const sections = {
   },
   proof: {
     title: "Visual Proof Archive",
-    intro: "Photographic documentation of the venue, events, and artwork.",
-    images: [
+    headline: "Visual Proof Archive",
+    supportingLine:
+      "Explore curated evidence of The Grand Bedford’s traction, milestones, and impact.",
+    intro:
+      "A visual archive helps investors understand the atmosphere, activity, artwork, events, and community around The Grand Bedford — supporting the numbers with real-world context.",
+    privacyCallout: {
+      label: "Curated. Confidential. Investor access.",
+      copy: "Materials marked for investor access are shared with approved investors under appropriate confidentiality.",
+    },
+    archive: [
       {
-        src: "../assets/Grand_Bedford_Front-a0e70409-7994-433a-bbf8-5802e04e6e1d.png",
-        caption: "Street-level storefront",
+        title: "Grand Opening Photos",
+        category: "Events",
+        description:
+          "Opening-night images, room atmosphere, attendance, installation views, and early community activity.",
+        meta: "Photo archive",
+        statusBadge: "Available",
+        locked: false,
+        image: {
+          src: "../assets/Grand_Bedford_Front-a0e70409-7994-433a-bbf8-5802e04e6e1d.png",
+          alt: "Storefront exterior at opening",
+        },
       },
       {
-        src: "../assets/127E76CC-0DE3-4BED-BC3C-7DEFEE53B818-36f97c9b-cba3-49cc-b6f0-3d91779fbc2b.png",
-        caption: "Gallery interior",
+        title: "Alex Silver Opening Photos",
+        category: "Exhibitions",
+        description:
+          "Event visuals, gallery presentation, guest engagement, and exhibition atmosphere.",
+        meta: "Opening exhibition",
+        statusBadge: "Available",
+        locked: false,
+        image: {
+          src: "../assets/rsvp-haring-art.png",
+          alt: "Gallery exhibition atmosphere",
+        },
+      },
+      {
+        title: "Artwork Catalog",
+        category: "Art",
+        description:
+          "Visual catalog of works, status, artist information, inventory context, and sales support.",
+        meta: "Visual catalog",
+        statusBadge: "Investor Access",
+        locked: true,
+        image: {
+          src: "../assets/Grand_Bedford_Interior.png",
+          alt: "Gallery interior with artwork on display",
+        },
+      },
+      {
+        title: "Sales Ledger Summary",
+        category: "Operations",
+        description:
+          "Visual summary of sold works, open balances, collected amounts, and gallery / artist splits.",
+        meta: "Curated summary",
+        statusBadge: "Investor Access",
+        locked: true,
+        icon: "ledger",
+        placeholderTone: "charcoal",
+      },
+      {
+        title: "Event Recaps",
+        category: "Programming",
+        description:
+          "Images and summaries from openings, private events, workshops, and programming moments.",
+        meta: "Event recaps",
+        statusBadge: "Available",
+        locked: false,
+        image: {
+          src: "../assets/rsvp-hero-event.png",
+          alt: "Event programming in the gallery space",
+        },
+      },
+      {
+        title: "Partner Outreach Materials",
+        category: "Partnerships",
+        description:
+          "Selected decks, proposals, concept visuals, and outreach materials used for partnership development.",
+        meta: "Outreach materials",
+        statusBadge: "Investor Access",
+        locked: true,
+        icon: "partners",
+        placeholderTone: "bronze",
+      },
+      {
+        title: "Testimonials",
+        category: "Community",
+        description:
+          "Curated quotes or feedback from guests, artists, collectors, partners, or collaborators where approved.",
+        meta: "Approved feedback",
+        statusBadge: "Approved Use Only",
+        locked: true,
+        icon: "message",
+        placeholderTone: "ivory",
+      },
+      {
+        title: "Press Mentions",
+        category: "Media",
+        description:
+          "Placeholder for legitimate press, media, or public mentions if and when verified.",
+        meta: "Future / pending verification",
+        statusBadge: "Pending Verification",
+        locked: false,
+        icon: "newspaper",
+        placeholderTone: "ivory",
       },
     ],
+    curation: {
+      headline: "Curated for context. Protected for privacy.",
+      copy: "The archive is designed to provide visual context while respecting the privacy of guests, collectors, artists, partners, and private event participants. Additional materials may be made available to approved investors during diligence.",
+    },
   },
   risk: {
     title: "Risk + Mitigation",

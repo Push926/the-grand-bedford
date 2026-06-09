@@ -1497,19 +1497,75 @@ function renderLocationSection() {
   }
 }
 
-function renderProofGrid() {
-  const grid = document.getElementById("proof-grid");
-  if (!grid) return;
-  grid.innerHTML = sections.proof.images
-    .map(
-      (img) => `
-    <figure class="investor-proof-card">
-      <img src="${img.src}" alt="${img.caption}" loading="lazy" />
-      <figcaption>${img.caption}</figcaption>
-    </figure>
-  `,
-    )
-    .join("");
+function renderProofArchiveMedia(item) {
+  if (item.image) {
+    return `<img src="${item.image.src}" alt="${item.image.alt}" loading="lazy" />`;
+  }
+  return `
+    <div class="proof-archive-placeholder proof-archive-placeholder--${item.placeholderTone || "ivory"}">
+      ${iconMarkup(item.icon)}
+    </div>
+  `;
+}
+
+function renderVisualProofArchiveSection() {
+  const proof = sections.proof;
+  const header = document.getElementById("proof-header");
+  const callout = document.getElementById("proof-callout");
+  const grid = document.getElementById("proof-archive-grid");
+  const curation = document.getElementById("proof-archive-curation");
+
+  if (header) {
+    header.innerHTML = `
+      <h2>${proof.headline}</h2>
+      <p class="proof-archive-supporting">${proof.supportingLine}</p>
+      <p class="proof-archive-intro">${proof.intro}</p>
+    `;
+  }
+
+  if (callout) {
+    callout.innerHTML = `
+      <span class="proof-archive-callout-icon">${iconMarkup("shield")}</span>
+      <span class="proof-archive-callout-label">${proof.privacyCallout.label}</span>
+      <p class="proof-archive-callout-copy">${proof.privacyCallout.copy}</p>
+    `;
+  }
+
+  if (grid) {
+    grid.innerHTML = proof.archive
+      .map(
+        (item) => `
+        <article class="proof-archive-card">
+          <div class="proof-archive-media">
+            ${renderProofArchiveMedia(item)}
+            ${
+              item.locked
+                ? `<span class="proof-archive-lock">${iconMarkup("lock")}</span>`
+                : ""
+            }
+          </div>
+          <div class="proof-archive-body">
+            <div class="proof-archive-card-top">
+              <span class="proof-archive-category">${item.category}</span>
+              <span class="proof-archive-status">${item.statusBadge}</span>
+            </div>
+            <h3 class="proof-archive-title">${item.title}</h3>
+            <p class="proof-archive-meta">${item.meta}</p>
+            <p class="proof-archive-desc">${item.description}</p>
+          </div>
+        </article>
+      `,
+      )
+      .join("");
+  }
+
+  if (curation) {
+    curation.innerHTML = `
+      <span class="proof-archive-curation-icon">${iconMarkup("shield")}</span>
+      <h3 class="proof-archive-curation-title">${proof.curation.headline}</h3>
+      <p class="proof-archive-curation-copy">${proof.curation.copy}</p>
+    `;
+  }
 }
 
 function renderRiskGrid() {
@@ -1746,7 +1802,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderPipelineSection();
   renderCapitalSection();
   renderLocationSection();
-  renderProofGrid();
+  renderVisualProofArchiveSection();
   renderRiskGrid();
   renderEvidenceSection();
   renderWhatIsSection();
