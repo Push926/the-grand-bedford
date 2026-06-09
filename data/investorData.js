@@ -418,6 +418,8 @@ export const sections = {
     headline: "Art Inventory + Sales Engine",
     intro:
       "Every artwork is tracked as both a cultural asset and an operating data point — with status, pricing, collection visibility, gallery share, and artist payable information organized for review.",
+    redactionNote:
+      "Public-facing artwork records are anonymized for investor review. Full artist names, collector details, invoices, and supporting materials may be made available to approved investors during diligence where appropriate.",
     metrics: [
       { label: "Artwork Inventory Value", key: "artworkInventoryValue", icon: "inventory" },
       { label: "Sold Price Total", key: "artLedgerSales", icon: "tag" },
@@ -439,8 +441,8 @@ export const sections = {
     ],
     artworks: [
       {
-        title: "Original Artwork A",
-        artist: "Artist A",
+        title: "Artwork Record A",
+        artist: "Artist Redacted",
         type: "Original",
         medium: "Mixed Media",
         dimensions: "24 × 36 in",
@@ -455,8 +457,8 @@ export const sections = {
         filterTags: ["sold", "originals"],
       },
       {
-        title: "Original Artwork B",
-        artist: "Artist A",
+        title: "Artwork Record B",
+        artist: "Artist Redacted",
         type: "Original",
         medium: "Acrylic on canvas",
         dimensions: "30 × 40 in",
@@ -468,11 +470,12 @@ export const sections = {
         amountCollected: "$0",
         balanceDue: "$12,000",
         placeholderTone: "slate",
+        imageLabel: "Image redacted",
         filterTags: ["sold", "originals"],
       },
       {
-        title: "Photo Work A",
-        artist: "Photographer A",
+        title: "Photography Record A",
+        artist: "Photographer Redacted",
         type: "Photography",
         medium: "Archival pigment print",
         dimensions: "20 × 24 in",
@@ -484,11 +487,12 @@ export const sections = {
         amountCollected: "$3,000",
         balanceDue: "$2,000",
         placeholderTone: "bronze",
+        imageLabel: "Image redacted",
         filterTags: ["sold", "photography"],
       },
       {
-        title: "Limited Print Set",
-        artist: "Artist B",
+        title: "Limited Print Record A",
+        artist: "Artist Record A",
         type: "Print",
         medium: "Limited edition print",
         dimensions: "18 × 24 in",
@@ -499,12 +503,13 @@ export const sections = {
         soldPrice: "$3,500",
         amountCollected: "$2,000",
         balanceDue: "$1,500",
-        image: "../assets/Grand_Bedford_Interior.png",
+        placeholderTone: "ivory",
+        imageLabel: "Image redacted",
         filterTags: ["sold", "prints"],
       },
       {
-        title: "Original Artwork C",
-        artist: "Artist C",
+        title: "Artwork Record C",
+        artist: "Artist Record B",
         type: "Original",
         medium: "Oil on canvas",
         dimensions: "36 × 48 in",
@@ -516,11 +521,12 @@ export const sections = {
         amountCollected: "$12,000",
         balanceDue: "$6,000",
         placeholderTone: "ivory",
+        imageLabel: "Image redacted",
         filterTags: ["sold", "originals"],
       },
       {
-        title: "Sculpture A",
-        artist: "Artist D",
+        title: "Sculpture Record A",
+        artist: "Artist Record C",
         type: "Sculpture",
         medium: "Metal / found object",
         dimensions: "14 × 10 × 8 in",
@@ -532,11 +538,12 @@ export const sections = {
         amountCollected: "$4,000",
         balanceDue: "$2,500",
         placeholderTone: "charcoal",
+        imageLabel: "Image restricted",
         filterTags: ["sold", "sculpture"],
       },
       {
-        title: "Available Artwork A",
-        artist: "Artist G",
+        title: "Available Work A",
+        artist: "Artist Redacted",
         type: "Original",
         medium: "Acrylic on canvas",
         dimensions: "24 × 30 in",
@@ -544,12 +551,13 @@ export const sections = {
         listPrice: "$7,500",
         status: "available",
         statusLabel: "Available",
-        image: "../assets/rsvp-haring-art.png",
+        placeholderTone: "bronze",
+        imageLabel: "Image pending",
         filterTags: ["available", "originals"],
       },
       {
-        title: "Reserved Artwork A",
-        artist: "Artist I",
+        title: "Reserved Work A",
+        artist: "Artist Record D",
         type: "Original",
         medium: "Oil on canvas",
         dimensions: "28 × 36 in",
@@ -558,11 +566,12 @@ export const sections = {
         status: "reserved",
         statusLabel: "Reserved",
         placeholderTone: "slate",
+        imageLabel: "Image redacted",
         filterTags: ["reserved", "originals"],
       },
     ],
     note:
-      "Inventory is tracked across sold, available, reserved, and open-balance works to support sales management, collector follow-up, and investor diligence.",
+      "Inventory is tracked across sold, available, reserved, and open-balance works to support sales management, collector follow-up, and investor diligence. Public records are redacted to protect artists, collectors, and transaction details.",
   },
   events: {
     headline: "The space is designed to convert culture into recurring activity.",
@@ -605,10 +614,13 @@ export const sections = {
       note: "Supporting figures are working pipeline estimates for investor diligence.",
     },
     categoriesDivider: "Diverse format. Recurring demand.",
+    categoriesFormatNote:
+      "Event formats are shown as operating categories. Visuals may include approved photos or conceptual format placeholders.",
     categories: [
       {
         name: "Private Events",
-        description: "Intimate celebrations, dinners & gatherings.",
+        description:
+          "Intimate celebrations, dinners, private gatherings, and hosted experiences.",
         icon: "handshake",
         placeholderTone: "slate",
       },
@@ -616,7 +628,7 @@ export const sections = {
         name: "Corporate Events",
         description: "Panels, offsites, product launches & retreats.",
         icon: "building",
-        image: "../assets/Grand_Bedford_Interior.png",
+        placeholderTone: "ivory",
       },
       {
         name: "Paint & Sip",
@@ -626,13 +638,13 @@ export const sections = {
       },
       {
         name: "Brand Activations",
-        description: "Immersive activations that build brand & community.",
+        description: "Immersive activations that build brand and community.",
         icon: "partners",
         placeholderTone: "charcoal",
       },
       {
         name: "Collector Previews",
-        description: "Exclusive previews & curated experiences.",
+        description: "Private previews and curated collector experiences.",
         icon: "frame",
         placeholderTone: "bronze",
       },
@@ -651,10 +663,10 @@ export const sections = {
     headline:
       "The partnership ecosystem expands the platform beyond the walls.",
     intro:
-      "A curated network of partners can support programming, hospitality, brand activations, media visibility, community engagement, and long-term platform value.",
+      "Building on event programming, a curated network of partners can support programming, hospitality, brand activations, media visibility, community engagement, and long-term platform value.",
     approach: {
       label: "Our approach",
-      text: "We partner with brands, organizations, and institutions that align with our values and contribute to a dynamic cultural ecosystem.",
+      text: "We seek partnerships with brands, organizations, and institutions that align with our values and may contribute to a dynamic cultural ecosystem.",
       principles: [
         { icon: "star", label: "Curated partnerships" },
         { icon: "handshake", label: "Mutual value creation" },
@@ -760,7 +772,7 @@ export const sections = {
       {
         title: "Audience Expansion",
         icon: "partners",
-        copy: "Aligned partners introduce new guests, collectors, sponsors, and brand audiences into the platform.",
+        copy: "Aligned partners may introduce new guests, collectors, sponsors, and brand audiences into the platform.",
       },
       {
         title: "Hospitality Layer",

@@ -385,7 +385,13 @@ function renderArtworkImage(artwork) {
     return `<img src="${artwork.image}" alt="" class="art-inventory-card-image" loading="lazy" />`;
   }
   const tone = artwork.placeholderTone || "ivory";
-  return `<div class="art-inventory-card-placeholder art-inventory-card-placeholder--${tone}" aria-hidden="true"><span class="art-inventory-placeholder-mark">${iconMarkup("frame")}</span></div>`;
+  const label = artwork.imageLabel || "Image redacted";
+  return `<div class="art-inventory-card-placeholder art-inventory-card-placeholder--${tone}" role="img" aria-label="${label}">
+    <span class="art-inventory-placeholder-inner">
+      <span class="art-inventory-placeholder-mark">${iconMarkup("frame")}</span>
+      <span class="art-inventory-placeholder-label">${label}</span>
+    </span>
+  </div>`;
 }
 
 function renderArtworkStatusPill(status, label) {
@@ -469,6 +475,11 @@ function renderArtInventorySection() {
     header.innerHTML = `
       <h2>${artInventory.headline}</h2>
       <p class="art-inventory-intro">${artInventory.intro}</p>
+      ${
+        artInventory.redactionNote
+          ? `<p class="art-inventory-redaction"><span class="art-inventory-redaction-icon">${iconMarkup("lock")}</span>${artInventory.redactionNote}</p>`
+          : ""
+      }
     `;
   }
 
@@ -965,7 +976,12 @@ function renderEventCategoryImage(category) {
     return `<img src="${category.image}" alt="" class="events-category-image" loading="lazy" />`;
   }
   const tone = category.placeholderTone || "ivory";
-  return `<div class="events-category-placeholder events-category-placeholder--${tone}" aria-hidden="true"><span>${iconMarkup(category.icon)}</span></div>`;
+  return `<div class="events-category-placeholder events-category-placeholder--${tone}" role="img" aria-label="Format concept">
+    <span class="events-category-placeholder-inner">
+      <span class="events-category-placeholder-icon">${iconMarkup(category.icon)}</span>
+      <span class="events-category-placeholder-label">Format concept</span>
+    </span>
+  </div>`;
 }
 
 function renderRevenueStreamChart(chart) {
@@ -1082,6 +1098,11 @@ function renderEventsSection() {
 
   if (divider) {
     divider.innerHTML = `<span>${events.categoriesDivider}</span>`;
+  }
+
+  const categoriesNote = document.getElementById("events-categories-note");
+  if (categoriesNote && events.categoriesFormatNote) {
+    categoriesNote.innerHTML = `<p>${events.categoriesFormatNote}</p>`;
   }
 
   if (categories) {
