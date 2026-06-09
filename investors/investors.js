@@ -766,7 +766,6 @@ function renderTractionSection() {
 
 function renderSectionKpis() {
   const map = {
-    "events-kpis": sections.events.kpis,
     "pipeline-kpis": sections.pipeline.kpis,
     "capital-kpis": sections.capital.kpis,
   };
@@ -819,20 +818,153 @@ function renderEngines() {
   }
 }
 
-function renderEventsTable() {
-  const tbody = document.getElementById("events-table-body");
-  if (!tbody) return;
-  tbody.innerHTML = sections.events.placeholderEvents
+function renderEventCategoryImage(category) {
+  if (category.image) {
+    return `<img src="${category.image}" alt="" class="events-category-image" loading="lazy" />`;
+  }
+  const tone = category.placeholderTone || "ivory";
+  return `<div class="events-category-placeholder events-category-placeholder--${tone}" aria-hidden="true"><span>${iconMarkup(category.icon)}</span></div>`;
+}
+
+function renderRevenueStreamChart(chart) {
+  const { yMax, streams, quarters } = chart;
+  const yLabels = chart.yAxis
     .map(
-      (e) => `
-    <tr>
-      <td>${e.name}</td>
-      <td>${e.date}</td>
-      <td><span class="status">${e.status}</span></td>
-    </tr>
-  `,
+      (tick, index) =>
+        `<span class="events-stacked-y-label" style="bottom: ${(index / (chart.yAxis.length - 1)) * 100}%">${tick}</span>`,
     )
     .join("");
+
+  const columns = quarters
+    .map((quarter) => {
+      const total = streams.reduce((sum, stream) => sum + (quarter.values[stream.id] || 0), 0);
+      const barHeight = Math.min(100, (total / yMax) * 100);
+      const segments = [...streams]
+        .reverse()
+        .map((stream) => {
+          const value = quarter.values[stream.id] || 0;
+          const segHeight = total > 0 ? (value / total) * 100 : 0;
+          return `<div class="events-stack-segment events-stack--${stream.id}" style="height: ${segHeight}%"></div>`;
+        })
+        .join("");
+      return `
+        <div class="events-stacked-col">
+          <div class="events-stacked-bar-wrap">
+            <div class="events-stacked-bar" style="height: ${barHeight}%">${segments}</div>
+          </div>
+          <span class="events-stacked-label">${quarter.label}</span>
+        </div>
+      `;
+    })
+    .join("");
+
+  const legend = streams
+    .map(
+      (stream) =>
+        `<span class="events-legend-item"><span class="events-legend-swatch events-stack--${stream.id}"></span>${stream.label}</span>`,
+    )
+    .join("");
+
+  const ariaLabel = quarters
+    .map((quarter) => {
+      const parts = streams.map((s) => `${s.label} $${quarter.values[s.id] || 0}K`);
+      return `${quarter.label}: ${parts.join(", ")}`;
+    })
+    .join("; ");
+
+  return `
+    <h3 class="events-chart-title">${chart.title}</h3>
+    <div class="events-stacked-chart" role="img" aria-label="${ariaLabel}">
+      <div class="events-stacked-y-axis" aria-hidden="true">${yLabels}</div>
+      <div class="events-stacked-cols">${columns}</div>
+    </div>
+    <div class="events-legend">${legend}</div>
+    <p class="events-chart-disclaimer">${chart.disclaimer}</p>
+  `;
+}
+
+function renderEventsSection() {
+  const { events } = sections;
+  const header = document.getElementById("events-header");
+  const chart = document.getElementById("events-chart");
+  const kpis = document.getElementById("events-kpis");
+  const supporting = document.getElementById("events-supporting");
+  const divider = document.getElementById("events-categories-divider");
+  const categories = document.getElementById("events-categories");
+  const footer = document.getElementById("events-footer");
+
+  if (header) {
+    header.innerHTML = `
+      <h2>${events.headline}</h2>
+      <p class="events-eyebrow">${events.eyebrow}</p>
+      <p class="events-intro">${events.intro}</p>
+    `;
+  }
+
+  if (chart) {
+    chart.innerHTML = renderRevenueStreamChart(events.revenueStreamChart);
+  }
+
+  if (kpis) {
+    kpis.innerHTML = events.kpis
+      .map(
+        (item) => `
+      <div class="events-kpi-card">
+        <span class="events-kpi-icon">${iconMarkup(item.icon)}</span>
+        <span class="events-kpi-value">${formatMetric(item.key)}</span>
+        <span class="events-kpi-label">${item.label}</span>
+        <span class="events-kpi-footnote">${item.footnote}</span>
+      </div>
+    `,
+      )
+      .join("");
+  }
+
+  if (supporting) {
+    const items = events.supportingBreakdown.items
+      .map(
+        (item) => `
+      <span class="events-supporting-item">
+        <span class="events-supporting-item-label">${item.label}</span>
+        <span class="events-supporting-item-value">${formatMetric(item.key)}</span>
+      </span>
+    `,
+      )
+      .join("");
+    supporting.innerHTML = `
+      <span class="events-supporting-heading">${events.supportingBreakdown.label}</span>
+      <div class="events-supporting-items">${items}</div>
+      <span class="events-supporting-note">${events.supportingBreakdown.note}</span>
+    `;
+  }
+
+  if (divider) {
+    divider.innerHTML = `<span>${events.categoriesDivider}</span>`;
+  }
+
+  if (categories) {
+    categories.innerHTML = events.categories
+      .map(
+        (cat) => `
+      <article class="events-category-card">
+        <div class="events-category-media">${renderEventCategoryImage(cat)}</div>
+        <div class="events-category-body">
+          <span class="events-category-icon">${iconMarkup(cat.icon)}</span>
+          <h3 class="events-category-name">${cat.name}</h3>
+          <p class="events-category-desc">${cat.description}</p>
+        </div>
+      </article>
+    `,
+      )
+      .join("");
+  }
+
+  if (footer) {
+    footer.innerHTML = `
+      <span class="events-footer-icon">${iconMarkup("shield")}</span>
+      <span>${events.footer}</span>
+    `;
+  }
 }
 
 function renderPartnersTable() {
@@ -1031,7 +1163,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderArtInventorySection();
   initArtInventoryFilters();
   renderEngines();
-  renderEventsTable();
+  renderEventsSection();
   renderPartnersTable();
   renderPipelineTable();
   renderProofGrid();

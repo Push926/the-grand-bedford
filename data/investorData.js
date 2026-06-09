@@ -33,6 +33,10 @@ export const investorMetrics = {
   rollingExpenses: "$2.635M",
   artEstGalleryRevenue: "$67K",
   artEstArtistPayable: "$67K",
+  eventsTracked: 9,
+  eventDepositsReceived: "$5.25K",
+  eventBalanceDue: "$78.725K",
+  eventEstimatedCost: "$33.5K",
 };
 
 export const investorNav = [
@@ -566,18 +570,85 @@ export const sections = {
       "Inventory is tracked across sold, available, reserved, and open-balance works to support sales management, collector follow-up, and investor diligence.",
   },
   events: {
-    title: "Events Pipeline",
-    intro: "Scheduled and projected events with revenue and attendance estimates.",
+    headline: "The space is designed to convert culture into recurring activity.",
+    eyebrow: "A diversified event revenue engine built for Brooklyn's creative economy.",
+    intro:
+      "A diversified event pipeline designed to support attendance, revenue, partnerships, and collector engagement.",
     kpis: [
-      { label: "Expected Revenue", key: "eventExpectedRevenue" },
-      { label: "Expected Net Revenue", key: "eventExpectedNetRevenue" },
-      { label: "Expected Attendance", key: "expectedAttendance" },
+      { label: "Events Tracked", key: "eventsTracked", icon: "calendar", footnote: "This Period" },
+      { label: "Expected Attendance", key: "expectedAttendance", icon: "artists", footnote: "Across All Events" },
+      { label: "Expected Revenue", key: "eventExpectedRevenue", icon: "tag", footnote: "This Period" },
+      { label: "Expected Net Revenue", key: "eventExpectedNetRevenue", icon: "forecast", footnote: "This Period" },
     ],
-    placeholderEvents: [
-      { name: "Gallery Opening Series", date: "Q2 2026", status: "Confirmed" },
-      { name: "Brand Pop-Up Activation", date: "Q2 2026", status: "In Discussion" },
-      { name: "House of Beats Wellness Workshop", date: "Q3 2026", status: "Planned" },
+    revenueStreamChart: {
+      title: "Expected Revenue by Stream (Annual)",
+      disclaimer:
+        "Revenue projections reflect pipeline assumptions and stabilized operating visibility — not guaranteed outcomes.",
+      yMax: 28,
+      yAxis: ["$0K", "$7K", "$14K", "$21K", "$28K"],
+      streams: [
+        { id: "ticket", label: "Ticket Revenue" },
+        { id: "venue", label: "Venue Rental Revenue" },
+        { id: "fnb", label: "Food & Beverage Revenue" },
+        { id: "sponsor", label: "Sponsorship Revenue" },
+        { id: "other", label: "Other Revenue" },
+      ],
+      quarters: [
+        { label: "Q1", values: { ticket: 5, venue: 6, fnb: 3, sponsor: 2, other: 1 } },
+        { label: "Q2", values: { ticket: 8, venue: 7, fnb: 4, sponsor: 3, other: 2 } },
+        { label: "Q3", values: { ticket: 7, venue: 6, fnb: 5, sponsor: 2, other: 2 } },
+        { label: "Q4", values: { ticket: 6, venue: 5, fnb: 4, sponsor: 3, other: 1 } },
+      ],
+    },
+    supportingBreakdown: {
+      label: "Pipeline collections & costs",
+      items: [
+        { label: "Deposits Received", key: "eventDepositsReceived" },
+        { label: "Balance Due", key: "eventBalanceDue" },
+        { label: "Estimated Cost", key: "eventEstimatedCost" },
+      ],
+      note: "Supporting figures are working pipeline estimates for investor diligence.",
+    },
+    categoriesDivider: "Diverse format. Recurring demand.",
+    categories: [
+      {
+        name: "Private Events",
+        description: "Intimate celebrations, dinners & gatherings.",
+        icon: "handshake",
+        placeholderTone: "slate",
+      },
+      {
+        name: "Corporate Events",
+        description: "Panels, offsites, product launches & retreats.",
+        icon: "building",
+        image: "../assets/Grand_Bedford_Interior.png",
+      },
+      {
+        name: "Paint & Sip",
+        description: "Creative experiences that drive recurring attendance.",
+        icon: "art",
+        image: "../assets/rsvp-hero-event.png",
+      },
+      {
+        name: "Brand Activations",
+        description: "Immersive activations that build brand & community.",
+        icon: "partners",
+        placeholderTone: "charcoal",
+      },
+      {
+        name: "Collector Previews",
+        description: "Exclusive previews & curated experiences.",
+        icon: "frame",
+        placeholderTone: "bronze",
+      },
+      {
+        name: "Vendor Markets",
+        description: "Curated markets that celebrate local makers.",
+        icon: "events",
+        placeholderTone: "ivory",
+      },
     ],
+    footer: "Culture drives people. People drive revenue.",
   },
   partnerships: {
     title: "Partnership Ecosystem",
