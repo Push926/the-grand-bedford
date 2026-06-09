@@ -697,9 +697,9 @@ export const sections = {
         icon: "megaphone",
         position: 2,
         examples: [
-          { name: "Experiential campaigns", status: "aligned" },
-          { name: "Product collaborations", status: "aligned" },
-          { name: "Community engagement", status: "aligned" },
+          { name: "Experiential campaigns", status: "aligned-category" },
+          { name: "Product collaborations", status: "aligned-category" },
+          { name: "Community engagement", status: "aligned-category" },
         ],
       },
       {
@@ -744,8 +744,8 @@ export const sections = {
         icon: "leaf",
         position: 7,
         examples: [
-          { name: "Sustainable design partners", status: "aligned" },
-          { name: "Waste & resource management", status: "aligned" },
+          { name: "Sustainable design partners", status: "aligned-category" },
+          { name: "Waste & resource management", status: "aligned-category" },
         ],
       },
       {
@@ -772,7 +772,7 @@ export const sections = {
       {
         title: "Audience Expansion",
         icon: "partners",
-        copy: "Aligned partners may introduce new guests, collectors, sponsors, and brand audiences into the platform.",
+        copy: "Strategic partners may introduce new guests, collectors, sponsors, and brand audiences into the platform.",
       },
       {
         title: "Hospitality Layer",
@@ -786,7 +786,7 @@ export const sections = {
       },
     ],
     examplesNote:
-      "Representative aligned partners and categories — illustrative examples, not confirmed commitments unless noted in the Partnership Pipeline.",
+      "Partner names and categories shown in this section are representative, target, pipeline, or in-discussion examples. They should not be read as confirmed commitments unless expressly identified as confirmed in diligence materials.",
     pipelineTeaser:
       "Quantified pipeline values, probability weighting, and stage tracking appear in the Partnership Pipeline section.",
     footer: "A cultural platform built for endurance.",
@@ -916,7 +916,7 @@ export const sections = {
       {
         partner: "Artist / Curator Collective",
         category: "Artists",
-        status: "aligned",
+        status: "aligned-category",
         oneTime: "$10K",
         monthly: "$1K",
         annual: "$12K",
@@ -1166,6 +1166,8 @@ export const sections = {
       "Our capital strategy is designed with discipline, transparency, and long-term alignment. Access to confidential materials is granted intentionally, to the right partners, at the right time.",
     metricsLabel: "Capital Pipeline Summary",
     metricsNote: "Confidential",
+    pipelineNote:
+      "Capital pipeline values reflect potential interest and working assumptions, not commitments.",
     kpis: [
       {
         label: "Potential Capital Pipeline",
@@ -1289,13 +1291,13 @@ export const sections = {
         variant: "secondary",
       },
       {
-        label: "Review One-Page Summary",
-        href: "#evidence",
+        label: "Request One-Page Summary",
+        href: "mailto:info@thegrandbedford.com?subject=One-Page%20Investor%20Summary%20Request",
         icon: "ledger",
         variant: "secondary",
       },
     ],
-    securityNote: "Your information is always protected.",
+    securityNote: "Investor inquiries and diligence materials are handled confidentially.",
   },
   location: {
     title: "Williamsburg / Location Story",
@@ -1309,14 +1311,14 @@ export const sections = {
     visual: {
       images: [
         {
-          src: "../assets/Grand_Bedford_Interior.png",
-          alt: "Gallery interior with artwork on display",
-          caption: "Gallery interior — cultural programming setting",
-        },
-        {
           src: "../assets/Grand_Bedford_Front-a0e70409-7994-433a-bbf8-5802e04e6e1d.png",
           alt: "Street-level storefront in Williamsburg",
           caption: "Street-level presence — Williamsburg, Brooklyn",
+        },
+        {
+          src: "../assets/Grand_Bedford_Interior.png",
+          alt: "Flexible interior gallery and event space",
+          caption: "Flexible interior — adaptable gallery and event setting",
         },
       ],
       mapLabel: "Williamsburg, Brooklyn",
@@ -1325,8 +1327,8 @@ export const sections = {
     advantagesLabel: "Location Advantages",
     advantages: [
       {
-        title: "High Foot Traffic",
-        copy: "Strong pedestrian and neighborhood visibility.",
+        title: "Street-Level Visibility",
+        copy: "A visible, walkable setting that supports discovery, visits, and event awareness.",
         icon: "partners",
       },
       {
@@ -1352,7 +1354,7 @@ export const sections = {
     ],
     thesis: {
       headline: "Place is part of the business model.",
-      copy: "The location supports audience, programming, partnerships, and the perception of long-term cultural value.",
+      copy: "The location supports audience discovery, programming, partnerships, and the perception of long-term cultural value.",
     },
     revenueLabel: "Location supports multiple revenue streams",
     revenueStreams: [
@@ -1386,10 +1388,10 @@ export const sections = {
   },
   evidence: {
     title: "Evidence Behind the Story",
-    eyebrow: "Transparency. Verification. Confidence.",
+    eyebrow: "Transparency. Support. Confidence.",
     headline: "Evidence behind the story.",
     intro:
-      "A curated library of verifiable materials that substantiate the opportunity, mitigate risk, and support informed investment decisions.",
+      "A curated library of supporting materials that substantiate the opportunity, mitigate risk, and support informed investment decisions.",
     supportingNote:
       "Materials are organized to support investor diligence while protecting private buyer, artist, and partner information.",
     categories: [
@@ -1483,7 +1485,7 @@ export const sections = {
     },
     archive: [
       {
-        title: "Grand Opening Photos",
+        title: "Opening Photos",
         category: "Events",
         description:
           "Opening-night images, room atmosphere, attendance, installation views, and early community activity.",
@@ -1496,11 +1498,11 @@ export const sections = {
         },
       },
       {
-        title: "Alex Silver Opening Photos",
+        title: "Exhibition Opening Photos",
         category: "Exhibitions",
         description:
           "Event visuals, gallery presentation, guest engagement, and exhibition atmosphere.",
-        meta: "Opening exhibition",
+        meta: "Exhibition opening",
         statusBadge: "Available",
         locked: false,
         image: {
@@ -1620,11 +1622,11 @@ export const sections = {
           },
           {
             icon: "folder",
-            text: "Data room maintained. Key documents organized, current, and accessible.",
+            text: "Diligence materials organized. Key documents are being maintained, updated, and prepared for controlled investor access.",
           },
           {
             icon: "check",
-            text: "Investor materials updated. Performance, forecasts, and reports kept up to date.",
+            text: "Investor materials updated as new operating data is verified.",
           },
         ],
       },

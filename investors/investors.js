@@ -838,7 +838,7 @@ function renderCapitalSection() {
   }
 
   if (kpis) {
-    kpis.innerHTML = cap.kpis
+    const kpiCards = cap.kpis
       .map(
         (item) => `
         <div class="capital-kpi-card">
@@ -849,6 +849,10 @@ function renderCapitalSection() {
       `,
       )
       .join("");
+    const pipelineNote = cap.pipelineNote
+      ? `<p class="capital-pipeline-note">${cap.pipelineNote}</p>`
+      : "";
+    kpis.innerHTML = `<div class="capital-kpi-grid">${kpiCards}</div>${pipelineNote}`;
   }
 
   if (overview) {
@@ -1133,10 +1137,12 @@ function renderEventsSection() {
 const PARTNERSHIP_EXAMPLE_STATUS = {
   representative: "Representative",
   target: "Target",
-  "in-discussion": "In discussion",
-  aligned: "Aligned",
+  "in-discussion": "In Discussion",
+  "aligned-category": "Aligned Category",
+  aligned: "Aligned Category",
   pipeline: "Pipeline",
   potential: "Potential",
+  "available-where-applicable": "Available Where Applicable",
 };
 
 function formatPartnershipExampleStatus(status) {
@@ -1248,8 +1254,11 @@ function renderPartnershipEcosystemSection() {
 
   if (note) {
     note.innerHTML = `
-      <span class="partnerships-note-text">${ps.examplesNote}</span>
-      <span class="partnerships-pipeline-teaser">${ps.pipelineTeaser}</span>
+      <span class="partnerships-note-icon">${iconMarkup("shield")}</span>
+      <span class="partnerships-note-content">
+        <span class="partnerships-note-text">${ps.examplesNote}</span>
+        <span class="partnerships-pipeline-teaser">${ps.pipelineTeaser}</span>
+      </span>
     `;
   }
 
@@ -1265,8 +1274,10 @@ const PIPELINE_STATUS_LABELS = {
   "in-discussion": "In Discussion",
   target: "Target",
   pipeline: "Pipeline",
-  aligned: "Aligned",
+  "aligned-category": "Aligned Category",
+  aligned: "Aligned Category",
   confirmed: "Confirmed",
+  representative: "Representative",
 };
 
 function pipelineStatusMarkup(status) {
@@ -2082,7 +2093,7 @@ function renderFooter() {
 
   root.innerHTML = `
     <div class="investor-footer-brand">
-      <img src="../assets/logo.png" alt="" class="investor-footer-mark" width="36" height="36" />
+      <img src="../assets/GB logo.png" alt="" class="investor-footer-mark" width="40" height="40" />
       <div>
         <p class="investor-footer-name">${footerData.brand}</p>
         <p class="investor-footer-location">${footerData.location}</p>
