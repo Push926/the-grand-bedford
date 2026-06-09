@@ -1077,14 +1077,90 @@ export const sections = {
   },
   location: {
     title: "Williamsburg / Location Story",
+    headline: "Williamsburg as the operating context.",
     intro:
-      "Street-level retail on a high-foot-traffic corridor in one of Brooklyn's most dynamic neighborhoods.",
-    highlights: [
-      "Prime Williamsburg retail corridor",
-      "Street-level access with large storefront windows",
-      "Walking distance to L train and ferry",
-      "Surrounded by galleries, restaurants, and creative businesses",
+      "The Grand Bedford is positioned within a neighborhood shaped by art, hospitality, retail, design, and creative foot traffic — a setting that supports gallery sales, private events, brand partnerships, food and beverage, and recurring cultural programming.",
+    narrative: [
+      "Williamsburg offers a visible cultural and commercial context — walkable streets, creative businesses, and a steady rhythm of neighborhood activity that can support recurring programming.",
+      "For The Grand Bedford, location is not decoration. It is part of how the platform attracts audiences, hosts events, welcomes partners, and builds long-term cultural relevance.",
     ],
+    visual: {
+      images: [
+        {
+          src: "../assets/Grand_Bedford_Interior.png",
+          alt: "Gallery interior with artwork on display",
+          caption: "Gallery interior — cultural programming setting",
+        },
+        {
+          src: "../assets/Grand_Bedford_Front-a0e70409-7994-433a-bbf8-5802e04e6e1d.png",
+          alt: "Street-level storefront in Williamsburg",
+          caption: "Street-level presence — Williamsburg, Brooklyn",
+        },
+      ],
+      mapLabel: "Williamsburg, Brooklyn",
+      mapCaption: "Abstract neighborhood context — illustrative, not to scale",
+    },
+    advantagesLabel: "Location Advantages",
+    advantages: [
+      {
+        title: "High Foot Traffic",
+        copy: "Strong pedestrian and neighborhood visibility.",
+        icon: "partners",
+      },
+      {
+        title: "Cultural Density",
+        copy: "Surrounded by galleries, retail, hospitality, and creative institutions.",
+        icon: "gallery",
+      },
+      {
+        title: "Retail Adjacency",
+        copy: "Near design-forward stores, restaurants, cafés, and destination retail.",
+        icon: "grid",
+      },
+      {
+        title: "Event Demand",
+        copy: "A strong context for private events, cultural programming, and brand activations.",
+        icon: "calendar",
+      },
+      {
+        title: "Brand Activation Potential",
+        copy: "A compelling environment for experiential campaigns and partner-driven programming.",
+        icon: "star",
+      },
+    ],
+    thesis: {
+      headline: "Place is part of the business model.",
+      copy: "The location supports audience, programming, partnerships, and the perception of long-term cultural value.",
+    },
+    revenueLabel: "Location supports multiple revenue streams",
+    revenueStreams: [
+      {
+        title: "Art Sales",
+        copy: "A visible cultural setting supports collector discovery and gallery visits.",
+        icon: "art",
+      },
+      {
+        title: "Private Events",
+        copy: "The neighborhood context supports dinners, launches, rentals, and private gatherings.",
+        icon: "events",
+      },
+      {
+        title: "Brand Partnerships",
+        copy: "Williamsburg's creative identity supports aligned sponsorship and activation opportunities.",
+        icon: "handshake",
+      },
+      {
+        title: "Food & Beverage",
+        copy: "Hospitality partners can enhance events, openings, and daytime programming.",
+        icon: "dining",
+      },
+      {
+        title: "Outdoor Programming",
+        copy: "The location story can support seasonal activations, sidewalk presence, and community experiences where permitted.",
+        icon: "leaf",
+      },
+    ],
+    footer: "Culture drives community. Community drives demand. Demand drives value.",
   },
   evidence: {
     title: "Evidence Behind the Story",

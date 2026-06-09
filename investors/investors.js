@@ -1381,6 +1381,122 @@ function renderPipelineSection() {
   }
 }
 
+function renderLocationAbstractMap(label, caption) {
+  return `
+    <div class="location-map" role="img" aria-label="${label} — abstract neighborhood context">
+      <svg class="location-map-svg" viewBox="0 0 240 180" aria-hidden="true">
+        <rect x="0" y="0" width="240" height="180" rx="8" fill="rgba(250,247,242,0.8)" />
+        <path d="M20 90 H220 M120 20 V160 M60 40 L180 140 M180 40 L60 140" stroke="currentColor" stroke-width="0.8" opacity="0.22" />
+        <ellipse cx="120" cy="90" rx="70" ry="52" stroke="currentColor" stroke-width="1" fill="none" opacity="0.35" />
+        <ellipse cx="95" cy="75" rx="28" ry="20" stroke="currentColor" stroke-width="0.8" fill="none" opacity="0.2" />
+        <ellipse cx="145" cy="105" rx="32" ry="22" stroke="currentColor" stroke-width="0.8" fill="none" opacity="0.2" />
+        <circle cx="120" cy="90" r="6" fill="currentColor" opacity="0.55" />
+        <circle cx="120" cy="90" r="10" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4" />
+      </svg>
+      <span class="location-map-label">${label}</span>
+      <span class="location-map-caption">${caption}</span>
+    </div>
+  `;
+}
+
+function renderLocationSection() {
+  const loc = sections.location;
+  const header = document.getElementById("location-header");
+  const narrative = document.getElementById("location-narrative");
+  const visual = document.getElementById("location-visual");
+  const advantages = document.getElementById("location-advantages");
+  const thesis = document.getElementById("location-thesis");
+  const revenue = document.getElementById("location-revenue");
+  const footer = document.getElementById("location-footer");
+
+  if (header) {
+    header.innerHTML = `
+      <h2>${loc.headline}</h2>
+      <p class="location-intro">${loc.intro}</p>
+    `;
+  }
+
+  if (narrative) {
+    const paragraphs = loc.narrative.map((p) => `<p>${p}</p>`).join("");
+    narrative.innerHTML = `
+      <div class="location-narrative-body">${paragraphs}</div>
+    `;
+  }
+
+  if (visual) {
+    const photos = loc.visual.images
+      .map(
+        (img) => `
+        <figure class="location-photo">
+          <img src="${img.src}" alt="${img.alt}" loading="lazy" />
+          <figcaption>${img.caption}</figcaption>
+        </figure>
+      `,
+      )
+      .join("");
+
+    visual.innerHTML = `
+      <div class="location-visual-grid">
+        ${photos}
+        ${renderLocationAbstractMap(loc.visual.mapLabel, loc.visual.mapCaption)}
+      </div>
+    `;
+  }
+
+  if (advantages) {
+    advantages.innerHTML = `
+      <span class="location-section-label">${loc.advantagesLabel}</span>
+      <div class="location-advantages-grid">
+        ${loc.advantages
+          .map(
+            (item) => `
+          <article class="location-advantage-card">
+            <span class="location-advantage-icon">${iconMarkup(item.icon)}</span>
+            <h3 class="location-advantage-title">${item.title}</h3>
+            <p class="location-advantage-copy">${item.copy}</p>
+          </article>
+        `,
+          )
+          .join("")}
+      </div>
+    `;
+  }
+
+  if (thesis) {
+    thesis.innerHTML = `
+      <span class="location-thesis-icon">${iconMarkup("location")}</span>
+      <h3 class="location-thesis-title">${loc.thesis.headline}</h3>
+      <p class="location-thesis-copy">${loc.thesis.copy}</p>
+    `;
+  }
+
+  if (revenue) {
+    revenue.innerHTML = `
+      <span class="location-section-label">${loc.revenueLabel}</span>
+      <div class="location-revenue-grid">
+        ${loc.revenueStreams
+          .map(
+            (item) => `
+          <article class="location-revenue-card">
+            <span class="location-revenue-icon">${iconMarkup(item.icon)}</span>
+            <h4 class="location-revenue-title">${item.title}</h4>
+            <p class="location-revenue-copy">${item.copy}</p>
+          </article>
+        `,
+          )
+          .join("")}
+      </div>
+    `;
+  }
+
+  if (footer) {
+    footer.innerHTML = `
+      <span class="location-footer-divider" aria-hidden="true"></span>
+      <span>${loc.footer}</span>
+    `;
+  }
+}
+
 function renderProofGrid() {
   const grid = document.getElementById("proof-grid");
   if (!grid) return;
@@ -1548,11 +1664,11 @@ document.addEventListener("DOMContentLoaded", () => {
   renderPartnershipEcosystemSection();
   renderPipelineSection();
   renderCapitalSection();
+  renderLocationSection();
   renderProofGrid();
   renderRiskGrid();
   renderEvidenceList();
   renderWhatIsSection();
-  renderBulletList("location-highlights", sections.location.highlights);
   initNavToggle();
   initScrollSpy();
   initFooterYear();
