@@ -339,6 +339,142 @@ function renderStatusPill(status, label) {
   return `<span class="receivables-status receivables-status--${status}">${label}</span>`;
 }
 
+let artInventoryFilter = "all";
+
+function artworkMatchesFilter(artwork, filterId) {
+  if (filterId === "all") return true;
+  return artwork.filterTags.includes(filterId);
+}
+
+function renderArtworkImage(artwork) {
+  if (artwork.image) {
+    return `<img src="${artwork.image}" alt="" class="art-inventory-card-image" loading="lazy" />`;
+  }
+  const tone = artwork.placeholderTone || "ivory";
+  return `<div class="art-inventory-card-placeholder art-inventory-card-placeholder--${tone}" aria-hidden="true"><span class="art-inventory-placeholder-mark">${iconMarkup("frame")}</span></div>`;
+}
+
+function renderArtworkStatusPill(status, label) {
+  return `<span class="art-inventory-status art-inventory-status--${status}">${label}</span>`;
+}
+
+function renderArtworkCard(artwork) {
+  const soldFields =
+    artwork.status.startsWith("sold")
+      ? `
+      <div class="art-inventory-card-financials">
+        <div><span class="art-inventory-card-fin-label">Sold Price</span><span class="art-inventory-card-fin-value">${artwork.soldPrice}</span></div>
+        <div><span class="art-inventory-card-fin-label">Collected</span><span class="art-inventory-card-fin-value">${artwork.amountCollected}</span></div>
+        <div><span class="art-inventory-card-fin-label">Balance Due</span><span class="art-inventory-card-fin-value">${artwork.balanceDue}</span></div>
+      </div>
+    `
+      : "";
+
+  return `
+    <article class="art-inventory-card" data-status="${artwork.status}">
+      <div class="art-inventory-card-media">
+        ${renderArtworkImage(artwork)}
+        ${renderArtworkStatusPill(artwork.status, artwork.statusLabel)}
+      </div>
+      <div class="art-inventory-card-body">
+        <p class="art-inventory-card-artist">${artwork.artist}</p>
+        <h3 class="art-inventory-card-title">${artwork.title}</h3>
+        <p class="art-inventory-card-meta">${artwork.type} · ${artwork.medium}</p>
+        <p class="art-inventory-card-meta">${artwork.dimensions} · ${artwork.year}</p>
+        <div class="art-inventory-card-price">
+          <span class="art-inventory-card-price-label">List Price</span>
+          <span class="art-inventory-card-price-value">${artwork.listPrice}</span>
+        </div>
+        ${soldFields}
+      </div>
+    </article>
+  `;
+}
+
+function renderArtInventoryGrid() {
+  const grid = document.getElementById("art-inventory-grid");
+  if (!grid) return;
+  const { artworks } = sections.artInventory;
+  const filtered = artworks.filter((item) => artworkMatchesFilter(item, artInventoryFilter));
+  grid.innerHTML =
+    filtered.length > 0
+      ? filtered.map((item) => renderArtworkCard(item)).join("")
+      : `<p class="art-inventory-empty">No works match this filter. Inventory is tracked across all statuses for investor review.</p>`;
+}
+
+function updateArtInventoryFilterButtons() {
+  const filters = document.getElementById("art-inventory-filters");
+  if (!filters) return;
+  filters.querySelectorAll(".art-inventory-filter").forEach((btn) => {
+    const isActive = btn.dataset.filter === artInventoryFilter;
+    btn.classList.toggle("is-active", isActive);
+    btn.setAttribute("aria-pressed", String(isActive));
+  });
+}
+
+function initArtInventoryFilters() {
+  const filters = document.getElementById("art-inventory-filters");
+  if (!filters) return;
+  filters.addEventListener("click", (event) => {
+    const button = event.target.closest(".art-inventory-filter");
+    if (!button) return;
+    artInventoryFilter = button.dataset.filter;
+    updateArtInventoryFilterButtons();
+    renderArtInventoryGrid();
+  });
+}
+
+function renderArtInventorySection() {
+  const { artInventory } = sections;
+  const header = document.getElementById("art-inventory-header");
+  const metrics = document.getElementById("art-inventory-metrics");
+  const filters = document.getElementById("art-inventory-filters");
+  const note = document.getElementById("art-inventory-note");
+
+  if (header) {
+    header.innerHTML = `
+      <h2>${artInventory.headline}</h2>
+      <p class="art-inventory-intro">${artInventory.intro}</p>
+    `;
+  }
+
+  if (metrics) {
+    metrics.innerHTML = artInventory.metrics
+      .map(
+        (item) => `
+      <div class="art-inventory-metric">
+        <span class="art-inventory-metric-icon">${iconMarkup(item.icon)}</span>
+        <span class="art-inventory-metric-label">${item.label}</span>
+        <span class="art-inventory-metric-value">${formatMetric(item.key)}</span>
+      </div>
+    `,
+      )
+      .join("");
+  }
+
+  if (filters) {
+    filters.innerHTML = artInventory.filters
+      .map(
+        (filter) => `
+      <button type="button" class="art-inventory-filter${filter.active ? " is-active" : ""}" data-filter="${filter.id}" aria-pressed="${filter.active}">
+        ${filter.label}
+      </button>
+    `,
+      )
+      .join("");
+    artInventoryFilter = artInventory.filters.find((f) => f.active)?.id || "all";
+  }
+
+  renderArtInventoryGrid();
+
+  if (note) {
+    note.innerHTML = `
+      <span class="art-inventory-note-icon">${iconMarkup("shield")}</span>
+      <p>${artInventory.note}</p>
+    `;
+  }
+}
+
 function renderReceivablesSection() {
   const { receivables } = sections;
   const breadcrumb = document.getElementById("receivables-breadcrumb");
@@ -630,7 +766,6 @@ function renderTractionSection() {
 
 function renderSectionKpis() {
   const map = {
-    "art-kpis": sections.artInventory.kpis,
     "events-kpis": sections.events.kpis,
     "pipeline-kpis": sections.pipeline.kpis,
     "capital-kpis": sections.capital.kpis,
@@ -893,6 +1028,8 @@ document.addEventListener("DOMContentLoaded", () => {
   renderTractionSection();
   renderFinancialsSection();
   renderReceivablesSection();
+  renderArtInventorySection();
+  initArtInventoryFilters();
   renderEngines();
   renderEventsTable();
   renderPartnersTable();
