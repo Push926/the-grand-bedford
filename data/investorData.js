@@ -106,15 +106,61 @@ export const heroData = {
 
 export const sections = {
   whatIs: {
-    title: "What The Grand Bedford Is",
-    intro:
-      "A street-level cultural venue in Williamsburg, Brooklyn — designed as a living gallery, event platform, and partnership hub.",
-    bullets: [
-      "Gallery retail and consignment art sales",
-      "Curated events, pop-ups, and brand activations",
-      "Wellness and arts programming via House of Beats",
-      "Partnership pipeline with local and national brands",
+    eyebrow: "Overview",
+    title: "What The Grand Bedford Is.",
+    copy: [
+      "The Grand Bedford is a hybrid art gallery, event venue, cultural platform, and brand activation space in Williamsburg, Brooklyn.",
+      "We operate at the intersection of art, community, and commerce — creating meaningful experiences that support artists, engage collectors, welcome partners, and build recurring cultural activity.",
+      "More than a venue, The Grand Bedford is being organized as a living ecosystem for creativity and culture, supported by structured operating data, transparent financial visibility, and a growing pipeline of events and partnerships.",
     ],
+    cards: [
+      {
+        title: "Gallery",
+        description:
+          "Curated exhibitions, artwork inventory, collector relationships, and sales activity.",
+        href: "#art-inventory",
+        icon: "gallery",
+      },
+      {
+        title: "Events",
+        description:
+          "Openings, private events, talks, workshops, dinners, and cultural programming.",
+        href: "#events",
+        icon: "events",
+      },
+      {
+        title: "Partnerships",
+        description:
+          "Brand, hospitality, media, artist, and community collaborations.",
+        href: "#partnerships",
+        icon: "handshake",
+      },
+      {
+        title: "Location",
+        description:
+          "A Williamsburg setting that supports visibility, gathering, and multi-stream revenue.",
+        href: "#location",
+        icon: "location",
+      },
+    ],
+    images: {
+      main: {
+        src: "../assets/Grand_Bedford_Interior.png",
+        alt: "Bright gallery interior with white walls, track lighting, and polished floors",
+      },
+      bottomLeft: {
+        src: "../assets/rsvp-hero-event.png",
+        alt: "Cultural event gathering in a warm, inviting venue space",
+      },
+      bottomRight: {
+        src: "../assets/rsvp-haring-art.png",
+        alt: "Artwork on display in the gallery setting",
+      },
+    },
+    detail: {
+      left: "The Grand Bedford | Williamsburg, Brooklyn",
+      right: "Culture is our foundation. Community is our future.",
+    },
   },
   engines: {
     title: "Four Connected Engines",

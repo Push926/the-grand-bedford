@@ -26,6 +26,16 @@ const ICONS = {
     '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18V6M4 18h16M7 15l3-4 3 2 4-6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   partners:
     '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="16" cy="9" r="2.5" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M4 19c0-3 2.5-5 5-5s5 2 5 5M13 19c0-2.5 1.5-4.5 3.5-4.5S20 16.5 20 19" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>',
+  gallery:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M3 15l5-5 4 4 5-6 4 5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg>',
+  events:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="2.5" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="15" cy="8" r="2.5" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="12" cy="13" r="2.5" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M5 19c0-2 2-3.5 4-3.5M15 19c0-2 2-3.5 4-3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>',
+  handshake:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12l3-2 3 2 2-3 3 1 2 4-4 3-5-1-3-3-1 1Z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/><path d="M8 10V7a2 2 0 114 0v1M14 11V8a2 2 0 114 0v2" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>',
+  location:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.33 6-10a6 6 0 10-12 0c0 4.67 6 10 6 10z" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="12" cy="11" r="2" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>',
+  arrow:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
 };
 
 function iconMarkup(name) {
@@ -231,6 +241,64 @@ function renderBulletList(id, items) {
   el.innerHTML = items.map((item) => `<li>${item}</li>`).join("");
 }
 
+function renderWhatIsSection() {
+  const { whatIs } = sections;
+  const main = document.getElementById("what-is-main");
+  const collage = document.getElementById("what-is-collage");
+  const detail = document.getElementById("what-is-detail");
+
+  if (main) {
+    const paragraphs = whatIs.copy
+      .map((text) => `<p class="what-is-copy">${text}</p>`)
+      .join("");
+    const cards = whatIs.cards
+      .map(
+        (card) => `
+      <a class="what-is-card" href="${card.href}" aria-label="${card.title}: ${card.description}">
+        <span class="what-is-card-icon">${iconMarkup(card.icon)}</span>
+        <span class="what-is-card-title">${card.title}</span>
+        <span class="what-is-card-arrow">${iconMarkup("arrow")}</span>
+      </a>
+    `,
+      )
+      .join("");
+
+    main.innerHTML = `
+      <div class="what-is-text">
+        <span class="what-is-eyebrow">${whatIs.eyebrow}</span>
+        <h2>${whatIs.title}</h2>
+        <span class="what-is-divider" aria-hidden="true"></span>
+        <div class="what-is-body">${paragraphs}</div>
+      </div>
+      <div class="what-is-cards">${cards}</div>
+    `;
+  }
+
+  if (collage) {
+    const { main: mainImg, bottomLeft, bottomRight } = whatIs.images;
+    collage.innerHTML = `
+      <figure class="what-is-collage-main">
+        <img src="${mainImg.src}" alt="${mainImg.alt}" loading="lazy" />
+      </figure>
+      <div class="what-is-collage-bottom">
+        <figure class="what-is-collage-small">
+          <img src="${bottomLeft.src}" alt="${bottomLeft.alt}" loading="lazy" />
+        </figure>
+        <figure class="what-is-collage-small">
+          <img src="${bottomRight.src}" alt="${bottomRight.alt}" loading="lazy" />
+        </figure>
+      </div>
+    `;
+  }
+
+  if (detail) {
+    detail.innerHTML = `
+      <span class="what-is-detail-left">${whatIs.detail.left}</span>
+      <span class="what-is-detail-right">${whatIs.detail.right}</span>
+    `;
+  }
+}
+
 function renderEvidenceList() {
   const grid = document.getElementById("evidence-grid");
   if (!grid) return;
@@ -301,7 +369,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderProofGrid();
   renderRiskGrid();
   renderEvidenceList();
-  renderBulletList("what-is-bullets", sections.whatIs.bullets);
+  renderWhatIsSection();
   renderBulletList("capital-bullets", sections.capital.bullets);
   renderBulletList("location-highlights", sections.location.highlights);
   initNavToggle();
