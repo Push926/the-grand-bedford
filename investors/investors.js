@@ -36,6 +36,14 @@ const ICONS = {
     '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.33 6-10a6 6 0 10-12 0c0 4.67 6 10 6 10z" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="12" cy="11" r="2" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>',
   arrow:
     '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  art:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M4 16l4-4 3 3 5-6 4 5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg>',
+  column:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4h8v3H8zM7 7h10v13H7z" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M9 10h6M9 13h6M9 16h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+  building:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V8l7-4 7 4v12" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/><path d="M9 12h2v3H9zM13 12h2v3h-2zM9 16h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+  shield:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6l8-3z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg>',
 };
 
 function iconMarkup(name) {
@@ -138,22 +146,46 @@ function renderSectionKpis() {
 }
 
 function renderEngines() {
+  const { engines } = sections;
+  const header = document.getElementById("engines-header");
   const grid = document.getElementById("engines-grid");
-  if (!grid) return;
-  grid.innerHTML = sections.engines.items
-    .map(
-      (item) => `
-    <div class="investor-card">
-      <h3>${item.name}</h3>
-      <p>${item.description}</p>
-      <div class="card-metric">
-        <div class="label">${item.metricLabel}</div>
-        <div class="value">${formatMetric(item.metricKey)}</div>
+  const footer = document.getElementById("engines-footer");
+
+  if (header) {
+    header.innerHTML = `
+      <div class="engines-brand-mark">
+        <img src="../assets/logo.png" alt="" width="36" height="36" />
+        <span class="engines-brand-name">${engines.brand}</span>
       </div>
-    </div>
-  `,
-    )
-    .join("");
+      <h2>${engines.headline}</h2>
+      <span class="engines-headline-divider" aria-hidden="true"></span>
+      <p class="engines-intro">${engines.intro}</p>
+    `;
+  }
+
+  if (grid) {
+    grid.innerHTML = engines.items
+      .map(
+        (item) => `
+      <article class="engines-card">
+        <span class="engines-card-icon">${iconMarkup(item.icon)}</span>
+        <span class="engines-card-number">${item.number}</span>
+        <h3>${item.title}</h3>
+        <p>${item.description}</p>
+        <span class="engines-card-divider" aria-hidden="true"></span>
+        <span class="engines-card-label">${item.label}</span>
+      </article>
+    `,
+      )
+      .join("");
+  }
+
+  if (footer) {
+    footer.innerHTML = `
+      <span class="engines-footer-icon">${iconMarkup("shield")}</span>
+      <span>${engines.footer}</span>
+    `;
+  }
 }
 
 function renderEventsTable() {

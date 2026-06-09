@@ -163,34 +163,45 @@ export const sections = {
     },
   },
   engines: {
-    title: "Four Connected Engines",
-    intro: "Each engine reinforces the others — shared foot traffic, shared brand, shared infrastructure.",
+    brand: "The Grand Bedford",
+    headline: "A cultural platform built from four connected engines.",
+    intro:
+      "The Grand Bedford brings together gallery sales, live programming, private events, and strategic partnerships into one organized operating platform.",
     items: [
       {
-        name: "Gallery & Art Sales",
-        description: "Consignment inventory, artist partnerships, and direct sales.",
-        metricKey: "artworkInventoryValue",
-        metricLabel: "Inventory Value",
+        number: "01",
+        title: "Art Sales",
+        description:
+          "Curated exhibitions, artwork inventory, collector relationships, and primary and secondary art sales.",
+        label: "Primary Sales Engine",
+        icon: "art",
       },
       {
-        name: "Events & Activations",
-        description: "Pop-ups, launches, workshops, and private gatherings.",
-        metricKey: "eventExpectedRevenue",
-        metricLabel: "Expected Revenue",
+        number: "02",
+        title: "Events & Programming",
+        description:
+          "Openings, private events, artist talks, workshops, dinners, and cultural programming that build audience and recurring activity.",
+        label: "Recurring Engagement",
+        icon: "column",
       },
       {
-        name: "Partnership Ecosystem",
-        description: "Brand collaborations, sponsorships, and co-marketing.",
-        metricKey: "partnershipPipelineAnnual",
-        metricLabel: "Annual Pipeline",
+        number: "03",
+        title: "Brand Partnerships",
+        description:
+          "Strategic collaborations with aligned brands, hospitality partners, media, artists, and community organizations.",
+        label: "Strategic Upside",
+        icon: "handshake",
       },
       {
-        name: "Capital & Investor Access",
-        description: "Structured capital strategy for growth and scale.",
-        metricKey: "capitalPipeline",
-        metricLabel: "Capital Pipeline",
+        number: "04",
+        title: "Location / Property",
+        description:
+          "A Williamsburg physical platform that supports gallery sales, events, partnerships, and long-term cultural value.",
+        label: "Physical Platform",
+        icon: "building",
       },
     ],
+    footer: "Four engines. One platform. Compounded value.",
   },
   traction: {
     title: "Early Traction",
