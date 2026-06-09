@@ -11,8 +11,8 @@ function formatMetric(key) {
   return typeof val === "number" ? val.toLocaleString() : val;
 }
 
-function parseMetricValue(key) {
-  const val = investorMetrics[key];
+function parseMetricValue(key, rawValue) {
+  const val = rawValue !== undefined ? rawValue : investorMetrics[key];
   if (typeof val === "number") return val;
   if (typeof val !== "string") return 0;
   const cleaned = val.replace(/[$,]/g, "");
@@ -93,6 +93,10 @@ const ICONS = {
     '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="17" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="18" cy="17" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M6 14h4l2-4h4l2 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 10l2-4h3" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>',
   newspaper:
     '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="14" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M8 9h8M8 12h8M8 15h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+  diamond:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10l8-12 8 12-8 12-8-12z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg>',
+  gift:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M12 10v10M4 10h16M12 10c-2 0-3-1.5-3-3.5S10 3 12 3s3 1.5 3 3.5S14 10 12 10z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>',
 };
 
 function iconMarkup(name) {
@@ -778,7 +782,6 @@ function renderTractionSection() {
 
 function renderSectionKpis() {
   const map = {
-    "pipeline-kpis": sections.pipeline.kpis,
     "capital-kpis": sections.capital.kpis,
   };
 
@@ -1110,20 +1113,153 @@ function renderPartnershipEcosystemSection() {
   }
 }
 
-function renderPipelineTable() {
-  const tbody = document.getElementById("pipeline-table-body");
-  if (!tbody) return;
-  tbody.innerHTML = sections.pipeline.stages
-    .map(
-      (s) => `
-    <tr>
-      <td>${s.stage}</td>
-      <td>${s.count}</td>
-      <td>${s.value}</td>
-    </tr>
-  `,
-    )
-    .join("");
+const PIPELINE_STATUS_LABELS = {
+  "in-discussion": "In Discussion",
+  target: "Target",
+  pipeline: "Pipeline",
+  aligned: "Aligned",
+  confirmed: "Confirmed",
+};
+
+function pipelineStatusMarkup(status) {
+  const label = PIPELINE_STATUS_LABELS[status] || status;
+  return `<span class="pipeline-status pipeline-status--${status}">${label}</span>`;
+}
+
+function renderPipelineSection() {
+  const pl = sections.pipeline;
+  const header = document.getElementById("pipeline-header");
+  const kpis = document.getElementById("pipeline-kpis");
+  const table = document.getElementById("pipeline-table");
+  const cards = document.getElementById("pipeline-cards");
+  const methodology = document.getElementById("pipeline-methodology");
+  const viz = document.getElementById("pipeline-viz");
+  const footer = document.getElementById("pipeline-footer");
+
+  if (header) {
+    header.innerHTML = `
+      <h2>${pl.headline}</h2>
+      <p class="pipeline-intro">${pl.intro}</p>
+    `;
+  }
+
+  if (kpis) {
+    kpis.innerHTML = pl.kpis
+      .map(
+        (item) => `
+        <div class="pipeline-kpi-card">
+          <span class="pipeline-kpi-icon">${iconMarkup(item.icon)}</span>
+          <span class="pipeline-kpi-label">${item.label}</span>
+          <span class="pipeline-kpi-value">${formatMetric(item.key)}</span>
+        </div>
+      `,
+      )
+      .join("");
+  }
+
+  if (table) {
+    const headers = pl.tableColumns.map((col) => `<th scope="col">${col.label}</th>`).join("");
+    const rows = pl.rows
+      .map(
+        (row) => `
+        <tr>
+          <td class="pipeline-cell-partner">${row.partner}</td>
+          <td>${row.category}</td>
+          <td>${pipelineStatusMarkup(row.status)}</td>
+          <td class="pipeline-cell-num">${row.oneTime}</td>
+          <td class="pipeline-cell-num">${row.monthly}</td>
+          <td class="pipeline-cell-num">${row.annual}</td>
+          <td class="pipeline-cell-num">${row.probability}</td>
+          <td class="pipeline-cell-num pipeline-cell-weighted">${row.weighted}</td>
+          <td class="pipeline-cell-notes">${row.notes}</td>
+        </tr>
+      `,
+      )
+      .join("");
+
+    table.innerHTML = `
+      <div class="pipeline-table-wrap">
+        <table class="pipeline-table">
+          <thead><tr>${headers}</tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    `;
+  }
+
+  if (cards) {
+    cards.innerHTML = pl.rows
+      .map(
+        (row) => `
+        <article class="pipeline-card">
+          <div class="pipeline-card-top">
+            <div>
+              <h3 class="pipeline-card-partner">${row.partner}</h3>
+              <p class="pipeline-card-category">${row.category}</p>
+            </div>
+            ${pipelineStatusMarkup(row.status)}
+          </div>
+          <dl class="pipeline-card-details">
+            <div><dt>Est. One-Time</dt><dd>${row.oneTime}</dd></div>
+            <div><dt>Est. Monthly</dt><dd>${row.monthly}</dd></div>
+            <div><dt>Est. Annual</dt><dd>${row.annual}</dd></div>
+            <div><dt>Probability</dt><dd>${row.probability}</dd></div>
+            <div><dt>Weighted Value</dt><dd class="pipeline-card-weighted">${row.weighted}</dd></div>
+          </dl>
+          <p class="pipeline-card-notes">${row.notes}</p>
+        </article>
+      `,
+      )
+      .join("");
+  }
+
+  if (methodology) {
+    methodology.innerHTML = `
+      <span class="pipeline-methodology-icon">${iconMarkup("info")}</span>
+      <h3 class="pipeline-methodology-title">${pl.methodology.headline}</h3>
+      <p class="pipeline-methodology-copy">${pl.methodology.copy}</p>
+    `;
+  }
+
+  if (viz) {
+    const maxWeighted = Math.max(
+      ...pl.rows.map((row) => parseMetricValue(undefined, row.weighted)),
+      1,
+    );
+
+    const bars = pl.rows
+      .map((row) => {
+        const val = parseMetricValue(undefined, row.weighted);
+        const pct = Math.round((val / maxWeighted) * 100);
+        return `
+          <div class="pipeline-viz-row">
+            <span class="pipeline-viz-label">${row.partner}</span>
+            <div class="pipeline-viz-track" role="presentation">
+              <div class="pipeline-viz-fill" style="width: ${pct}%"></div>
+            </div>
+            <span class="pipeline-viz-value">${row.weighted}</span>
+          </div>
+        `;
+      })
+      .join("");
+
+    const ariaLabel = pl.rows
+      .map((row) => `${row.partner}: ${row.weighted} weighted value`)
+      .join("; ");
+
+    viz.innerHTML = `
+      <h3 class="pipeline-viz-title">${pl.visualization.title}</h3>
+      <div class="pipeline-viz-chart" role="img" aria-label="${ariaLabel}">${bars}</div>
+      <p class="pipeline-viz-disclaimer">${pl.visualization.disclaimer}</p>
+    `;
+  }
+
+  if (footer) {
+    footer.innerHTML = `
+      <span class="pipeline-footer-icon">${iconMarkup("shield")}</span>
+      <span>${pl.footerNote}</span>
+    `;
+  }
 }
 
 function renderProofGrid() {
@@ -1292,7 +1428,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderEngines();
   renderEventsSection();
   renderPartnershipEcosystemSection();
-  renderPipelineTable();
+  renderPipelineSection();
   renderProofGrid();
   renderRiskGrid();
   renderEvidenceList();
