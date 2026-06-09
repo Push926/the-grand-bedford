@@ -1364,25 +1364,72 @@ export const sections = {
   },
   risk: {
     title: "Risk + Mitigation",
-    intro: "Key risks and how The Grand Bedford addresses them.",
-    items: [
+    headline: "Confidence comes from visibility.",
+    intro:
+      "We believe transparency is a responsibility. We share what we know, how we manage risk, and where we are focused next — so you can invest with clarity.",
+    columns: [
       {
-        risk: "Early-stage revenue concentration",
-        mitigation: "Diversified four-engine model reduces single-stream dependency.",
+        id: "known-risks",
+        title: "Known Risks",
+        icon: "warning",
+        items: [
+          {
+            icon: "calendar",
+            text: "Receivables tracked with due dates. Timing of payments may affect cash flow.",
+          },
+          {
+            icon: "forecast",
+            text: "Events probability-weighted. Demand and attendance carry inherent uncertainty.",
+          },
+          {
+            icon: "balance",
+            text: "Expenses forecast monthly. Operating costs may vary from projections.",
+          },
+        ],
       },
       {
-        risk: "Receivables collection timing",
-        mitigation: "Structured payment terms and active collection process.",
+        id: "active-controls",
+        title: "Active Controls",
+        icon: "shield",
+        items: [
+          {
+            icon: "partners",
+            text: "Partnerships weighted by probability. We assess counterparty reliability and scenario outcomes.",
+          },
+          {
+            icon: "folder",
+            text: "Data room maintained. Key documents organized, current, and accessible.",
+          },
+          {
+            icon: "check",
+            text: "Investor materials updated. Performance, forecasts, and reports kept up to date.",
+          },
+        ],
       },
       {
-        risk: "Market competition in Williamsburg",
-        mitigation: "Unique multi-engine positioning and partnership moat.",
-      },
-      {
-        risk: "Operational scaling",
-        mitigation: "Phased growth plan with capital milestones.",
+        id: "next-improvements",
+        title: "Next Improvements",
+        icon: "trend",
+        items: [
+          {
+            icon: "search",
+            text: "Deeper scenario modeling. Expanding range of outcomes and sensitivities.",
+          },
+          {
+            icon: "grid",
+            text: "Enhanced data integrations. Improving timeliness and granularity of insights.",
+          },
+          {
+            icon: "info",
+            text: "Investor experience enhancements. Making information easier to find and understand.",
+          },
+        ],
       },
     ],
+    footer: {
+      copy: "We don't promise perfection. We promise diligence, discipline, and transparency.",
+      emphasis: "That is how we protect value — together.",
+    },
   },
   inquiry: {
     title: "Continue Diligence / Investor Inquiry",

@@ -107,6 +107,10 @@ const ICONS = {
     '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6h14a2 2 0 012 2v7a2 2 0 01-2 2H10l-5 4v-4H5a2 2 0 01-2-2V8a2 2 0 012-2z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/><path d="M9 11h6M9 14h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
   pen:
     '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18l2-6 9-9 3 3-9 9-6 2 1-1z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/><path d="M13 5l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+  warning:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5l8 14H4L12 5z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/><path d="M12 10v4M12 16h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+  trend:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M8 14l3-3 2 2 4-5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
 };
 
 function iconMarkup(name) {
@@ -1568,20 +1572,55 @@ function renderVisualProofArchiveSection() {
   }
 }
 
-function renderRiskGrid() {
-  const grid = document.getElementById("risk-grid");
-  if (!grid) return;
-  grid.innerHTML = sections.risk.items
-    .map(
-      (item) => `
-    <div class="investor-risk-card">
-      <div class="risk-label">Risk</div>
-      <h3>${item.risk}</h3>
-      <p><strong>Mitigation:</strong> ${item.mitigation}</p>
-    </div>
-  `,
-    )
-    .join("");
+function renderRiskSection() {
+  const risk = sections.risk;
+  const header = document.getElementById("risk-header");
+  const columns = document.getElementById("risk-columns");
+  const footer = document.getElementById("risk-footer");
+
+  if (header) {
+    header.innerHTML = `
+      <span class="risk-flourish" aria-hidden="true">${iconMarkup("diamond")}</span>
+      <h2>${risk.headline}</h2>
+      <p class="risk-intro">${risk.intro}</p>
+    `;
+  }
+
+  if (columns) {
+    columns.innerHTML = risk.columns
+      .map((col) => {
+        const items = col.items
+          .map(
+            (item) => `
+            <li class="risk-item">
+              <span class="risk-item-icon">${iconMarkup(item.icon)}</span>
+              <span class="risk-item-text">${item.text}</span>
+            </li>
+          `,
+          )
+          .join("");
+
+        return `
+          <article class="risk-column" id="${col.id}">
+            <span class="risk-column-icon">${iconMarkup(col.icon)}</span>
+            <h3 class="risk-column-title">${col.title}</h3>
+            <span class="risk-column-divider" aria-hidden="true">${iconMarkup("diamond")}</span>
+            <ul class="risk-items">${items}</ul>
+          </article>
+        `;
+      })
+      .join("");
+  }
+
+  if (footer) {
+    footer.innerHTML = `
+      <span class="risk-footer-icon">${iconMarkup("building")}</span>
+      <div class="risk-footer-copy">
+        <p>${risk.footer.copy}</p>
+        <p class="risk-footer-emphasis">${risk.footer.emphasis}</p>
+      </div>
+    `;
+  }
 }
 
 function renderBulletList(id, items) {
@@ -1803,7 +1842,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderCapitalSection();
   renderLocationSection();
   renderVisualProofArchiveSection();
-  renderRiskGrid();
+  renderRiskSection();
   renderEvidenceSection();
   renderWhatIsSection();
   initNavToggle();
