@@ -46,20 +46,11 @@ export const investorMetrics = {
 
 export const investorNav = [
   { id: "overview", label: "Overview" },
-  { id: "what-is", label: "What It Is" },
-  { id: "engines", label: "Engines" },
-  { id: "traction", label: "Traction" },
   { id: "financials", label: "Financials" },
-  { id: "receivables", label: "Receivables" },
   { id: "art-inventory", label: "Art" },
   { id: "events", label: "Events" },
-  { id: "partnerships", label: "Partners" },
-  { id: "pipeline", label: "Pipeline" },
-  { id: "capital", label: "Capital" },
-  { id: "location", label: "Location" },
-  { id: "evidence", label: "Evidence" },
   { id: "proof", label: "Proof" },
-  { id: "risk", label: "Risk" },
+  { id: "capital", label: "Access" },
 ];
 
 export const heroData = {
@@ -80,8 +71,8 @@ export const heroData = {
     icon: "lock",
   },
   image: {
-    src: "../assets/Grand_Bedford_Interior.png",
-    alt: "The Grand Bedford gallery interior with artwork, sculpture, and branded feature wall",
+    src: "../assets/rsvp-hero-event.png",
+    alt: "Cultural event gathering at The Grand Bedford with warm lighting and active programming",
   },
   kpis: [
     {
@@ -116,7 +107,7 @@ export const heroData = {
     },
   ],
   tagline:
-    "The Grand Bedford | 343 Grand Street, Brooklyn, NY 11211 | Culture. Community. Legacy.",
+    "The Grand Bedford | 165 Bedford Avenue, Brooklyn, NY 11211 | Culture. Community. Legacy.",
 };
 
 export const sections = {
@@ -160,8 +151,8 @@ export const sections = {
     ],
     images: {
       main: {
-        src: "../assets/Grand_Bedford_Interior.png",
-        alt: "Bright gallery interior with white walls, track lighting, and polished floors",
+        src: "../assets/Grand_Bedford_Front-a0e70409-7994-433a-bbf8-5802e04e6e1d.png",
+        alt: "Street-level storefront of The Grand Bedford in Williamsburg, Brooklyn",
       },
       bottomLeft: {
         src: "../assets/rsvp-hero-event.png",
@@ -330,8 +321,8 @@ export const sections = {
       "Forecasts will be updated as verified data replaces dummy data.",
     ],
     download: {
-      label: "Download Full Financial Model",
-      formats: "PNG • PDF • XLSX",
+      label: "Financial model available upon request",
+      href: "mailto:info@thegrandbedford.com?subject=Financial%20Model%20Request",
     },
   },
   receivables: {
@@ -1430,4 +1421,44 @@ export const sections = {
       emphasis: "That is how we protect value — together.",
     },
   },
+};
+
+export const closingData = {
+  eyebrow: "Investor Close",
+  headline: "A cultural platform investors can understand, inspect, and support.",
+  intro:
+    "The Grand Bedford is built on structured operating data, transparent financial visibility, organized proof, and controlled investor access — designed to support clear, confident diligence.",
+  cards: [
+    {
+      icon: "folder",
+      title: "Review Materials",
+      text: "Access structured data, financials, and supporting documents.",
+      href: "#evidence",
+    },
+    {
+      icon: "message",
+      title: "Ask Questions",
+      text: "Get clarity on operations, financials, and investment structure.",
+      href: "mailto:info@thegrandbedford.com?subject=Investor%20Question",
+    },
+    {
+      icon: "phone",
+      title: "Schedule Call",
+      text: "Speak with the team for a private investor-level discussion.",
+      href: "mailto:info@thegrandbedford.com?subject=Investor%20Call%20Request",
+    },
+  ],
+  note: "Confidential information is provided to approved investors only.",
+};
+
+export const footerData = {
+  brand: "The Grand Bedford",
+  location: "Williamsburg, Brooklyn",
+  address: "165 Bedford Avenue, Brooklyn, NY 11211",
+  email: "info@thegrandbedford.com",
+  contactLabel: "Investor Contact",
+  privacyLabel: "Privacy & Access",
+  privacyNote: "Confidential information is provided to approved investors only.",
+  mainSiteHref: "../index.html",
+  mainSiteLabel: "Main Site",
 };

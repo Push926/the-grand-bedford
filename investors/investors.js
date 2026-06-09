@@ -3,6 +3,8 @@ import {
   investorNav,
   heroData,
   sections,
+  closingData,
+  footerData,
 } from "../data/investorData.js";
 
 function formatMetric(key) {
@@ -177,7 +179,9 @@ function renderHero() {
 
   if (heroImage) {
     heroImage.innerHTML = `
-      <img src="${heroData.image.src}" alt="${heroData.image.alt}" />
+      <div class="investor-hero-image-frame">
+        <img src="${heroData.image.src}" alt="${heroData.image.alt}" />
+      </div>
     `;
   }
 
@@ -713,9 +717,9 @@ function renderFinancialsSection() {
         <span class="financials-disclosure-icon">${iconMarkup("info")}</span>
         <span>${financials.disclosures[1]}</span>
       </div>
-      <a class="financials-download" href="#" aria-disabled="true">
+      <a class="financials-download" href="${financials.download.href}">
         <span class="financials-disclosure-icon">${iconMarkup("download")}</span>
-        <span>${financials.download.label} — ${financials.download.formats}</span>
+        <span>${financials.download.label}</span>
       </a>
     `;
   }
@@ -1822,6 +1826,61 @@ function initScrollSpy() {
   });
 }
 
+function renderClosingSection() {
+  const root = document.getElementById("closing-content");
+  if (!root) return;
+
+  const cards = closingData.cards
+    .map(
+      (card) => `
+    <a class="closing-card" href="${card.href}">
+      <span class="closing-card-icon" aria-hidden="true">${iconMarkup(card.icon)}</span>
+      <span class="closing-card-title">${card.title}</span>
+      <span class="closing-card-text">${card.text}</span>
+      <span class="closing-card-arrow" aria-hidden="true">${iconMarkup("arrow")}</span>
+    </a>
+  `,
+    )
+    .join("");
+
+  root.innerHTML = `
+    <div class="closing-inner">
+      <div class="closing-copy">
+        <p class="closing-eyebrow">${closingData.eyebrow}</p>
+        <h2 id="closing-title">${closingData.headline}</h2>
+        <p class="closing-intro">${closingData.intro}</p>
+      </div>
+      <div class="closing-card-grid">${cards}</div>
+      <p class="closing-note">${closingData.note}</p>
+    </div>
+  `;
+}
+
+function renderFooter() {
+  const root = document.getElementById("investor-footer-content");
+  if (!root) return;
+
+  root.innerHTML = `
+    <div class="investor-footer-brand">
+      <img src="../assets/logo.png" alt="" class="investor-footer-mark" width="36" height="36" />
+      <div>
+        <p class="investor-footer-name">${footerData.brand}</p>
+        <p class="investor-footer-location">${footerData.location}</p>
+        <p class="investor-footer-address">${footerData.address}</p>
+      </div>
+    </div>
+    <div class="investor-footer-contact">
+      <p class="investor-footer-label">${footerData.contactLabel}</p>
+      <a href="mailto:${footerData.email}">${footerData.email}</a>
+    </div>
+    <div class="investor-footer-privacy">
+      <p class="investor-footer-label">${footerData.privacyLabel}</p>
+      <p>${footerData.privacyNote}</p>
+      <a href="${footerData.mainSiteHref}">${footerData.mainSiteLabel}</a>
+    </div>
+  `;
+}
+
 function initFooterYear() {
   const yearEl = document.getElementById("investor-year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
@@ -1845,6 +1904,8 @@ document.addEventListener("DOMContentLoaded", () => {
   renderRiskSection();
   renderEvidenceSection();
   renderWhatIsSection();
+  renderClosingSection();
+  renderFooter();
   initNavToggle();
   initScrollSpy();
   initFooterYear();

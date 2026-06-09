@@ -12,12 +12,15 @@
   --inv-bronze-light: #c9ad8a;
   --inv-line: #e8dfd4;
   --inv-line-bronze: rgba(154, 123, 90, 0.35);
-  --inv-shadow-soft: 0 8px 28px rgba(42, 36, 32, 0.06);
-  --inv-shadow-card: 0 12px 32px rgba(42, 36, 32, 0.08);
+  --inv-shadow-soft: 0 10px 32px rgba(42, 36, 32, 0.07);
+  --inv-shadow-card: 0 18px 44px rgba(42, 36, 32, 0.09);
+  --inv-shadow-hero: 0 24px 70px rgba(42, 36, 32, 0.16);
   --inv-radius: 12px;
   --inv-radius-sm: 8px;
   --inv-section-gap: 96px;
   --inv-max: 1140px;
+  --inv-label-size: 0.72rem;
+  --inv-label-tracking: 0.12em;
 }
 
 .investor-page {
@@ -37,17 +40,17 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(250, 247, 242, 0.94);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--inv-line);
+  background: rgba(250, 247, 242, 0.92);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(154, 123, 90, 0.16);
 }
 
 .investor-header-inner {
   display: grid;
-  grid-template-columns: 1fr auto auto;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  gap: 20px;
-  padding: 20px 0 16px;
+  gap: 24px 32px;
+  padding: 18px 0;
 }
 
 .investor-brand {
@@ -57,8 +60,8 @@
 }
 
 .investor-brand-mark {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   object-fit: contain;
   flex-shrink: 0;
 }
@@ -80,22 +83,27 @@
 }
 
 .investor-brand-location {
-  font-size: 0.62rem;
-  letter-spacing: 0.16em;
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--inv-muted);
 }
 
 .investor-portal-label {
-  font-size: 0.68rem;
-  letter-spacing: 0.18em;
+  grid-column: 3;
+  justify-self: end;
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--inv-muted);
   font-weight: 500;
+  white-space: nowrap;
 }
 
 .investor-nav-toggle {
   display: none;
+  grid-column: 3;
+  justify-self: end;
   background: none;
   border: 1px solid var(--inv-line);
   border-radius: var(--inv-radius-sm);
@@ -104,28 +112,31 @@
 }
 
 .investor-nav {
-  grid-column: 1 / -1;
+  grid-column: 2;
   display: flex;
   flex-wrap: wrap;
-  gap: 6px 18px;
-  padding-top: 12px;
-  border-top: 1px solid var(--inv-line);
-  font-size: 0.68rem;
-  letter-spacing: 0.08em;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 6px 22px;
+  padding: 0;
+  border-top: none;
+  font-size: var(--inv-label-size);
+  letter-spacing: var(--inv-label-tracking);
   text-transform: uppercase;
   color: var(--inv-muted);
 }
 
 .investor-nav a {
-  padding: 2px 0;
+  padding: 4px 0;
   border-bottom: 1px solid transparent;
   transition: color 0.2s, border-color 0.2s;
+  font-weight: 500;
 }
 
 .investor-nav a:hover,
 .investor-nav a.is-active {
-  color: var(--inv-bronze);
-  border-bottom-color: var(--inv-bronze-light);
+  color: var(--inv-charcoal);
+  border-bottom-color: var(--inv-bronze);
 }
 
 /* ── Section system ── */
@@ -136,7 +147,11 @@
 }
 
 .investor-section:nth-child(even) {
-  background: rgba(255, 255, 255, 0.45);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(250, 247, 242, 0.2) 100%);
+}
+
+.investor-section + .investor-section {
+  border-top: 1px solid rgba(232, 223, 212, 0.65);
 }
 
 .investor-section-header {
@@ -146,8 +161,8 @@
 
 .investor-section-header .eyebrow {
   display: block;
-  font-size: 0.68rem;
-  letter-spacing: 0.16em;
+  font-size: var(--inv-label-size);
+  letter-spacing: var(--inv-label-tracking);
   text-transform: uppercase;
   color: var(--inv-bronze);
   margin-bottom: 12px;
@@ -155,17 +170,17 @@
 }
 
 .investor-section-header h2 {
-  font-size: clamp(1.9rem, 3.2vw, 2.5rem);
+  font-size: clamp(2rem, 3.4vw, 2.65rem);
   color: var(--inv-charcoal);
   margin-bottom: 16px;
-  line-height: 1.15;
+  line-height: 1.12;
   font-weight: 500;
 }
 
 .investor-section-header .intro {
   color: var(--inv-muted);
-  font-size: 1.02rem;
-  line-height: 1.7;
+  font-size: 1.04rem;
+  line-height: 1.72;
 }
 
 .investor-section-header .divider {
@@ -179,33 +194,34 @@
 /* ── Hero ── */
 
 .investor-hero {
-  padding: 48px 0 56px;
+  padding: 56px 0 64px;
   scroll-margin-top: 0;
-  background: var(--inv-ivory);
+  background: radial-gradient(ellipse at 70% 20%, rgba(243, 237, 228, 0.7) 0%, var(--inv-ivory) 55%);
 }
 
 .investor-hero-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-  gap: 40px 56px;
+  gap: 44px 60px;
   align-items: center;
 }
 
 .investor-hero-content h1 {
-  font-size: clamp(2rem, 3.8vw, 2.85rem);
-  line-height: 1.18;
+  font-size: clamp(2.1rem, 4vw, 3rem);
+  line-height: 1.14;
   color: var(--inv-charcoal);
-  margin-bottom: 24px;
+  margin-bottom: 26px;
   font-weight: 500;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
 }
 
 .investor-hero-content .hero-copy {
-  color: var(--inv-muted);
-  font-size: 0.98rem;
-  line-height: 1.72;
+  color: var(--inv-text);
+  font-size: 1rem;
+  line-height: 1.74;
   margin-bottom: 16px;
-  max-width: 520px;
+  max-width: 540px;
+  opacity: 0.88;
 }
 
 .investor-hero-content .hero-copy:last-of-type {
@@ -220,25 +236,46 @@
 
 .investor-hero-image {
   position: relative;
-  border-radius: var(--inv-radius);
-  overflow: hidden;
-  box-shadow: var(--inv-shadow-card);
 }
 
-.investor-hero-image::after {
+.investor-hero-image-frame {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--inv-shadow-hero);
+}
+
+.investor-hero-image-frame::before {
   content: "";
   position: absolute;
-  inset: 0 auto 0 0;
-  width: 18%;
-  background: linear-gradient(to right, var(--inv-ivory), transparent);
+  inset: -14px;
+  border: 1px solid rgba(154, 123, 90, 0.2);
+  border-radius: 22px;
   pointer-events: none;
+  z-index: 1;
+}
+
+.investor-hero-image-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(42, 36, 32, 0.08) 0%,
+    transparent 45%,
+    rgba(154, 123, 90, 0.06) 100%
+  );
+  pointer-events: none;
+  z-index: 2;
 }
 
 .investor-hero-image img {
   width: 100%;
   aspect-ratio: 5 / 4;
   object-fit: cover;
+  object-position: center 40%;
   display: block;
+  filter: saturate(0.94) contrast(1.04) brightness(0.96);
 }
 
 .investor-hero-kpis {
@@ -246,14 +283,15 @@
 }
 
 .investor-hero-tagline {
-  margin: 36px 0 0;
-  padding-top: 24px;
+  margin: 40px 0 0;
+  padding-top: 26px;
   border-top: 1px solid var(--inv-line-bronze);
   text-align: center;
-  font-size: 0.62rem;
-  letter-spacing: 0.14em;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--inv-muted);
+  line-height: 1.6;
 }
 
 /* ── Section 2: What The Grand Bedford Is ── */
@@ -385,6 +423,8 @@
   margin: 0;
   overflow: hidden;
   border-radius: var(--inv-radius);
+  border: 1px solid rgba(154, 123, 90, 0.14);
+  box-shadow: var(--inv-shadow-soft);
   box-shadow: var(--inv-shadow-soft);
 }
 
@@ -880,16 +920,17 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 18px;
-  border: 1px solid var(--inv-line);
+  padding: 11px 20px;
+  border: 1px solid rgba(154, 123, 90, 0.18);
   border-radius: 999px;
   background: var(--inv-card);
   color: var(--inv-muted);
   font-family: "Inter", sans-serif;
-  font-size: 0.72rem;
+  font-size: 0.76rem;
   letter-spacing: 0.04em;
   cursor: default;
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  box-shadow: 0 2px 8px rgba(42, 36, 32, 0.04);
+  transition: background 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
 
 .financials-toggle-icon {
@@ -1273,10 +1314,13 @@
   justify-self: end;
   color: var(--inv-bronze-light);
   text-decoration: none;
-  font-size: 0.72rem;
+  font-size: 0.76rem;
   letter-spacing: 0.02em;
-  cursor: not-allowed;
-  opacity: 0.9;
+  transition: color 0.2s;
+}
+
+.financials-download:hover {
+  color: #fdf8f3;
 }
 
 /* ── Accounts Receivable / Collections ── */
@@ -4697,22 +4741,36 @@
 }
 
 .investor-kpi-card {
-  background: var(--inv-card);
-  border: 1px solid var(--inv-line);
+  background: linear-gradient(180deg, #ffffff 0%, #fdfbf8 100%);
+  border: 1px solid rgba(154, 123, 90, 0.14);
   border-radius: var(--inv-radius);
   padding: 22px 20px;
   box-shadow: var(--inv-shadow-soft);
-  transition: box-shadow 0.25s, transform 0.2s;
+  transition: box-shadow 0.25s, transform 0.2s, border-color 0.2s;
+  min-height: 120px;
 }
 
 .investor-kpi-card:hover {
   box-shadow: var(--inv-shadow-card);
   transform: translateY(-2px);
+  border-color: rgba(154, 123, 90, 0.28);
 }
 
 .investor-kpi-card--hero {
   text-align: center;
   padding: 28px 16px 24px;
+  position: relative;
+}
+
+.investor-kpi-card--hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 16px;
+  right: 16px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--inv-bronze-light), transparent);
+  border-radius: 2px;
 }
 
 .investor-kpi-card .kpi-icon {
@@ -4728,12 +4786,12 @@
 }
 
 .investor-kpi-card .label {
-  font-size: 0.62rem;
+  font-size: var(--inv-label-size);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--inv-muted);
   margin-bottom: 10px;
-  line-height: 1.35;
+  line-height: 1.4;
 }
 
 .investor-kpi-card .value {
@@ -5055,30 +5113,200 @@
   color: var(--inv-bronze);
 }
 
+/* ── Investor closing layer ── */
+
+.investor-closing {
+  padding: 80px 0 72px;
+  background: linear-gradient(180deg, var(--inv-cream) 0%, var(--inv-ivory) 100%);
+  border-top: 1px solid var(--inv-line-bronze);
+}
+
+.closing-inner {
+  max-width: 920px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.closing-eyebrow {
+  font-size: var(--inv-label-size);
+  letter-spacing: var(--inv-label-tracking);
+  text-transform: uppercase;
+  color: var(--inv-bronze);
+  margin: 0 0 14px;
+  font-weight: 500;
+}
+
+.closing-copy h2 {
+  font-size: clamp(1.85rem, 3.2vw, 2.45rem);
+  color: var(--inv-charcoal);
+  line-height: 1.18;
+  margin: 0 0 18px;
+  font-weight: 500;
+}
+
+.closing-intro {
+  color: var(--inv-muted);
+  font-size: 1.02rem;
+  line-height: 1.72;
+  margin: 0 auto 40px;
+  max-width: 680px;
+}
+
+.closing-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.closing-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 26px 22px;
+  background: var(--inv-card);
+  border: 1px solid rgba(154, 123, 90, 0.16);
+  border-radius: var(--inv-radius);
+  box-shadow: var(--inv-shadow-soft);
+  text-align: left;
+  transition: box-shadow 0.25s, transform 0.2s, border-color 0.2s;
+}
+
+.closing-card:hover {
+  box-shadow: var(--inv-shadow-card);
+  transform: translateY(-2px);
+  border-color: rgba(154, 123, 90, 0.3);
+}
+
+.closing-card-icon {
+  display: flex;
+  color: var(--inv-bronze);
+}
+
+.closing-card-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.closing-card-title {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.25rem;
+  color: var(--inv-charcoal);
+  font-weight: 600;
+}
+
+.closing-card-text {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--inv-muted);
+  flex: 1;
+}
+
+.closing-card-arrow {
+  display: flex;
+  color: var(--inv-bronze);
+  margin-top: 4px;
+}
+
+.closing-card-arrow svg {
+  width: 18px;
+  height: 18px;
+}
+
+.closing-note {
+  font-size: 0.76rem;
+  letter-spacing: 0.06em;
+  color: var(--inv-muted);
+  margin: 0;
+}
+
 /* ── Footer ── */
 
 .investor-footer {
-  padding: 52px 0;
-  border-top: 1px solid var(--inv-line-bronze);
+  padding: 0;
+  border-top: 1px solid rgba(154, 123, 90, 0.2);
   background: var(--inv-charcoal);
-  color: rgba(253, 248, 243, 0.65);
-  font-size: 0.84rem;
+  color: rgba(253, 248, 243, 0.72);
+  font-size: 0.86rem;
 }
 
-.investor-footer .container {
+.investor-footer-inner {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
+  padding: 48px 0 36px;
+  align-items: start;
+}
+
+.investor-footer-brand {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
+  gap: 14px;
+  align-items: flex-start;
 }
 
-.investor-footer a {
-  color: var(--inv-bronze-light);
+.investor-footer-mark {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  flex-shrink: 0;
+  opacity: 0.9;
 }
 
-.investor-footer a:hover {
+.investor-footer-name {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.15rem;
   color: #fdf8f3;
+  margin: 0 0 6px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.investor-footer-location,
+.investor-footer-address {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.55;
+  color: rgba(253, 248, 243, 0.62);
+}
+
+.investor-footer-label {
+  font-size: var(--inv-label-size);
+  letter-spacing: var(--inv-label-tracking);
+  text-transform: uppercase;
+  color: var(--inv-bronze-light);
+  margin: 0 0 10px;
+  font-weight: 500;
+}
+
+.investor-footer-contact a,
+.investor-footer-privacy a {
+  color: var(--inv-bronze-light);
+  text-decoration: none;
+}
+
+.investor-footer-contact a:hover,
+.investor-footer-privacy a:hover {
+  color: #fdf8f3;
+}
+
+.investor-footer-privacy p {
+  margin: 0 0 12px;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: rgba(253, 248, 243, 0.62);
+}
+
+.investor-footer-bottom {
+  padding: 18px 0 28px;
+  border-top: 1px solid rgba(253, 248, 243, 0.08);
+  text-align: center;
+  font-size: 0.78rem;
+  color: rgba(253, 248, 243, 0.5);
+}
+
+.investor-footer-bottom p {
+  margin: 0;
 }
 
 /* ── Two-column layout utility ── */
@@ -5264,6 +5492,15 @@
     gap: 16px;
   }
 
+  .closing-card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .investor-footer-inner {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
   .traction-bar-row {
     grid-template-columns: 110px 1fr auto;
   }
@@ -5272,11 +5509,9 @@
     padding-left: 122px;
   }
 
-  .investor-hero-image::after {
-    width: 100%;
-    height: 20%;
-    inset: auto 0 0 0;
-    background: linear-gradient(to top, var(--inv-ivory), transparent);
+  .investor-hero-image-frame::before {
+    inset: -10px;
+    border-radius: 18px;
   }
 
   .investor-hero-kpis {
@@ -5308,9 +5543,12 @@
     border-bottom: 1px solid var(--inv-line);
     padding: 16px 5%;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
     grid-column: 1 / -1;
+    grid-row: 2;
     border-top: none;
+    justify-content: flex-start;
+    font-size: 0.78rem;
   }
 
   .investor-nav.is-open {
@@ -5341,9 +5579,17 @@
   }
 
   .investor-hero-tagline {
-    font-size: 0.56rem;
+    font-size: 0.62rem;
     letter-spacing: 0.1em;
-    line-height: 1.6;
+    line-height: 1.65;
+  }
+
+  .investor-closing {
+    padding: 56px 0 48px;
+  }
+
+  .closing-card {
+    padding: 22px 18px;
   }
 
   .what-is-cards {

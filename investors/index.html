@@ -3,11 +3,18 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Investor Portal — The Grand Bedford</title>
+    <title>The Grand Bedford Investor Portal</title>
     <meta
       name="description"
-      content="Investor portal for The Grand Bedford — a multi-engine cultural asset in Williamsburg, Brooklyn."
+      content="A private investor overview for The Grand Bedford, a Williamsburg cultural platform combining art, events, partnerships, and structured operating visibility."
     />
+    <meta property="og:title" content="The Grand Bedford Investor Portal" />
+    <meta
+      property="og:description"
+      content="A private investor overview for The Grand Bedford — art, events, partnerships, and structured operating visibility in Williamsburg, Brooklyn."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="../assets/Grand_Bedford_Front-a0e70409-7994-433a-bbf8-5802e04e6e1d.png" />
     <link rel="stylesheet" href="../styles.css" />
     <link rel="stylesheet" href="investors.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="anonymous" />
@@ -248,15 +255,17 @@
 
     </main>
 
-    <!-- 17. Footer -->
-    <footer class="investor-footer">
+    <!-- Investor closing layer -->
+    <section class="investor-closing" id="closing" aria-labelledby="closing-title">
       <div class="container">
+        <div id="closing-content"></div>
+      </div>
+    </section>
+
+    <footer class="investor-footer">
+      <div class="container investor-footer-inner" id="investor-footer-content"></div>
+      <div class="container investor-footer-bottom">
         <p>© <span id="investor-year">2026</span> The Grand Bedford. All rights reserved.</p>
-        <p>
-          <a href="../index.html">Main Site</a>
-          &nbsp;·&nbsp;
-          <a href="mailto:info@thegrandbedford.com">info@thegrandbedford.com</a>
-        </p>
       </div>
     </footer>
 
