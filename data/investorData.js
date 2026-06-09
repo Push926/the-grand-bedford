@@ -48,22 +48,60 @@ export const investorNav = [
 ];
 
 export const heroData = {
-  eyebrow: "Investor Portal",
-  headline: "A Multi-Engine Cultural Asset in Williamsburg",
-  subhead:
-    "The Grand Bedford is a gallery, event venue, and partnership platform — four connected revenue engines under one roof.",
-  primaryCta: { label: "Request Investor Access", href: "#inquiry" },
-  secondaryCta: { label: "View Financial Overview", href: "#financials" },
+  headline:
+    "A cultural platform with real traction, structured growth, and investor-ready transparency.",
+  copy: [
+    "The Grand Bedford is a Williamsburg art gallery, cultural venue, and event platform built around real sales, organized inventory, active receivables, programming, and partnerships.",
+    "This investor portal provides a transparent view of traction, forecasts, operating data, and supporting materials.",
+  ],
+  primaryCta: {
+    label: "Review Financial Snapshot",
+    href: "#financials",
+    icon: "chart",
+  },
+  secondaryCta: {
+    label: "Request Data Room Access",
+    href: "#inquiry",
+    icon: "lock",
+  },
   image: {
-    src: "../assets/Grand_Bedford_Front-a0e70409-7994-433a-bbf8-5802e04e6e1d.png",
-    alt: "The Grand Bedford gallery interior with natural light and hardwood floors",
+    src: "../assets/Grand_Bedford_Interior.png",
+    alt: "The Grand Bedford gallery interior with artwork, sculpture, and branded feature wall",
   },
   kpis: [
-    { label: "12-Month Revenue Forecast", key: "revenueForecast12Month" },
-    { label: "Art Ledger Sales", key: "artLedgerSales" },
-    { label: "Weighted Capital Pipeline", key: "weightedCapitalPipeline" },
-    { label: "Partnership Pipeline (Annual)", key: "partnershipPipelineAnnual" },
+    {
+      label: "Art Ledger Sales",
+      key: "artLedgerSales",
+      footnote: "Gross sales tracked",
+      icon: "frame",
+    },
+    {
+      label: "Collected to Date",
+      key: "amountCollected",
+      footnote: "Verified collected amount",
+      icon: "bank",
+    },
+    {
+      label: "Open Receivables",
+      key: "openReceivables",
+      footnote: "Outstanding balance",
+      icon: "ledger",
+    },
+    {
+      label: "12-Month Revenue Forecast",
+      key: "revenueForecast12Month",
+      footnote: "Projected next 12 months",
+      icon: "forecast",
+    },
+    {
+      label: "Partnership Pipeline",
+      key: "partnershipPipelineAnnual",
+      footnote: "Estimated annual value",
+      icon: "partners",
+    },
   ],
+  tagline:
+    "The Grand Bedford | 343 Grand Street, Brooklyn, NY 11211 | Culture. Community. Legacy.",
 };
 
 export const sections = {

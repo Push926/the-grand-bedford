@@ -1,17 +1,22 @@
-/* Investor portal — extends main site tokens with bronze accent layer */
+/* Investor portal — luxury gallery / data room design system */
 
 :root {
-  --inv-ivory: #f6efe9;
-  --inv-card: #fdf8f3;
-  --inv-charcoal: #2c2622;
-  --inv-text: #3a2f2a;
-  --inv-muted: #7b6f66;
+  --inv-ivory: #faf7f2;
+  --inv-cream: #f3ede4;
+  --inv-card: #ffffff;
+  --inv-charcoal: #2a2420;
+  --inv-text: #3a322c;
+  --inv-muted: #7a6f64;
   --inv-bronze: #9a7b5a;
-  --inv-bronze-light: #c4a882;
-  --inv-line: #e4d9d1;
-  --inv-shadow: 0 18px 36px rgba(44, 38, 34, 0.08);
-  --inv-radius: 14px;
-  --inv-section-gap: 88px;
+  --inv-bronze-dark: #7d6348;
+  --inv-bronze-light: #c9ad8a;
+  --inv-line: #e8dfd4;
+  --inv-line-bronze: rgba(154, 123, 90, 0.35);
+  --inv-shadow-soft: 0 8px 28px rgba(42, 36, 32, 0.06);
+  --inv-shadow-card: 0 12px 32px rgba(42, 36, 32, 0.08);
+  --inv-radius: 12px;
+  --inv-radius-sm: 8px;
+  --inv-section-gap: 96px;
   --inv-max: 1140px;
 }
 
@@ -19,6 +24,11 @@
   background: var(--inv-ivory);
   color: var(--inv-text);
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+.investor-page .container {
+  width: min(1180px, 92%);
 }
 
 /* ── Header / Nav ── */
@@ -27,44 +37,87 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(246, 239, 233, 0.92);
-  backdrop-filter: blur(10px);
+  background: rgba(250, 247, 242, 0.94);
+  backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--inv-line);
 }
 
 .investor-header-inner {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
   align-items: center;
-  justify-content: space-between;
   gap: 20px;
-  padding: 16px 0;
+  padding: 20px 0 16px;
 }
 
-.investor-header .site-logo img {
-  max-width: 120px;
+.investor-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.investor-brand-mark {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.investor-brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.investor-brand-name {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--inv-charcoal);
+  line-height: 1.2;
+}
+
+.investor-brand-location {
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--inv-muted);
+}
+
+.investor-portal-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--inv-muted);
+  font-weight: 500;
 }
 
 .investor-nav-toggle {
   display: none;
   background: none;
   border: 1px solid var(--inv-line);
-  border-radius: 8px;
+  border-radius: var(--inv-radius-sm);
   padding: 8px 10px;
   color: var(--inv-charcoal);
 }
 
 .investor-nav {
+  grid-column: 1 / -1;
   display: flex;
   flex-wrap: wrap;
-  gap: 6px 14px;
-  font-size: 0.72rem;
-  letter-spacing: 0.05em;
+  gap: 6px 18px;
+  padding-top: 12px;
+  border-top: 1px solid var(--inv-line);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--inv-muted);
 }
 
 .investor-nav a {
-  padding: 4px 0;
+  padding: 2px 0;
   border-bottom: 1px solid transparent;
   transition: color 0.2s, border-color 0.2s;
 }
@@ -79,86 +132,84 @@
 
 .investor-section {
   padding: var(--inv-section-gap) 0;
-  scroll-margin-top: 72px;
+  scroll-margin-top: 120px;
 }
 
 .investor-section:nth-child(even) {
-  background: rgba(253, 248, 243, 0.55);
+  background: rgba(255, 255, 255, 0.45);
 }
 
 .investor-section-header {
-  margin-bottom: 36px;
-  max-width: 680px;
+  margin-bottom: 40px;
+  max-width: 720px;
 }
 
 .investor-section-header .eyebrow {
   display: block;
-  font-size: 0.72rem;
-  letter-spacing: 0.14em;
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--inv-bronze);
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   font-weight: 500;
 }
 
 .investor-section-header h2 {
-  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  font-size: clamp(1.9rem, 3.2vw, 2.5rem);
   color: var(--inv-charcoal);
-  margin-bottom: 14px;
+  margin-bottom: 16px;
+  line-height: 1.15;
+  font-weight: 500;
 }
 
 .investor-section-header .intro {
   color: var(--inv-muted);
   font-size: 1.02rem;
-  line-height: 1.65;
+  line-height: 1.7;
 }
 
 .investor-section-header .divider {
   display: block;
-  width: 48px;
-  height: 2px;
+  width: 56px;
+  height: 1px;
   background: var(--inv-bronze-light);
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
 /* ── Hero ── */
 
 .investor-hero {
-  padding: 56px 0 72px;
+  padding: 48px 0 56px;
   scroll-margin-top: 0;
   background: var(--inv-ivory);
 }
 
 .investor-hero-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 48px;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: 40px 56px;
   align-items: center;
 }
 
-.investor-hero-content .eyebrow {
-  display: block;
-  font-size: 0.72rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--inv-bronze);
-  margin-bottom: 14px;
-  font-weight: 500;
-}
-
 .investor-hero-content h1 {
-  font-size: clamp(2.2rem, 4vw, 3.2rem);
-  line-height: 1.08;
+  font-size: clamp(2rem, 3.8vw, 2.85rem);
+  line-height: 1.18;
   color: var(--inv-charcoal);
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
 }
 
-.investor-hero-content .subhead {
+.investor-hero-content .hero-copy {
   color: var(--inv-muted);
-  font-size: 1.05rem;
-  line-height: 1.65;
+  font-size: 0.98rem;
+  line-height: 1.72;
+  margin-bottom: 16px;
+  max-width: 520px;
+}
+
+.investor-hero-content .hero-copy:last-of-type {
   margin-bottom: 32px;
-  max-width: 480px;
 }
 
 .investor-hero-actions {
@@ -168,15 +219,41 @@
 }
 
 .investor-hero-image {
+  position: relative;
   border-radius: var(--inv-radius);
   overflow: hidden;
-  box-shadow: var(--inv-shadow);
+  box-shadow: var(--inv-shadow-card);
+}
+
+.investor-hero-image::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 18%;
+  background: linear-gradient(to right, var(--inv-ivory), transparent);
+  pointer-events: none;
 }
 
 .investor-hero-image img {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 5 / 4;
   object-fit: cover;
+  display: block;
+}
+
+.investor-hero-kpis {
+  margin-top: 40px;
+}
+
+.investor-hero-tagline {
+  margin: 36px 0 0;
+  padding-top: 24px;
+  border-top: 1px solid var(--inv-line-bronze);
+  text-align: center;
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--inv-muted);
 }
 
 /* ── KPI cards ── */
@@ -185,7 +262,11 @@
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 16px;
-  margin-top: 48px;
+}
+
+.investor-hero-kpis {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
 }
 
 .investor-kpi-card {
@@ -193,29 +274,54 @@
   border: 1px solid var(--inv-line);
   border-radius: var(--inv-radius);
   padding: 22px 20px;
-  box-shadow: 0 4px 12px rgba(44, 38, 34, 0.04);
-  transition: box-shadow 0.2s, transform 0.2s;
+  box-shadow: var(--inv-shadow-soft);
+  transition: box-shadow 0.25s, transform 0.2s;
 }
 
 .investor-kpi-card:hover {
-  box-shadow: var(--inv-shadow);
+  box-shadow: var(--inv-shadow-card);
   transform: translateY(-2px);
 }
 
+.investor-kpi-card--hero {
+  text-align: center;
+  padding: 28px 16px 24px;
+}
+
+.investor-kpi-card .kpi-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 14px;
+  color: var(--inv-bronze);
+}
+
+.investor-kpi-card .kpi-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
 .investor-kpi-card .label {
-  font-size: 0.75rem;
-  letter-spacing: 0.04em;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--inv-muted);
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+  line-height: 1.35;
 }
 
 .investor-kpi-card .value {
   font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: 1.75rem;
+  font-size: clamp(1.5rem, 2.5vw, 1.85rem);
   font-weight: 600;
   color: var(--inv-charcoal);
   line-height: 1.1;
+}
+
+.investor-kpi-card .footnote {
+  margin-top: 10px;
+  font-size: 0.68rem;
+  color: var(--inv-muted);
+  letter-spacing: 0.02em;
 }
 
 /* ── Stat grid ── */
@@ -239,30 +345,37 @@
   border: 1px solid var(--inv-line);
   border-radius: var(--inv-radius);
   padding: 28px 24px;
+  box-shadow: var(--inv-shadow-soft);
+  transition: box-shadow 0.25s;
+}
+
+.investor-card:hover {
+  box-shadow: var(--inv-shadow-card);
 }
 
 .investor-card h3 {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   color: var(--inv-charcoal);
   margin-bottom: 10px;
+  font-weight: 500;
 }
 
 .investor-card p {
   color: var(--inv-muted);
   font-size: 0.92rem;
-  line-height: 1.55;
+  line-height: 1.6;
 }
 
 .investor-card .card-metric {
-  margin-top: 18px;
+  margin-top: 20px;
   padding-top: 16px;
   border-top: 1px solid var(--inv-line);
 }
 
 .investor-card .card-metric .label {
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   color: var(--inv-muted);
 }
 
@@ -270,7 +383,7 @@
   font-family: "Cormorant Garamond", Georgia, serif;
   font-size: 1.5rem;
   font-weight: 600;
-  color: var(--inv-bronze);
+  color: var(--inv-bronze-dark);
 }
 
 /* ── Tables ── */
@@ -280,6 +393,7 @@
   border-radius: var(--inv-radius);
   overflow: hidden;
   background: var(--inv-card);
+  box-shadow: var(--inv-shadow-soft);
 }
 
 .investor-table {
@@ -290,15 +404,15 @@
 
 .investor-table th,
 .investor-table td {
-  padding: 14px 18px;
+  padding: 15px 20px;
   text-align: left;
   border-bottom: 1px solid var(--inv-line);
 }
 
 .investor-table th {
-  background: rgba(154, 123, 90, 0.08);
-  font-size: 0.72rem;
-  letter-spacing: 0.06em;
+  background: rgba(154, 123, 90, 0.06);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--inv-muted);
   font-weight: 500;
@@ -308,13 +422,18 @@
   border-bottom: none;
 }
 
+.investor-table tbody tr:hover td {
+  background: rgba(250, 247, 242, 0.6);
+}
+
 .investor-table .status {
   display: inline-block;
-  padding: 3px 10px;
+  padding: 4px 12px;
   border-radius: 20px;
-  font-size: 0.75rem;
-  background: rgba(154, 123, 90, 0.12);
-  color: var(--inv-bronze);
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  background: rgba(154, 123, 90, 0.1);
+  color: var(--inv-bronze-dark);
 }
 
 /* ── Chart / placeholder cards ── */
@@ -323,7 +442,7 @@
   background: var(--inv-card);
   border: 1px solid var(--inv-line);
   border-radius: var(--inv-radius);
-  padding: 32px;
+  padding: 36px;
   min-height: 220px;
   display: flex;
   flex-direction: column;
@@ -332,11 +451,12 @@
   text-align: center;
   color: var(--inv-muted);
   font-size: 0.88rem;
+  box-shadow: var(--inv-shadow-soft);
 }
 
 .investor-chart-card .placeholder-label {
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--inv-bronze);
   margin-bottom: 8px;
@@ -355,6 +475,7 @@
   overflow: hidden;
   background: var(--inv-card);
   border: 1px solid var(--inv-line);
+  box-shadow: var(--inv-shadow-soft);
 }
 
 .investor-proof-card img {
@@ -365,8 +486,9 @@
 
 .investor-proof-card figcaption {
   padding: 14px 18px;
-  font-size: 0.85rem;
+  font-size: 0.84rem;
   color: var(--inv-muted);
+  border-top: 1px solid var(--inv-line);
 }
 
 /* ── Bullet lists ── */
@@ -376,23 +498,24 @@
   padding: 0;
   margin: 0;
   display: grid;
-  gap: 12px;
+  gap: 14px;
 }
 
 .investor-bullet-list li {
-  padding-left: 20px;
+  padding-left: 22px;
   position: relative;
   color: var(--inv-muted);
-  line-height: 1.55;
+  line-height: 1.65;
+  font-size: 0.96rem;
 }
 
 .investor-bullet-list li::before {
   content: "";
   position: absolute;
   left: 0;
-  top: 0.55em;
-  width: 6px;
-  height: 6px;
+  top: 0.6em;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
   background: var(--inv-bronze-light);
 }
@@ -409,112 +532,135 @@
   background: var(--inv-card);
   border: 1px solid var(--inv-line);
   border-radius: var(--inv-radius);
-  padding: 24px;
+  padding: 26px 24px;
+  box-shadow: var(--inv-shadow-soft);
 }
 
 .investor-risk-card .risk-label {
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   color: var(--inv-bronze);
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 .investor-risk-card h3 {
   font-size: 1.05rem;
   color: var(--inv-charcoal);
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+  font-weight: 500;
 }
 
 .investor-risk-card p {
   font-size: 0.88rem;
   color: var(--inv-muted);
-  line-height: 1.55;
+  line-height: 1.6;
 }
 
 /* ── CTA buttons ── */
 
 .investor-cta {
-  display: inline-block;
-  padding: 12px 26px;
-  border-radius: 10px;
-  font-weight: 600;
-  font-size: 0.88rem;
-  letter-spacing: 0.02em;
-  transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 22px;
+  border-radius: var(--inv-radius-sm);
+  font-weight: 500;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.15s, border-color 0.2s;
+}
+
+.investor-cta .cta-icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.investor-cta .cta-icon svg {
+  width: 16px;
+  height: 16px;
 }
 
 .investor-cta.primary {
-  background: var(--inv-charcoal);
+  background: var(--inv-bronze-dark);
   color: #fdf8f3;
-  border: 1px solid var(--inv-charcoal);
-  box-shadow: 0 8px 20px rgba(44, 38, 34, 0.18);
+  border: 1px solid var(--inv-bronze-dark);
+  box-shadow: 0 6px 18px rgba(125, 99, 72, 0.22);
 }
 
 .investor-cta.primary:hover {
-  background: #1e1a17;
+  background: #6b543c;
+  border-color: #6b543c;
   transform: translateY(-1px);
 }
 
 .investor-cta.secondary {
   background: transparent;
-  color: var(--inv-charcoal);
+  color: var(--inv-bronze-dark);
   border: 1px solid var(--inv-bronze-light);
 }
 
 .investor-cta.secondary:hover {
-  background: rgba(154, 123, 90, 0.08);
+  background: rgba(154, 123, 90, 0.06);
+  border-color: var(--inv-bronze);
 }
 
 /* ── Inquiry form ── */
 
 .investor-form {
   display: grid;
-  gap: 16px;
+  gap: 18px;
   max-width: 520px;
 }
 
 .investor-form label {
   display: grid;
-  gap: 6px;
-  font-size: 0.82rem;
+  gap: 7px;
+  font-size: 0.78rem;
   color: var(--inv-muted);
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .investor-form input,
 .investor-form textarea {
-  padding: 12px 14px;
+  padding: 13px 15px;
   border: 1px solid var(--inv-line);
-  border-radius: 8px;
+  border-radius: var(--inv-radius-sm);
   background: var(--inv-card);
   font-family: inherit;
   font-size: 0.95rem;
   color: var(--inv-text);
+  text-transform: none;
+  letter-spacing: normal;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .investor-form input:focus,
 .investor-form textarea:focus {
-  outline: 2px solid rgba(154, 123, 90, 0.35);
-  outline-offset: 1px;
+  outline: none;
+  border-color: var(--inv-bronze-light);
+  box-shadow: 0 0 0 3px rgba(154, 123, 90, 0.12);
 }
 
 /* ── Placeholder blocks ── */
 
 .investor-placeholder {
-  padding: 40px;
-  border: 1px dashed var(--inv-line);
+  padding: 44px;
+  border: 1px dashed var(--inv-line-bronze);
   border-radius: var(--inv-radius);
   text-align: center;
   color: var(--inv-muted);
   font-size: 0.88rem;
-  background: rgba(253, 248, 243, 0.5);
+  background: rgba(255, 255, 255, 0.5);
 }
 
 .investor-placeholder .tag {
   display: inline-block;
-  margin-top: 8px;
-  font-size: 0.7rem;
+  margin-top: 10px;
+  font-size: 0.66rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--inv-bronze);
@@ -523,11 +669,11 @@
 /* ── Footer ── */
 
 .investor-footer {
-  padding: 48px 0;
-  border-top: 1px solid var(--inv-line);
+  padding: 52px 0;
+  border-top: 1px solid var(--inv-line-bronze);
   background: var(--inv-charcoal);
-  color: rgba(253, 248, 243, 0.7);
-  font-size: 0.85rem;
+  color: rgba(253, 248, 243, 0.65);
+  font-size: 0.84rem;
 }
 
 .investor-footer .container {
@@ -551,20 +697,50 @@
 .investor-two-col {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 40px;
+  gap: 44px;
   align-items: start;
 }
 
-/* ── Mobile ── */
+/* ── Tablet ── */
+
+@media (max-width: 1100px) {
+  .investor-hero-kpis {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .investor-hero-kpis .investor-kpi-card:nth-child(4),
+  .investor-hero-kpis .investor-kpi-card:nth-child(5) {
+    grid-column: span 1;
+  }
+}
 
 @media (max-width: 980px) {
   :root {
-    --inv-section-gap: 64px;
+    --inv-section-gap: 72px;
+  }
+
+  .investor-header-inner {
+    grid-template-columns: 1fr auto;
+  }
+
+  .investor-portal-label {
+    justify-self: end;
   }
 
   .investor-hero-grid,
   .investor-two-col {
     grid-template-columns: 1fr;
+  }
+
+  .investor-hero-image::after {
+    width: 100%;
+    height: 20%;
+    inset: auto 0 0 0;
+    background: linear-gradient(to top, var(--inv-ivory), transparent);
+  }
+
+  .investor-hero-kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .investor-kpi-row {
@@ -573,6 +749,13 @@
 
   .investor-nav-toggle {
     display: block;
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+  }
+
+  .investor-portal-label {
+    display: none;
   }
 
   .investor-nav {
@@ -586,6 +769,8 @@
     padding: 16px 5%;
     flex-direction: column;
     gap: 10px;
+    grid-column: 1 / -1;
+    border-top: none;
   }
 
   .investor-nav.is-open {
@@ -594,11 +779,15 @@
 
   .investor-header-inner {
     position: relative;
-    flex-wrap: wrap;
   }
 }
 
 @media (max-width: 640px) {
+  .investor-hero {
+    padding: 32px 0 48px;
+  }
+
+  .investor-hero-kpis,
   .investor-kpi-row {
     grid-template-columns: 1fr;
   }
@@ -608,6 +797,12 @@
   }
 
   .investor-hero-actions .investor-cta {
-    text-align: center;
+    justify-content: center;
+  }
+
+  .investor-hero-tagline {
+    font-size: 0.56rem;
+    letter-spacing: 0.1em;
+    line-height: 1.6;
   }
 }
