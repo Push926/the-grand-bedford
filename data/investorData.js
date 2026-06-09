@@ -574,10 +574,12 @@ export const sections = {
       "Inventory is tracked across sold, available, reserved, and open-balance works to support sales management, collector follow-up, and investor diligence. Public records are redacted to protect artists, collectors, and transaction details.",
   },
   events: {
-    headline: "The space is designed to convert culture into recurring activity.",
-    eyebrow: "A diversified event revenue engine built for Brooklyn's creative economy.",
+    eyebrow: "Events. Programming. Revenue.",
+    headline: "Programming turns the space into a repeatable revenue platform.",
     intro:
-      "A diversified event pipeline designed to support attendance, revenue, partnerships, and collector engagement.",
+      "The Grand Bedford's event strategy is built around repeatable formats rather than one-off activity. Programming is designed to activate the gallery, bring people into the room, create buyer relationships, generate content, support private rentals, and convert attention into revenue opportunities.",
+    thesis:
+      "Events bring people into the room. Follow-up turns the room into revenue.",
     kpis: [
       { label: "Events Tracked", key: "eventsTracked", icon: "calendar", footnote: "This Period" },
       { label: "Expected Attendance", key: "expectedAttendance", icon: "artists", footnote: "Across All Events" },
@@ -613,49 +615,120 @@ export const sections = {
       ],
       note: "Supporting figures are working pipeline estimates for investor diligence.",
     },
-    categoriesDivider: "Diverse format. Recurring demand.",
-    categoriesFormatNote:
-      "Event formats are shown as operating categories. Visuals may include approved photos or conceptual format placeholders.",
-    categories: [
+    proofNote:
+      "Early programming and rental activity has already produced revenue, buyer conversations, artist relationships, content, and private-event interest.",
+    proof: [
       {
-        name: "Private Events",
-        description:
-          "Intimate celebrations, dinners, private gatherings, and hosted experiences.",
-        icon: "handshake",
-        placeholderTone: "slate",
+        label: "Gallery openings",
+        copy: "Early openings and exhibition activity have supported audience development, buyer conversations, content, and follow-up opportunities.",
       },
       {
-        name: "Corporate Events",
-        description: "Panels, offsites, product launches & retreats.",
-        icon: "building",
-        placeholderTone: "ivory",
+        label: "Solo artist shows",
+        copy: "Prior solo exhibition activity has demonstrated the space's ability to host artist-centered programming and gallery sales opportunities.",
       },
       {
-        name: "Paint & Sip",
-        description: "Creative experiences that drive recurring attendance.",
-        icon: "art",
-        image: "../assets/rsvp-hero-event.png",
+        label: "Private / cultural rentals",
+        copy: "The space has already supported private cultural use and rental conversations, demonstrating demand beyond traditional gallery hours.",
       },
       {
-        name: "Brand Activations",
-        description: "Immersive activations that build brand and community.",
-        icon: "partners",
-        placeholderTone: "charcoal",
-      },
-      {
-        name: "Collector Previews",
-        description: "Private previews and curated collector experiences.",
-        icon: "frame",
-        placeholderTone: "bronze",
-      },
-      {
-        name: "Vendor Markets",
-        description: "Curated markets that celebrate local makers.",
-        icon: "events",
-        placeholderTone: "ivory",
+        label: "Content and activation interest",
+        copy: "Photo, content, catered, and brand-style uses are part of the near-term opportunity set for monetizing the space across multiple dayparts.",
       },
     ],
-    footer: "Culture drives people. People drive revenue.",
+    formatsHeadline: "Repeatable revenue formats.",
+    formatsIntro:
+      "Each format is designed with a revenue purpose, owner accountability, and follow-up path — not as isolated programming.",
+    formats: [
+      {
+        title: "Art Sales & Exhibition Events",
+        status: "Active / Repeatable",
+        copy: "Gallery openings, solo artist shows, group exhibitions, artist talks, collector previews, and limited-edition releases create repeated exposure to artists and artwork. These events support buyer conversations, collector relationships, content creation, and art-sales follow-up.",
+        revenueLogic: "Art sales, collector leads, limited editions, private previews",
+        tags: ["Art Sales", "Exhibitions", "Collectors", "Content"],
+      },
+      {
+        title: "Private Rentals & Celebrations",
+        status: "Developing",
+        copy: "The space can support private dinners, birthdays, receptions, founder gatherings, collector salons, cultural celebrations, and small galas. Private rentals create an independent revenue lane while introducing new guests to the gallery and its artwork.",
+        revenueLogic: "Rental fees, staffing / coordination fees, vendor partnerships, art-sale follow-up",
+        tags: ["Rentals", "Private Events", "Hospitality", "Leads"],
+      },
+      {
+        title: "Brand Activations & Sponsorships",
+        status: "Selective / Pipeline",
+        copy: "Brand events may include product launches, lifestyle activations, fashion/art collaborations, sponsored programming, and premium private use where the concept fits the gallery's identity. Management should preserve brand discipline and avoid commercial uses that dilute the room.",
+        discipline: "Not every dollar is worth taking if it damages the room.",
+        revenueLogic: "Activation fees, sponsorship, content value, private dinners",
+        tags: ["Brands", "Sponsorship", "Activations", "Content"],
+      },
+      {
+        title: "Content, Podcast, Photo & Video Rentals",
+        status: "Pipeline / Low-Overhead",
+        copy: "The front gallery's natural light and visual character can support podcast sessions, interviews, photo shoots, video shoots, product content, and creator rentals during non-event hours. This creates a potential low-overhead revenue lane while introducing creators, brands, and media professionals to the space.",
+        revenueLogic: "Hourly rentals, session packages, production add-ons, repeat creator use",
+        tags: ["Content", "Photo / Video", "Podcast", "Daytime Use"],
+      },
+      {
+        title: "Elevated Art-Social Programming",
+        status: "Planned / Repeatable",
+        copy: "Artist-led creative sessions, guided painting evenings, private creative events, drawing classes, and group art experiences can create recurring ticket revenue while introducing new guests to the space. The format should feel elevated and gallery-appropriate, not generic.",
+        revenueLogic: "Tickets, private group bookings, corporate sessions, food/beverage partner upside",
+        tags: ["Workshops", "Tickets", "Community", "Repeat Attendance"],
+      },
+      {
+        title: "Hospitality, Food & Beverage Partner Events",
+        status: "Partner-Based",
+        copy: "Chef dinners, catered events, coffee or juice collaborations, food partners, and vendor-supported hospitality can improve guest experience and support event economics without The Grand Bedford operating as a restaurant or bar.",
+        compliance:
+          "Food and beverage should be handled through compliant outside partners where applicable.",
+        revenueLogic: "Vendor fees, revenue share, rental premium, guest experience, sponsor value",
+        tags: ["Hospitality", "Food Partners", "Vendors", "Events"],
+      },
+      {
+        title: "Outdoor / Backyard Programming",
+        status: "Phased / Subject to Approvals",
+        copy: "As the rear outdoor area becomes usable, the backyard may support garden events, food truck partnerships, picnic-table formats, outdoor painting, wellness mornings, family programming, private gatherings, and seasonal activations. This should be activated in phases and remain subject to permitting, buildout, insurance, and operating approvals.",
+        revenueLogic: "Tickets, vendor fees, private rentals, seasonal events, sponsorship",
+        tags: ["Outdoor", "Backyard", "Food Trucks", "Seasonal"],
+      },
+    ],
+    workflowHeadline: "From event activity to measurable follow-up.",
+    workflowIntro:
+      "Each major event should have an owner, a revenue purpose, a follow-up path, and a simple post-event record. The goal is to turn programming into measurable sales, rental, sponsorship, and patron opportunities.",
+    workflow: [
+      {
+        step: "Program",
+        copy: "Define event format, audience, owner, and revenue purpose.",
+      },
+      {
+        step: "Capture",
+        copy: "Collect attendance, contacts, photos, inquiries, and partner notes.",
+      },
+      {
+        step: "Follow Up",
+        copy: "Route buyers, private-event leads, sponsors, and collectors to the right owner.",
+      },
+      {
+        step: "Report",
+        copy: "Track revenue, costs, deposits, balances, attendance, and conversion notes.",
+      },
+      {
+        step: "Repeat",
+        copy: "Use results to improve pricing, calendar rhythm, staffing, and partner selection.",
+      },
+    ],
+    systemsNote: {
+      title: "Event operations are being systematized.",
+      copy: "The operating model is designed around practical systems: master calendar, event owner, vendor records, sales and patron follow-up, event profitability tracking, payment tracking, and monthly reporting. This allows programming to be measured, improved, and connected back to the broader revenue model.",
+    },
+    hospitalityNote: {
+      title: "Hospitality through outside partners.",
+      copy: "Food, beverage, and alcohol-related event elements should be handled case-by-case through compliant outside partners, including chefs, caterers, vendors, food trucks, restaurants, licensed caterers, authorized bartenders, or properly licensed event partners where applicable. This allows the space to offer elevated hospitality experiences while reducing regulatory and operational complexity.",
+    },
+    footerLink: {
+      label: "Review Event Proof",
+      href: "#proof",
+    },
   },
   partnerships: {
     title: "Partnership Ecosystem",

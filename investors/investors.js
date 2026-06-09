@@ -1045,22 +1045,54 @@ function renderRevenueStreamChart(chart) {
   `;
 }
 
+function renderEventsFormatCard(format) {
+  const discipline = format.discipline
+    ? `<p class="events-format-discipline">${format.discipline}</p>`
+    : "";
+  const compliance = format.compliance
+    ? `<p class="events-format-compliance">${format.compliance}</p>`
+    : "";
+  const tags = format.tags
+    .map((tag) => `<span class="events-format-tag">${tag}</span>`)
+    .join("");
+
+  return `
+    <article class="events-format-card">
+      <span class="events-format-status">${format.status}</span>
+      <h3 class="events-format-title">${format.title}</h3>
+      <p class="events-format-copy">${format.copy}</p>
+      ${discipline}
+      ${compliance}
+      <p class="events-revenue-logic"><span>Revenue logic:</span> ${format.revenueLogic}</p>
+      <div class="events-format-tags" aria-label="Format tags">${tags}</div>
+    </article>
+  `;
+}
+
 function renderEventsSection() {
   const { events } = sections;
   const header = document.getElementById("events-header");
+  const thesis = document.getElementById("events-thesis");
   const chart = document.getElementById("events-chart");
   const kpis = document.getElementById("events-kpis");
   const supporting = document.getElementById("events-supporting");
-  const divider = document.getElementById("events-categories-divider");
-  const categories = document.getElementById("events-categories");
+  const proof = document.getElementById("events-proof");
+  const formatsHeader = document.getElementById("events-formats-header");
+  const formats = document.getElementById("events-formats");
+  const workflow = document.getElementById("events-workflow");
+  const notes = document.getElementById("events-notes");
   const footer = document.getElementById("events-footer");
 
   if (header) {
     header.innerHTML = `
-      <h2>${events.headline}</h2>
       <p class="events-eyebrow">${events.eyebrow}</p>
+      <h2 id="events-title">${events.headline}</h2>
       <p class="events-intro">${events.intro}</p>
     `;
+  }
+
+  if (thesis && events.thesis) {
+    thesis.innerHTML = `<p class="events-thesis">${events.thesis}</p>`;
   }
 
   if (chart) {
@@ -1100,37 +1132,84 @@ function renderEventsSection() {
     `;
   }
 
-  if (divider) {
-    divider.innerHTML = `<span>${events.categoriesDivider}</span>`;
-  }
-
-  const categoriesNote = document.getElementById("events-categories-note");
-  if (categoriesNote && events.categoriesFormatNote) {
-    categoriesNote.innerHTML = `<p>${events.categoriesFormatNote}</p>`;
-  }
-
-  if (categories) {
-    categories.innerHTML = events.categories
+  if (proof && events.proof?.length) {
+    const cards = events.proof
       .map(
-        (cat) => `
-      <article class="events-category-card">
-        <div class="events-category-media">${renderEventCategoryImage(cat)}</div>
-        <div class="events-category-body">
-          <span class="events-category-icon">${iconMarkup(cat.icon)}</span>
-          <h3 class="events-category-name">${cat.name}</h3>
-          <p class="events-category-desc">${cat.description}</p>
-        </div>
+        (item) => `
+      <article class="events-proof-card">
+        <h4 class="events-proof-label">${item.label}</h4>
+        <p class="events-proof-copy">${item.copy}</p>
       </article>
     `,
       )
       .join("");
+    const narrative = events.proofNote
+      ? `<p class="events-proof-narrative">${events.proofNote}</p>`
+      : "";
+    proof.innerHTML = `
+      <div class="events-proof-grid">${cards}</div>
+      ${narrative}
+    `;
   }
 
-  if (footer) {
-    footer.innerHTML = `
-      <span class="events-footer-icon">${iconMarkup("shield")}</span>
-      <span>${events.footer}</span>
+  if (formatsHeader) {
+    formatsHeader.innerHTML = `
+      <h3>${events.formatsHeadline}</h3>
+      <p>${events.formatsIntro}</p>
     `;
+  }
+
+  if (formats) {
+    formats.innerHTML = events.formats.map(renderEventsFormatCard).join("");
+  }
+
+  if (workflow && events.workflow?.length) {
+    const steps = events.workflow
+      .map(
+        (item, index) => `
+      <article class="events-workflow-step">
+        <span class="events-workflow-step-num">${index + 1}</span>
+        <h4 class="events-workflow-step-title">${item.step}</h4>
+        <p class="events-workflow-step-copy">${item.copy}</p>
+      </article>
+    `,
+      )
+      .join("");
+    workflow.innerHTML = `
+      <header class="events-workflow-header">
+        <h3>${events.workflowHeadline}</h3>
+        <p>${events.workflowIntro}</p>
+      </header>
+      <div class="events-workflow-steps">${steps}</div>
+    `;
+  }
+
+  if (notes) {
+    const systems = events.systemsNote
+      ? `
+      <article class="events-systems-note">
+        <h4>${events.systemsNote.title}</h4>
+        <p>${events.systemsNote.copy}</p>
+      </article>
+    `
+      : "";
+    const hospitality = events.hospitalityNote
+      ? `
+      <article class="events-compliance-note">
+        <h4>${events.hospitalityNote.title}</h4>
+        <p>${events.hospitalityNote.copy}</p>
+      </article>
+    `
+      : "";
+    notes.innerHTML = `${systems}${hospitality}`;
+  }
+
+  if (footer && events.footerLink) {
+    footer.innerHTML = `
+      <a class="events-footer-link" href="${events.footerLink.href}">${events.footerLink.label}</a>
+    `;
+  } else if (footer) {
+    footer.innerHTML = "";
   }
 }
 
