@@ -3233,6 +3233,392 @@
   height: 14px;
 }
 
+/* ── Investor Access / Capital Strategy ── */
+
+.capital-section {
+  background: var(--inv-ivory);
+}
+
+.capital-header {
+  max-width: 720px;
+  margin-bottom: 28px;
+}
+
+.capital-badge {
+  display: inline-block;
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--inv-bronze-dark);
+  border: 1px solid var(--inv-bronze-light);
+  border-radius: 999px;
+  padding: 5px 12px;
+  margin-bottom: 14px;
+  font-weight: 500;
+}
+
+.capital-header h2 {
+  font-size: clamp(1.9rem, 3.2vw, 2.55rem);
+  line-height: 1.2;
+  color: var(--inv-charcoal);
+  margin: 0 0 16px;
+  font-weight: 500;
+}
+
+.capital-headline-emphasis {
+  font-style: italic;
+  color: var(--inv-bronze-dark);
+  font-weight: 500;
+}
+
+.capital-intro {
+  color: var(--inv-muted);
+  font-size: 0.98rem;
+  line-height: 1.75;
+  margin: 0;
+}
+
+.capital-metrics-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.capital-metrics-label {
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--inv-muted);
+  font-weight: 500;
+}
+
+.capital-metrics-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--inv-bronze-dark);
+  font-weight: 500;
+}
+
+.capital-metrics-lock {
+  display: flex;
+  color: var(--inv-bronze);
+}
+
+.capital-metrics-lock svg {
+  width: 12px;
+  height: 12px;
+}
+
+.capital-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 36px;
+}
+
+.capital-kpi-card {
+  background: var(--inv-card);
+  border: 1px solid var(--inv-line);
+  border-radius: var(--inv-radius);
+  padding: 22px 18px 20px;
+  box-shadow: var(--inv-shadow-soft);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+}
+
+.capital-kpi-icon {
+  display: flex;
+  color: var(--inv-bronze);
+}
+
+.capital-kpi-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.capital-kpi-label {
+  font-size: 0.56rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--inv-muted);
+  line-height: 1.4;
+}
+
+.capital-kpi-value {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.65rem;
+  font-weight: 600;
+  color: var(--inv-charcoal);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.capital-main {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 28px;
+  align-items: start;
+  margin-bottom: 36px;
+}
+
+.capital-overview {
+  background: var(--inv-card);
+  border: 1px solid var(--inv-line);
+  border-radius: var(--inv-radius);
+  padding: 28px 26px;
+  box-shadow: var(--inv-shadow-soft);
+}
+
+.capital-overview-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--inv-charcoal);
+  margin: 0 0 12px;
+  line-height: 1.35;
+}
+
+.capital-overview-copy {
+  font-size: 0.84rem;
+  line-height: 1.7;
+  color: var(--inv-muted);
+  margin: 0 0 22px;
+}
+
+.capital-principles {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.capital-principle {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.capital-principle-icon {
+  display: flex;
+  flex-shrink: 0;
+  color: var(--inv-bronze);
+  margin-top: 2px;
+}
+
+.capital-principle-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.capital-principle-title {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--inv-charcoal);
+  margin-bottom: 4px;
+}
+
+.capital-principle-copy {
+  font-size: 0.76rem;
+  line-height: 1.55;
+  color: var(--inv-muted);
+  margin: 0;
+}
+
+.capital-timeline-wrap {
+  background: var(--inv-card);
+  border: 1px solid var(--inv-line);
+  border-radius: var(--inv-radius);
+  padding: 26px 22px 24px;
+  box-shadow: var(--inv-shadow-soft);
+}
+
+.capital-timeline-label {
+  display: block;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--inv-muted);
+  margin-bottom: 22px;
+  font-weight: 500;
+}
+
+.capital-timeline-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 18px 12px;
+  position: relative;
+}
+
+.capital-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.capital-step-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.capital-step-num {
+  font-size: 0.56rem;
+  letter-spacing: 0.1em;
+  color: var(--inv-bronze-dark);
+  font-weight: 500;
+}
+
+.capital-step-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--inv-bronze-light);
+  color: var(--inv-bronze);
+  background: var(--inv-ivory);
+}
+
+.capital-step-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.capital-step-title {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--inv-charcoal);
+  margin: 0 0 4px;
+  letter-spacing: 0.02em;
+}
+
+.capital-step-copy {
+  font-size: 0.68rem;
+  line-height: 1.5;
+  color: var(--inv-muted);
+  margin: 0;
+}
+
+.capital-materials {
+  margin-bottom: 32px;
+}
+
+.capital-materials-label {
+  display: block;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--inv-muted);
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+
+.capital-materials-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.capital-material-card {
+  background: var(--inv-card);
+  border: 1px solid var(--inv-line);
+  border-radius: var(--inv-radius);
+  padding: 22px 18px;
+  box-shadow: var(--inv-shadow-soft);
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.25s, transform 0.2s, border-color 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.capital-material-card:hover {
+  box-shadow: var(--inv-shadow-card);
+  transform: translateY(-2px);
+  border-color: var(--inv-bronze-light);
+}
+
+.capital-material-icon {
+  display: flex;
+  color: var(--inv-bronze);
+}
+
+.capital-material-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.capital-material-title {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--inv-charcoal);
+  margin: 0;
+}
+
+.capital-material-copy {
+  font-size: 0.74rem;
+  line-height: 1.55;
+  color: var(--inv-muted);
+  margin: 0;
+}
+
+.capital-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding-top: 8px;
+}
+
+.capital-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.capital-security {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--inv-muted);
+}
+
+.capital-security-icon {
+  display: flex;
+  color: var(--inv-bronze);
+}
+
+.capital-security-icon svg {
+  width: 14px;
+  height: 14px;
+}
+
 /* ── KPI cards ── */
 
 .investor-kpi-row {
@@ -3804,6 +4190,22 @@
     grid-template-columns: 1fr;
   }
 
+  .capital-kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .capital-main {
+    grid-template-columns: 1fr;
+  }
+
+  .capital-timeline-steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .capital-materials-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .traction-bar-row {
     grid-template-columns: 110px 1fr auto;
   }
@@ -4238,6 +4640,74 @@
 
   .pipeline-footer {
     font-size: 0.68rem;
+    padding: 0 4px;
+  }
+
+  .capital-header {
+    margin-bottom: 20px;
+  }
+
+  .capital-kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .capital-kpi-card {
+    padding: 18px 14px;
+  }
+
+  .capital-kpi-value {
+    font-size: 1.4rem;
+  }
+
+  .capital-main {
+    margin-bottom: 24px;
+    gap: 16px;
+  }
+
+  .capital-overview,
+  .capital-timeline-wrap {
+    padding: 22px 18px;
+  }
+
+  .capital-timeline-steps {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .capital-step {
+    flex-direction: row;
+    align-items: flex-start;
+    text-align: left;
+    gap: 14px;
+  }
+
+  .capital-step-marker {
+    flex-shrink: 0;
+  }
+
+  .capital-materials {
+    margin-bottom: 24px;
+  }
+
+  .capital-materials-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .capital-ctas {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .capital-ctas .investor-cta {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .capital-security {
+    text-align: center;
     padding: 0 4px;
   }
 }

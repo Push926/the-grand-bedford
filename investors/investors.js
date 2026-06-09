@@ -97,6 +97,16 @@ const ICONS = {
     '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10l8-12 8 12-8 12-8-12z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg>',
   gift:
     '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M12 10v10M4 10h16M12 10c-2 0-3-1.5-3-3.5S10 3 12 3s3 1.5 3 3.5S14 10 12 10z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>',
+  phone:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 4h3l2 5-2.5 1.5a11 11 0 005 5L14 13l5 2v3a2 2 0 01-2 2C9.5 20 4 14.5 4 8.5A2 2 0 016.5 4z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg>',
+  search:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M16 16l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+  folder:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h6l2 2h8v10H4V7z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg>',
+  message:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6h14a2 2 0 012 2v7a2 2 0 01-2 2H10l-5 4v-4H5a2 2 0 01-2-2V8a2 2 0 012-2z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/><path d="M9 11h6M9 14h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+  pen:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18l2-6 9-9 3 3-9 9-6 2 1-1z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/><path d="M13 5l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
 };
 
 function iconMarkup(name) {
@@ -780,14 +790,123 @@ function renderTractionSection() {
   }
 }
 
-function renderSectionKpis() {
-  const map = {
-    "capital-kpis": sections.capital.kpis,
-  };
+function renderCapitalSection() {
+  const cap = sections.capital;
+  const header = document.getElementById("capital-header");
+  const metricsHeader = document.getElementById("capital-metrics-header");
+  const kpis = document.getElementById("capital-kpis");
+  const overview = document.getElementById("capital-overview");
+  const timeline = document.getElementById("capital-timeline");
+  const materials = document.getElementById("capital-materials");
+  const actions = document.getElementById("capital-actions");
 
-  Object.entries(map).forEach(([id, kpis]) => {
-    renderKpiRow(document.getElementById(id), kpis);
-  });
+  if (header) {
+    header.innerHTML = `
+      <span class="capital-badge">${cap.badge}</span>
+      <h2>${cap.headline} <em class="capital-headline-emphasis">${cap.headlineEmphasis}</em></h2>
+      <p class="capital-intro">${cap.intro}</p>
+    `;
+  }
+
+  if (metricsHeader) {
+    metricsHeader.innerHTML = `
+      <span class="capital-metrics-label">${cap.metricsLabel}</span>
+      <span class="capital-metrics-note">
+        <span class="capital-metrics-lock">${iconMarkup("lock")}</span>
+        ${cap.metricsNote}
+      </span>
+    `;
+  }
+
+  if (kpis) {
+    kpis.innerHTML = cap.kpis
+      .map(
+        (item) => `
+        <div class="capital-kpi-card">
+          <span class="capital-kpi-icon">${iconMarkup(item.icon)}</span>
+          <span class="capital-kpi-label">${item.label}</span>
+          <span class="capital-kpi-value">${formatMetric(item.key)}</span>
+        </div>
+      `,
+      )
+      .join("");
+  }
+
+  if (overview) {
+    const principles = cap.overview.principles
+      .map(
+        (item) => `
+        <li class="capital-principle">
+          <span class="capital-principle-icon">${iconMarkup(item.icon)}</span>
+          <div>
+            <span class="capital-principle-title">${item.title}</span>
+            <p class="capital-principle-copy">${item.copy}</p>
+          </div>
+        </li>
+      `,
+      )
+      .join("");
+
+    overview.innerHTML = `
+      <h3 class="capital-overview-title">${cap.overview.headline}</h3>
+      <p class="capital-overview-copy">${cap.overview.copy}</p>
+      <ul class="capital-principles">${principles}</ul>
+    `;
+  }
+
+  if (timeline) {
+    const steps = cap.timeline
+      .map(
+        (item) => `
+        <li class="capital-step">
+          <div class="capital-step-marker">
+            <span class="capital-step-num">${String(item.step).padStart(2, "0")}</span>
+            <span class="capital-step-icon">${iconMarkup(item.icon)}</span>
+          </div>
+          <div class="capital-step-body">
+            <h4 class="capital-step-title">${item.title}</h4>
+            <p class="capital-step-copy">${item.copy}</p>
+          </div>
+        </li>
+      `,
+      )
+      .join("");
+
+    timeline.innerHTML = `
+      <span class="capital-timeline-label">${cap.timelineLabel}</span>
+      <ol class="capital-timeline-steps" aria-label="${cap.timelineLabel}">${steps}</ol>
+    `;
+  }
+
+  if (materials) {
+    materials.innerHTML = `
+      <span class="capital-materials-label">${cap.materialsLabel}</span>
+      <div class="capital-materials-grid">
+        ${cap.materials
+          .map(
+            (item) => `
+          <a class="capital-material-card" href="${item.href}">
+            <span class="capital-material-icon">${iconMarkup(item.icon)}</span>
+            <h4 class="capital-material-title">${item.title}</h4>
+            <p class="capital-material-copy">${item.copy}</p>
+          </a>
+        `,
+          )
+          .join("")}
+      </div>
+    `;
+  }
+
+  if (actions) {
+    const ctas = cap.ctas.map((cta) => renderCtaButton(cta, cta.variant)).join("");
+    actions.innerHTML = `
+      <div class="capital-ctas">${ctas}</div>
+      <span class="capital-security">
+        <span class="capital-security-icon">${iconMarkup("shield")}</span>
+        ${cap.securityNote}
+      </span>
+    `;
+  }
 }
 
 function renderEngines() {
@@ -1419,7 +1538,6 @@ function initFooterYear() {
 document.addEventListener("DOMContentLoaded", () => {
   renderNav();
   renderHero();
-  renderSectionKpis();
   renderTractionSection();
   renderFinancialsSection();
   renderReceivablesSection();
@@ -1429,11 +1547,11 @@ document.addEventListener("DOMContentLoaded", () => {
   renderEventsSection();
   renderPartnershipEcosystemSection();
   renderPipelineSection();
+  renderCapitalSection();
   renderProofGrid();
   renderRiskGrid();
   renderEvidenceList();
   renderWhatIsSection();
-  renderBulletList("capital-bullets", sections.capital.bullets);
   renderBulletList("location-highlights", sections.location.highlights);
   initNavToggle();
   initScrollSpy();

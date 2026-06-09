@@ -29,6 +29,8 @@ export const investorMetrics = {
   weightedPartnershipPipeline: "$142.475K",
   capitalPipeline: "$2.475M",
   weightedCapitalPipeline: "$391.25K",
+  capitalSoftCommitments: "$0",
+  capitalHardCommitments: "$0",
   may2026Actual: "$50.5K",
   june2026Actual: "$69K",
   expenseForecast12Month: "$2.432M",
@@ -935,16 +937,143 @@ export const sections = {
   },
   capital: {
     title: "Investor Access / Capital Strategy",
-    intro: "Structured approach to growth capital and investor participation.",
+    badge: "Private Diligence Path",
+    headline: "Investor access is",
+    headlineEmphasis: "structured and controlled.",
+    intro:
+      "Our capital strategy is designed with discipline, transparency, and long-term alignment. Access to confidential materials is granted intentionally, to the right partners, at the right time.",
+    metricsLabel: "Capital Pipeline Summary",
+    metricsNote: "Confidential",
     kpis: [
-      { label: "Capital Pipeline", key: "capitalPipeline" },
-      { label: "Weighted Pipeline", key: "weightedCapitalPipeline" },
+      {
+        label: "Potential Capital Pipeline",
+        key: "capitalPipeline",
+        icon: "lock",
+      },
+      {
+        label: "Weighted Capital Pipeline",
+        key: "weightedCapitalPipeline",
+        icon: "lock",
+      },
+      {
+        label: "Soft Commitments",
+        key: "capitalSoftCommitments",
+        icon: "lock",
+      },
+      {
+        label: "Hard Commitments",
+        key: "capitalHardCommitments",
+        icon: "lock",
+      },
     ],
-    bullets: [
-      "Phase 1: Operational proof and revenue validation",
-      "Phase 2: Gallery expansion and inventory scale",
-      "Phase 3: Multi-venue partnership platform",
+    overview: {
+      headline: "A controlled path from interest to diligence.",
+      copy: "The investor process is designed to protect confidential materials while giving serious investors a clear path to understand the business, review supporting documents, ask questions, and evaluate potential participation.",
+      principles: [
+        {
+          icon: "lock",
+          title: "Controlled Access",
+          copy: "Confidential materials are shared with approved investors only.",
+        },
+        {
+          icon: "ledger",
+          title: "Organized Diligence",
+          copy: "Financials, pipeline data, proof materials, and operating documents are grouped for review.",
+        },
+        {
+          icon: "handshake",
+          title: "Aligned Capital",
+          copy: "The process is designed to prioritize serious, long-term, values-aligned partners.",
+        },
+      ],
+    },
+    timelineLabel: "Investor Access Workflow",
+    timeline: [
+      {
+        step: 1,
+        title: "Initial Review",
+        copy: "Investor reviews the public portal and one-page summary.",
+        icon: "search",
+      },
+      {
+        step: 2,
+        title: "Data Room Access",
+        copy: "Approved investors may receive access to financials, supporting documents, proof materials, and diligence files.",
+        icon: "lock",
+      },
+      {
+        step: 3,
+        title: "Investor Call",
+        copy: "A private call allows discussion of the business model, operating plan, capital structure, and questions.",
+        icon: "phone",
+      },
+      {
+        step: 4,
+        title: "Due Diligence",
+        copy: "Investor reviews materials, asks follow-up questions, and evaluates the opportunity.",
+        icon: "folder",
+      },
+      {
+        step: 5,
+        title: "Term Discussion",
+        copy: "Potential structure, timing, amount, and rights are discussed.",
+        icon: "message",
+      },
+      {
+        step: 6,
+        title: "Closing",
+        copy: "Final documentation, funding, and investor onboarding occur if both sides proceed.",
+        icon: "pen",
+      },
     ],
+    materialsLabel: "Investor Materials Access",
+    materials: [
+      {
+        title: "Financial Snapshot",
+        copy: "Revenue, expenses, forecasts, and supporting operating metrics.",
+        icon: "chart",
+        href: "#financials",
+      },
+      {
+        title: "Sales & Receivables",
+        copy: "Art sales ledger, accounts receivable, collections visibility, and payable tracking.",
+        icon: "ledger",
+        href: "#receivables",
+      },
+      {
+        title: "Inventory & Programming",
+        copy: "Artwork inventory, event pipeline, and programming activity.",
+        icon: "inventory",
+        href: "#art-inventory",
+      },
+      {
+        title: "Partnerships & Capital",
+        copy: "Partnership pipeline, capital pipeline, and strategic opportunity materials.",
+        icon: "partners",
+        href: "#pipeline",
+      },
+    ],
+    ctas: [
+      {
+        label: "Request Data Room Access",
+        href: "#inquiry",
+        icon: "lock",
+        variant: "primary",
+      },
+      {
+        label: "Schedule Investor Call",
+        href: "#inquiry",
+        icon: "phone",
+        variant: "secondary",
+      },
+      {
+        label: "Review One-Page Summary",
+        href: "#evidence",
+        icon: "ledger",
+        variant: "secondary",
+      },
+    ],
+    securityNote: "Your information is always protected.",
   },
   location: {
     title: "Williamsburg / Location Story",
