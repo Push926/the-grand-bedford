@@ -204,14 +204,37 @@ export const sections = {
     footer: "Four engines. One platform. Compounded value.",
   },
   traction: {
-    title: "Early Traction",
-    intro: "Operational proof points from the first phase of gallery and event activity.",
+    headline: "Early traction, organized into measurable proof.",
+    intro:
+      "Since launch, The Grand Bedford has generated meaningful early activity across sales, collections, inventory, and artist ecosystem growth.",
     kpis: [
-      { label: "Works Sold", key: "worksSold" },
-      { label: "Artists Tracked", key: "artistsTracked" },
-      { label: "Amount Collected", key: "amountCollected" },
-      { label: "Expected Attendance", key: "expectedAttendance" },
+      { label: "Total Art Ledger Sales", key: "artLedgerSales", icon: "ledger" },
+      { label: "Gallery Revenue", key: "galleryRevenue", icon: "gallery" },
+      { label: "Artist Payable", key: "artistPayable", icon: "artist" },
+      { label: "Amount Collected", key: "amountCollected", icon: "bank" },
+      { label: "Balance Due", key: "openReceivables", icon: "balance" },
+      { label: "Artwork Inventory Value", key: "artworkInventoryValue", icon: "inventory" },
+      { label: "Works Sold", key: "worksSold", icon: "tag" },
+      { label: "Artists Tracked", key: "artistsTracked", icon: "artists" },
     ],
+    chart: {
+      title: "Financial Traction Overview",
+      baseKey: "artLedgerSales",
+      rows: [
+        { label: "Gross Sales", key: "artLedgerSales" },
+        { label: "Collected", key: "amountCollected" },
+        { label: "Outstanding Receivables", key: "openReceivables" },
+        { label: "Gallery Share", key: "galleryRevenue" },
+        { label: "Artist Share", key: "artistPayable" },
+      ],
+      axis: ["0", "20K", "40K", "60K", "80K", "100K"],
+    },
+    note: {
+      headline: "Building transparency. Creating lasting value.",
+      copy:
+        "Our model is designed to align incentives, reward artists fairly, and deliver clarity to our investors. This is just the beginning.",
+      cta: { label: "View Full Financial Report", href: "#financials" },
+    },
   },
   financials: {
     title: "Financial Overview",

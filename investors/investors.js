@@ -11,6 +11,21 @@ function formatMetric(key) {
   return typeof val === "number" ? val.toLocaleString() : val;
 }
 
+function parseMetricValue(key) {
+  const val = investorMetrics[key];
+  if (typeof val === "number") return val;
+  if (typeof val !== "string") return 0;
+  const cleaned = val.replace(/[$,]/g, "");
+  const match = cleaned.match(/^([\d.]+)([KMB])?$/i);
+  if (!match) return 0;
+  let num = parseFloat(match[1]);
+  const suffix = (match[2] || "").toUpperCase();
+  if (suffix === "K") num *= 1000;
+  else if (suffix === "M") num *= 1000000;
+  else if (suffix === "B") num *= 1000000000;
+  return num;
+}
+
 const ICONS = {
   chart:
     '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5M4 19h16M8 17V11M12 17V7M16 17v-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>',
@@ -44,6 +59,16 @@ const ICONS = {
     '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V8l7-4 7 4v12" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/><path d="M9 12h2v3H9zM13 12h2v3h-2zM9 16h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
   shield:
     '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6l8-3z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg>',
+  artist:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M6 20c0-3.5 2.5-6 6-6s6 2.5 6 6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>',
+  balance:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="16" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M8 8h8M8 12h8M8 16h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+  inventory:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="14" height="12" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/><rect x="7" y="7" width="14" height="12" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>',
+  tag:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12l8-8 8 8-8 8-8-8z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/><circle cx="15" cy="9" r="1" fill="currentColor"/></svg>',
+  artists:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="9" r="2" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="16" cy="9" r="2" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="12" cy="6" r="2" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M4 19c0-2.5 2-4 4-4M16 19c0-2.5 2-4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>',
 };
 
 function iconMarkup(name) {
@@ -129,9 +154,81 @@ function renderNav() {
     .join("");
 }
 
+function renderTractionSection() {
+  const { traction } = sections;
+  const header = document.getElementById("traction-header");
+  const kpis = document.getElementById("traction-kpis");
+  const chart = document.getElementById("traction-chart");
+  const note = document.getElementById("traction-note");
+
+  if (header) {
+    header.innerHTML = `
+      <h2>${traction.headline}</h2>
+      <p class="traction-intro">${traction.intro}</p>
+    `;
+  }
+
+  if (kpis) {
+    kpis.innerHTML = traction.kpis
+      .map(
+        (item) => `
+      <div class="traction-kpi-card">
+        <span class="traction-kpi-icon">${iconMarkup(item.icon)}</span>
+        <div class="traction-kpi-content">
+          <span class="traction-kpi-label">${item.label}</span>
+          <span class="traction-kpi-value">${formatMetric(item.key)}</span>
+        </div>
+      </div>
+    `,
+      )
+      .join("");
+  }
+
+  if (chart) {
+    const maxVal = parseMetricValue(traction.chart.baseKey) || 1;
+    const rows = traction.chart.rows
+      .map((row) => {
+        const value = parseMetricValue(row.key);
+        const pct = Math.min(100, (value / maxVal) * 100);
+        return `
+        <div class="traction-bar-row">
+          <span class="traction-bar-label">${row.label}</span>
+          <div class="traction-bar-track" role="presentation">
+            <div class="traction-bar-fill" style="width: ${pct}%"></div>
+          </div>
+          <span class="traction-bar-value">${formatMetric(row.key)}</span>
+        </div>
+      `;
+      })
+      .join("");
+    const axis = traction.chart.axis
+      .map((tick) => `<span>${tick}</span>`)
+      .join("");
+
+    chart.innerHTML = `
+      <h3 class="traction-chart-title">${traction.chart.title}</h3>
+      <div class="traction-bars" role="img" aria-label="Financial traction overview bar chart">${rows}</div>
+      <div class="traction-chart-axis" aria-hidden="true">${axis}</div>
+    `;
+  }
+
+  if (note) {
+    note.innerHTML = `
+      <div class="traction-note-mark">
+        <img src="../assets/logo.png" alt="" width="32" height="32" />
+      </div>
+      <h3>${traction.note.headline}</h3>
+      <p>${traction.note.copy}</p>
+      <a class="traction-note-cta" href="${traction.note.cta.href}">
+        ${traction.note.cta.label}
+        <span class="traction-note-arrow">${iconMarkup("arrow")}</span>
+      </a>
+    `;
+  }
+}
+
 function renderSectionKpis() {
   const map = {
-    "traction-kpis": sections.traction.kpis,
     "financials-kpis": sections.financials.kpis,
     "receivables-kpis": sections.receivables.kpis,
     "art-kpis": sections.artInventory.kpis,
@@ -394,6 +491,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderNav();
   renderHero();
   renderSectionKpis();
+  renderTractionSection();
   renderEngines();
   renderEventsTable();
   renderPartnersTable();
