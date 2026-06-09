@@ -5034,44 +5034,6 @@
   border-color: var(--inv-bronze);
 }
 
-/* ── Inquiry form ── */
-
-.investor-form {
-  display: grid;
-  gap: 18px;
-  max-width: 520px;
-}
-
-.investor-form label {
-  display: grid;
-  gap: 7px;
-  font-size: 0.78rem;
-  color: var(--inv-muted);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.investor-form input,
-.investor-form textarea {
-  padding: 13px 15px;
-  border: 1px solid var(--inv-line);
-  border-radius: var(--inv-radius-sm);
-  background: var(--inv-card);
-  font-family: inherit;
-  font-size: 0.95rem;
-  color: var(--inv-text);
-  text-transform: none;
-  letter-spacing: normal;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.investor-form input:focus,
-.investor-form textarea:focus {
-  outline: none;
-  border-color: var(--inv-bronze-light);
-  box-shadow: 0 0 0 3px rgba(154, 123, 90, 0.12);
-}
-
 /* ── Placeholder blocks ── */
 
 .investor-placeholder {

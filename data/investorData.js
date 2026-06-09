@@ -60,7 +60,6 @@ export const investorNav = [
   { id: "evidence", label: "Evidence" },
   { id: "proof", label: "Proof" },
   { id: "risk", label: "Risk" },
-  { id: "inquiry", label: "Inquire" },
 ];
 
 export const heroData = {
@@ -77,7 +76,7 @@ export const heroData = {
   },
   secondaryCta: {
     label: "Request Data Room Access",
-    href: "#inquiry",
+    href: "mailto:info@thegrandbedford.com?subject=Investor%20Data%20Room%20Access%20Request",
     icon: "lock",
   },
   image: {
@@ -1056,13 +1055,13 @@ export const sections = {
     ctas: [
       {
         label: "Request Data Room Access",
-        href: "#inquiry",
+        href: "mailto:info@thegrandbedford.com?subject=Investor%20Data%20Room%20Access%20Request",
         icon: "lock",
         variant: "primary",
       },
       {
         label: "Schedule Investor Call",
-        href: "#inquiry",
+        href: "mailto:info@thegrandbedford.com?subject=Investor%20Call%20Request",
         icon: "phone",
         variant: "secondary",
       },
@@ -1217,7 +1216,7 @@ export const sections = {
         icon: "shield",
         accessBadge: "Available Upon Review",
         availabilityBadge: "Approved Investors",
-        href: "#inquiry",
+        href: "#capital",
       },
     ],
     protocol: {
@@ -1430,12 +1429,5 @@ export const sections = {
       copy: "We don't promise perfection. We promise diligence, discipline, and transparency.",
       emphasis: "That is how we protect value — together.",
     },
-  },
-  inquiry: {
-    title: "Continue Diligence / Investor Inquiry",
-    intro:
-      "Request access to detailed financials, pipeline data, and investor materials.",
-    cta: "Submit Investor Inquiry",
-    fields: ["Name", "Email", "Organization", "Message"],
   },
 };
