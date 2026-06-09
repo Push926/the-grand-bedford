@@ -698,7 +698,7 @@ function renderFinancialsSection() {
   if (takeaways) {
     takeaways.innerHTML = `
       <div class="financials-takeaways-mark">
-        <img src="../assets/logo.png" alt="" width="28" height="28" />
+        <img src="../assets/GB logo.png" alt="" width="32" height="32" />
       </div>
       <h3 class="financials-takeaways-title">Key Takeaways</h3>
       <ul class="financials-takeaways-list">
@@ -786,7 +786,7 @@ function renderTractionSection() {
   if (note) {
     note.innerHTML = `
       <div class="traction-note-mark">
-        <img src="../assets/logo.png" alt="" width="32" height="32" />
+        <img src="../assets/GB logo.png" alt="" width="34" height="34" />
       </div>
       <h3>${traction.note.headline}</h3>
       <p>${traction.note.copy}</p>
@@ -926,7 +926,7 @@ function renderEngines() {
   if (header) {
     header.innerHTML = `
       <div class="engines-brand-mark">
-        <img src="../assets/logo.png" alt="" width="36" height="36" />
+        <img src="../assets/GB logo.png" alt="" width="40" height="40" />
         <span class="engines-brand-name">${engines.brand}</span>
       </div>
       <h2>${engines.headline}</h2>

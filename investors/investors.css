@@ -19,10 +19,10 @@
   --inv-radius-sm: 8px;
   --inv-section-gap: 82px;
   --inv-max: 1140px;
-  --inv-label-size: 0.78rem;
-  --inv-label-tracking: 0.08em;
-  --inv-muted-strong: #6a5f54;
-  --inv-micro-label: 0.64rem;
+  --inv-label-size: 0.82rem;
+  --inv-label-tracking: 0.06em;
+  --inv-muted-strong: #5e5349;
+  --inv-micro-label: 0.68rem;
 }
 
 .investor-page {
@@ -51,8 +51,8 @@
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
-  gap: 24px 36px;
-  padding: 20px 0;
+  gap: 20px 32px;
+  padding: 16px 0;
 }
 
 .investor-brand {
@@ -62,10 +62,11 @@
 }
 
 .investor-brand-mark {
-  width: 44px;
-  height: 44px;
+  width: 52px;
+  height: 52px;
   object-fit: contain;
   flex-shrink: 0;
+  filter: contrast(1.08) saturate(1.05);
 }
 
 .investor-brand-text {
@@ -76,29 +77,30 @@
 
 .investor-brand-name {
   font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: 1.22rem;
+  font-size: 1.28rem;
   font-weight: 600;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--inv-charcoal);
   line-height: 1.2;
 }
 
 .investor-brand-location {
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--inv-muted-strong);
+  font-weight: 500;
 }
 
 .investor-portal-label {
   grid-column: 3;
   justify-self: end;
-  font-size: 0.74rem;
-  letter-spacing: 0.12em;
+  font-size: 0.76rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--inv-muted-strong);
-  font-weight: 500;
+  font-weight: 600;
   white-space: nowrap;
   padding-left: 16px;
   border-left: 1px solid rgba(154, 123, 90, 0.2);
@@ -137,6 +139,12 @@
   font-weight: 500;
 }
 
+.investor-nav a:focus-visible {
+  outline: 2px solid var(--inv-bronze-light);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
 .investor-nav a:hover,
 .investor-nav a.is-active {
   color: var(--inv-charcoal);
@@ -151,7 +159,7 @@
 
 .investor-section {
   padding: var(--inv-section-gap) 0;
-  scroll-margin-top: 120px;
+  scroll-margin-top: 96px;
 }
 
 .investor-section:nth-child(even) {
@@ -202,8 +210,8 @@
 /* ── Hero ── */
 
 .investor-hero {
-  padding: 64px 0 72px;
-  scroll-margin-top: 0;
+  padding: 60px 0 72px;
+  scroll-margin-top: 88px;
   background: radial-gradient(ellipse at 70% 20%, rgba(243, 237, 228, 0.75) 0%, var(--inv-ivory) 55%);
 }
 
@@ -298,10 +306,10 @@
   padding-top: 26px;
   border-top: 1px solid var(--inv-line-bronze);
   text-align: center;
-  font-size: 0.68rem;
-  letter-spacing: 0.12em;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--inv-muted);
+  color: var(--inv-muted-strong);
   line-height: 1.6;
 }
 
@@ -406,11 +414,11 @@
 }
 
 .what-is-card-title {
-  font-size: 0.68rem;
-  letter-spacing: 0.12em;
+  font-size: var(--inv-label-size);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--inv-charcoal);
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.35;
 }
 
@@ -434,9 +442,14 @@
   margin: 0;
   overflow: hidden;
   border-radius: var(--inv-radius);
-  border: 1px solid rgba(154, 123, 90, 0.18);
+  border: 1px solid rgba(154, 123, 90, 0.22);
   box-shadow: var(--inv-shadow-card);
   position: relative;
+}
+
+.what-is-collage-main {
+  box-shadow: 0 22px 52px rgba(42, 36, 32, 0.14);
+  border-color: rgba(154, 123, 90, 0.28);
 }
 
 .what-is-collage figure::after {
@@ -445,11 +458,20 @@
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(154, 123, 90, 0.04) 0%,
-    transparent 40%,
-    rgba(42, 36, 32, 0.1) 100%
+    rgba(154, 123, 90, 0.06) 0%,
+    transparent 35%,
+    rgba(42, 36, 32, 0.12) 100%
   );
   pointer-events: none;
+}
+
+.what-is-collage-main::after {
+  background: linear-gradient(
+    165deg,
+    rgba(201, 173, 138, 0.12) 0%,
+    transparent 45%,
+    rgba(42, 36, 32, 0.14) 100%
+  );
 }
 
 .what-is-collage img {
@@ -463,7 +485,8 @@
 .what-is-collage-main img {
   aspect-ratio: 16 / 10;
   min-height: 220px;
-  object-position: center 28%;
+  object-position: center 18%;
+  filter: saturate(0.98) contrast(1.06) brightness(0.96);
 }
 
 .what-is-collage-bottom {
@@ -520,9 +543,10 @@
 }
 
 .engines-brand-mark img {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   object-fit: contain;
+  filter: contrast(1.08) saturate(1.05);
 }
 
 .engines-brand-name {
@@ -621,9 +645,9 @@
 
 .engines-card p {
   flex: 1;
-  color: var(--inv-muted-strong);
-  font-size: 0.92rem;
-  line-height: 1.68;
+  color: var(--inv-text);
+  font-size: 0.94rem;
+  line-height: 1.72;
   margin: 0;
 }
 
@@ -639,7 +663,7 @@
   font-size: var(--inv-label-size);
   letter-spacing: var(--inv-label-tracking);
   text-transform: uppercase;
-  color: var(--inv-bronze-dark);
+  color: var(--inv-charcoal);
   font-weight: 600;
 }
 
@@ -749,16 +773,17 @@
 .traction-kpi-content {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
   min-width: 0;
 }
 
 .traction-kpi-label {
   font-size: var(--inv-label-size);
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--inv-muted-strong);
-  line-height: 1.35;
+  line-height: 1.4;
+  font-weight: 500;
 }
 
 .traction-kpi-value {
@@ -807,7 +832,7 @@
 }
 
 .traction-bar-label {
-  font-size: 0.84rem;
+  font-size: 0.86rem;
   color: var(--inv-text);
   font-weight: 500;
 }
@@ -828,7 +853,7 @@
 }
 
 .traction-bar-value {
-  font-size: 0.86rem;
+  font-size: 0.88rem;
   color: var(--inv-charcoal);
   font-weight: 600;
   min-width: 52px;
@@ -840,8 +865,8 @@
   justify-content: space-between;
   margin-top: 16px;
   padding-left: 152px;
-  font-size: 0.62rem;
-  color: var(--inv-muted);
+  font-size: 0.66rem;
+  color: var(--inv-muted-strong);
   letter-spacing: 0.04em;
 }
 
@@ -860,9 +885,10 @@
 }
 
 .traction-note-mark img {
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   object-fit: contain;
+  filter: contrast(1.06) saturate(1.04);
 }
 
 .traction-note h3 {
@@ -1009,18 +1035,18 @@
 }
 
 .financials-actual-month {
-  font-size: 0.62rem;
-  letter-spacing: 0.12em;
+  font-size: var(--inv-micro-label);
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--inv-bronze-light);
   font-weight: 500;
 }
 
 .financials-actual-type {
-  font-size: 0.58rem;
-  letter-spacing: 0.14em;
+  font-size: var(--inv-micro-label);
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(245, 241, 234, 0.55);
+  color: rgba(245, 241, 234, 0.62);
 }
 
 .financials-actual-icon {
@@ -1043,10 +1069,11 @@
 }
 
 .financials-actual-label {
-  font-size: 0.62rem;
-  letter-spacing: 0.14em;
+  font-size: var(--inv-micro-label);
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(245, 241, 234, 0.6);
+  color: rgba(245, 241, 234, 0.68);
+  line-height: 1.45;
 }
 
 .financials-main {
@@ -1066,12 +1093,12 @@
 }
 
 .financials-chart-title {
-  font-size: 0.68rem;
-  letter-spacing: 0.12em;
+  font-size: var(--inv-label-size);
+  letter-spacing: var(--inv-label-tracking);
   text-transform: uppercase;
-  color: var(--inv-muted);
+  color: var(--inv-muted-strong);
   margin: 0 0 18px;
-  font-weight: 500;
+  font-weight: 600;
   font-family: "Inter", sans-serif;
 }
 
@@ -1105,15 +1132,15 @@
 
 .financials-axis-label {
   font-family: "Inter", sans-serif;
-  font-size: 10px;
-  fill: var(--inv-muted);
+  font-size: 11px;
+  fill: var(--inv-muted-strong);
 }
 
 .financials-x-label {
   font-family: "Inter", sans-serif;
-  font-size: 9px;
-  fill: var(--inv-muted);
-  letter-spacing: 0.06em;
+  font-size: 10px;
+  fill: var(--inv-muted-strong);
+  letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 
@@ -1181,9 +1208,9 @@
 
 .financials-point-label {
   font-family: "Inter", sans-serif;
-  font-size: 9px;
+  font-size: 10px;
   fill: var(--inv-charcoal);
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .financials-point-label--forecast {
@@ -1203,8 +1230,8 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.68rem;
-  color: var(--inv-muted);
+  font-size: 0.72rem;
+  color: var(--inv-muted-strong);
 }
 
 .financials-legend-swatch {
@@ -1263,10 +1290,11 @@
 }
 
 .financials-takeaways-mark img {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   object-fit: contain;
-  opacity: 0.85;
+  opacity: 0.92;
+  filter: contrast(1.06);
 }
 
 .financials-takeaways-title {
@@ -1518,8 +1546,9 @@
 }
 
 .receivables-bar-label {
-  font-size: 0.76rem;
+  font-size: 0.8rem;
   color: var(--inv-text);
+  font-weight: 500;
 }
 
 .receivables-bar-track {
@@ -1537,9 +1566,9 @@
 }
 
 .receivables-bar-value {
-  font-size: 0.8rem;
+  font-size: 0.84rem;
   color: var(--inv-charcoal);
-  font-weight: 500;
+  font-weight: 600;
   min-width: 56px;
   text-align: right;
 }
@@ -1549,8 +1578,8 @@
   justify-content: space-between;
   margin-top: 14px;
   padding-left: 160px;
-  font-size: 0.6rem;
-  color: var(--inv-muted);
+  font-size: 0.66rem;
+  color: var(--inv-muted-strong);
   letter-spacing: 0.04em;
 }
 
@@ -1576,24 +1605,25 @@
 
 .receivables-table th,
 .receivables-table td {
-  padding: 14px 18px;
+  padding: 15px 18px;
   text-align: left;
   border-bottom: 1px solid var(--inv-line);
 }
 
 .receivables-table th {
-  background: rgba(154, 123, 90, 0.06);
-  font-size: var(--inv-micro-label);
-  letter-spacing: 0.07em;
+  background: rgba(154, 123, 90, 0.08);
+  font-size: var(--inv-label-size);
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: var(--inv-bronze-dark);
+  color: var(--inv-charcoal);
   font-weight: 600;
   white-space: nowrap;
 }
 
 .receivables-table td {
   color: var(--inv-text);
-  line-height: 1.5;
+  line-height: 1.55;
+  font-size: 0.88rem;
 }
 
 .receivables-table td:nth-child(n + 3):nth-child(-n + 5) {
@@ -1612,12 +1642,12 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 12px;
+  padding: 7px 13px;
   border-radius: 20px;
-  font-size: 0.72rem;
-  letter-spacing: 0.03em;
+  font-size: 0.76rem;
+  letter-spacing: 0.02em;
   white-space: nowrap;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .receivables-status::before {
@@ -5230,8 +5260,8 @@
 }
 
 .investor-kpi-card .label {
-  font-size: 0.78rem;
-  letter-spacing: 0.06em;
+  font-size: var(--inv-label-size);
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--inv-muted-strong);
   margin-bottom: 10px;
@@ -5249,10 +5279,10 @@
 
 .investor-kpi-card .footnote {
   margin-top: 10px;
-  font-size: 0.72rem;
+  font-size: 0.76rem;
   color: var(--inv-muted-strong);
-  letter-spacing: 0.02em;
-  line-height: 1.4;
+  letter-spacing: 0.01em;
+  line-height: 1.45;
 }
 
 /* ── Stat grid ── */
@@ -5494,11 +5524,11 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 14px 24px;
+  padding: 14px 26px;
   border-radius: var(--inv-radius-sm);
   font-weight: 600;
-  font-size: 0.76rem;
-  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   transition: background 0.2s, box-shadow 0.2s, transform 0.15s, border-color 0.2s;
 }
@@ -5525,17 +5555,24 @@
   background: #6b543c;
   border-color: #6b543c;
   transform: translateY(-1px);
+  box-shadow: 0 8px 22px rgba(125, 99, 72, 0.28);
+}
+
+.investor-cta.primary:focus-visible,
+.investor-cta.secondary:focus-visible {
+  outline: 2px solid var(--inv-bronze);
+  outline-offset: 3px;
 }
 
 .investor-cta.secondary {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.5);
   color: var(--inv-bronze-dark);
-  border: 1px solid var(--inv-bronze-light);
+  border: 1px solid var(--inv-bronze);
 }
 
 .investor-cta.secondary:hover {
-  background: rgba(154, 123, 90, 0.06);
-  border-color: var(--inv-bronze);
+  background: rgba(154, 123, 90, 0.08);
+  border-color: var(--inv-bronze-dark);
 }
 
 /* ── Placeholder blocks ── */

@@ -84,7 +84,7 @@ export const heroData = {
     {
       label: "Collected to Date",
       key: "amountCollected",
-      footnote: "Verified collected amount",
+      footnote: "Tracked collected amount",
       icon: "bank",
     },
     {
