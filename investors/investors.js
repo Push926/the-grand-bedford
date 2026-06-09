@@ -1447,13 +1447,18 @@ function renderPeopleProfileContent(profile) {
   const engines = profile.engines
     .map((tag) => `<span class="people-engine-tag">${tag}</span>`)
     .join("");
+  const summary = profile.summary
+    ? `<p class="people-profile-summary">${profile.summary}</p>`
+    : "";
 
   return `
     <div class="people-profile-content">
       <span class="people-status">${profile.status}</span>
       <h3 class="people-profile-name">${profile.name}</h3>
       <p class="people-profile-role">${profile.role}</p>
+      ${summary}
       <p class="people-profile-bio">${profile.bio}</p>
+      <p class="people-profile-unlocks-label">Helps unlock</p>
       <ul class="people-profile-contributions">${contributions}</ul>
       <div class="people-engine-tags" aria-label="Business engines">${engines}</div>
     </div>
@@ -1515,7 +1520,6 @@ function renderPeopleSection() {
       <h2 id="people-title">${people.headline}</h2>
       <span class="people-divider" aria-hidden="true"></span>
       <p class="people-intro">${people.intro}</p>
-      <p class="people-supporting">${people.supportingText}</p>
     `;
   }
 
@@ -1560,17 +1564,24 @@ function renderPeopleSection() {
 
   if (network) {
     const cards = people.networkCategories
-      .map(
-        (cat) => `
+      .map((cat) => {
+        const peopleList = cat.people?.length
+          ? `<ul class="people-network-people">${cat.people.map((person) => `<li>${person}</li>`).join("")}</ul>`
+          : "";
+        const tags = cat.tags?.length
+          ? `<div class="people-network-tags" aria-label="Network tags">${cat.tags.map((tag) => `<span class="people-network-tag">${tag}</span>`).join("")}</div>`
+          : "";
+
+        return `
       <article class="people-network-card">
-        <span class="people-network-icon">${iconMarkup(cat.icon)}</span>
+        <span class="people-network-status">${cat.status}</span>
         <h3 class="people-network-title">${cat.title}</h3>
         <p class="people-network-desc">${cat.description}</p>
-        <p class="people-network-unlocks"><span>Unlocks:</span> ${cat.unlocks}</p>
-        <span class="people-network-status">${cat.status}</span>
+        ${peopleList}
+        ${tags}
       </article>
-    `,
-      )
+    `;
+      })
       .join("");
 
     network.innerHTML = `
@@ -1582,28 +1593,21 @@ function renderPeopleSection() {
     `;
   }
 
-  if (opportunities) {
-    const cards = people.opportunities
+  if (opportunities && people.proofRow?.length) {
+    const items = people.proofRow
       .map(
         (item) => `
-      <article class="people-opportunity-card">
-        <span class="people-opportunity-icon">${iconMarkup(item.icon)}</span>
-        <h3 class="people-opportunity-title">${item.title}</h3>
-        <p class="people-opportunity-supported"><span>Supported by:</span> ${item.supportedBy}</p>
-        <p class="people-opportunity-revenue"><span>Revenue relevance:</span> ${item.revenueRelevance}</p>
-        <span class="people-opportunity-status">${item.status}</span>
+      <article class="people-proof-card">
+        <h4 class="people-proof-label">${item.label}</h4>
+        <p class="people-proof-value">${item.value}</p>
       </article>
     `,
       )
       .join("");
 
-    opportunities.innerHTML = `
-      <header class="people-subheader">
-        <h3>${people.opportunitiesHeadline}</h3>
-        <p>${people.opportunitiesIntro}</p>
-      </header>
-      <div class="people-opportunity-grid">${cards}</div>
-    `;
+    opportunities.innerHTML = `<div class="people-proof-row">${items}</div>`;
+  } else if (opportunities) {
+    opportunities.innerHTML = "";
   }
 
   if (footer) {

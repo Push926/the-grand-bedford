@@ -3689,8 +3689,25 @@
 .people-profile-role {
   font-size: 0.88rem;
   color: var(--inv-bronze-dark);
-  margin: 0 0 14px;
+  margin: 0 0 10px;
   font-weight: 500;
+}
+
+.people-profile-summary {
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--inv-muted);
+  margin: 0 0 14px;
+  font-style: italic;
+}
+
+.people-profile-unlocks-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--inv-bronze-dark);
+  font-weight: 600;
+  margin: 0 0 8px;
 }
 
 .people-profile-bio {
@@ -3761,7 +3778,7 @@
 
 .people-network-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
 }
 
@@ -3802,8 +3819,7 @@
   line-height: 1.3;
 }
 
-.people-network-desc,
-.people-network-unlocks {
+.people-network-desc {
   font-size: 0.78rem;
   line-height: 1.58;
   color: var(--inv-muted-strong);
@@ -3811,11 +3827,36 @@
   flex: 1;
 }
 
-.people-network-unlocks span,
-.people-opportunity-supported span,
-.people-opportunity-revenue span {
-  color: var(--inv-bronze-dark);
-  font-weight: 600;
+.people-network-people {
+  margin: 0;
+  padding-left: 16px;
+  display: grid;
+  gap: 6px;
+}
+
+.people-network-people li {
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: var(--inv-muted);
+}
+
+.people-network-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+.people-network-tag {
+  padding: 4px 8px;
+  border: 1px solid rgba(154, 123, 90, 0.18);
+  border-radius: 999px;
+  font-size: 0.6rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--inv-muted-strong);
+  background: var(--inv-ivory);
 }
 
 .people-network-status,
@@ -3834,6 +3875,36 @@
 
 .people-opportunities {
   margin-bottom: 40px;
+}
+
+.people-proof-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.people-proof-card {
+  background: linear-gradient(180deg, #ffffff 0%, #fdfbf8 100%);
+  border: 1px solid rgba(154, 123, 90, 0.14);
+  border-radius: var(--inv-radius-sm);
+  padding: 18px 16px;
+  box-shadow: var(--inv-shadow-soft);
+}
+
+.people-proof-label {
+  font-size: 0.64rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--inv-bronze);
+  margin: 0 0 8px;
+  font-weight: 600;
+}
+
+.people-proof-value {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--inv-muted-strong);
+  margin: 0;
 }
 
 .people-opportunity-grid {
@@ -3894,12 +3965,15 @@
 }
 
 .people-note {
-  max-width: 680px;
+  max-width: 720px;
   margin: 0;
-  font-size: 0.78rem;
-  line-height: 1.6;
+  padding: 14px 18px;
+  font-size: 0.8rem;
+  line-height: 1.62;
   color: var(--inv-muted-strong);
-  font-style: italic;
+  background: rgba(154, 123, 90, 0.06);
+  border: 1px solid rgba(154, 123, 90, 0.14);
+  border-radius: var(--inv-radius-sm);
 }
 
 .people-ctas {
@@ -6164,6 +6238,10 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .people-proof-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .people-opportunity-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -6651,6 +6729,7 @@
   }
 
   .people-network-grid,
+  .people-proof-row,
   .people-opportunity-grid {
     grid-template-columns: 1fr;
   }

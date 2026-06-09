@@ -942,204 +942,158 @@ export const sections = {
     },
   },
   people: {
-    eyebrow: "People / Network",
-    headline: "Team, advisors, and strategic network.",
+    eyebrow: "People. Network. Execution.",
+    headline: "The human infrastructure behind the platform.",
     intro:
-      "A cultural platform is only as strong as the people who activate it. The Grand Bedford is supported by a growing network of leadership, operators, creative contributors, advisors, partners, and relationship-based collaborators across sales, events, partnerships, hospitality, media, and community.",
-    supportingText:
-      "The network is designed to support a lean operating model while expanding the platform's ability to generate collector activity, private events, brand activations, sponsorship opportunities, hospitality collaborations, and strategic introductions.",
+      "The Grand Bedford is supported by a developing network of founders, curatorial leadership, gallery sales contributors, artists, creative collaborators, hospitality contacts, and buildout resources. The structure is designed to combine core accountability with flexible, relationship-driven execution capacity.",
     roleNote:
-      "Roles vary by project, scope, and formal engagement. Network participation does not imply employment, equity ownership, exclusivity, or guaranteed revenue.",
-    featuredLabel: "Featured Contributors",
-    networkHeadline: "Operating coverage across the platform.",
+      "Roles vary by project, scope, compensation structure, and formal engagement. Network participation does not imply employment, equity ownership, exclusivity, formal partnership, or guaranteed revenue.",
+    featuredLabel: "Core Leadership",
+    networkHeadline: "Supporting operating network.",
     networkIntro:
-      "The Grand Bedford's network is organized around the functions required to convert a physical cultural space into recurring activity, revenue, and investor-visible proof.",
-    opportunitiesHeadline: "What the network helps unlock through the storefront.",
-    opportunitiesIntro:
-      "The Bedford Avenue storefront is more than a room. It can function as a sales floor, venue, brand platform, hospitality node, content engine, and community hub — with the people network serving as the mechanism that activates each opportunity.",
+      "Relationship-based contributors extend execution across sales, creative, hospitality, artists, and site development — with status and scope clearly distinguished.",
     featured: [
       {
-        id: "founder",
-        initials: "FP",
-        name: "Founder / Principal",
-        role: "Platform Strategy, Capital, and Operations",
+        id: "brian-berger",
+        initials: "BB",
+        name: "Brian Berger",
+        role: "Founder / Principal",
         status: "Core Leadership",
-        image: "",
-        alt: "",
-        bio: "Leads the platform strategy, investor materials, commercial structure, diligence organization, and long-term operating model for The Grand Bedford.",
+        summary:
+          "Strategy, legal structure, capital, operations, and investor diligence",
+        bio: "Brian Berger leads platform strategy, legal and commercial structure, investor materials, financial visibility, and long-term operating development for The Grand Bedford. An attorney by background, Brian brings litigation experience and six years as Chief Legal Officer of a digital marketing agency startup that grew to approximately $30 million in annual revenue during his tenure as a minority equity partner. His role combines legal discipline, operating structure, capital strategy, and a commitment to art, civic life, and community-centered cultural development.",
         contributions: [
-          "Investor strategy and diligence organization",
-          "Legal, commercial, and operating structure",
-          "Financial visibility and risk controls",
-          "Partnership and capital strategy",
+          "Investor diligence",
+          "Legal / commercial structure",
+          "Capital strategy",
+          "Risk controls",
+          "Operating model",
+          "Partnership strategy",
         ],
-        engines: ["Capital", "Operations", "Partnerships", "Financials"],
+        engines: ["Capital", "Operations", "Legal", "Financials", "Strategy"],
       },
       {
-        id: "gallery",
-        initials: "GO",
-        name: "Gallery & Operations Partner",
-        role: "Gallery Activity, Sales, and Guest Experience",
-        status: "Core / Operating Partner",
-        image: "",
-        alt: "",
-        bio: "Supports gallery activity, artist coordination, collector experience, opening events, and day-to-day cultural programming.",
+        id: "francesca-guzman",
+        initials: "FG",
+        name: "Francesca Guzman",
+        role: "Founder / Business Partner",
+        status: "Core Leadership",
+        summary:
+          "Retail, relationships, community, programming, and guest experience",
+        bio: "Francesca Guzman supports The Grand Bedford's retail strategy, relationship development, community engagement, programming, and guest experience. She brings significant retail experience and a strong relationship network across cultural, community, and creative circles. Her role helps connect the physical platform to artists, guests, collectors, events, partnerships, and neighborhood-facing opportunities.",
         contributions: [
-          "Gallery presentation and visitor experience",
-          "Artist and collector coordination",
-          "Exhibition and opening support",
-          "Sales follow-up and relationship management",
+          "Retail experience",
+          "Community relationships",
+          "Artist and cultural network",
+          "Programming opportunities",
+          "Guest experience",
+          "Relationship-driven partnerships",
         ],
-        engines: ["Art Sales", "Events", "Gallery", "Community"],
+        engines: ["Retail", "Community", "Events", "Partnerships", "Hospitality"],
       },
       {
-        id: "programming",
-        initials: "PP",
-        name: "Programming & Partnerships Partner",
-        role: "Events, Activations, and Relationship Development",
-        status: "Strategic / Project-Based",
-        image: "",
-        alt: "",
-        bio: "Supports event concepts, partner outreach, brand activation opportunities, and relationship-based growth across the platform.",
+        id: "zach-presley",
+        initials: "ZP",
+        name: "Zach Presley",
+        role: "Head Curator",
+        status: "Curatorial Leadership",
+        summary:
+          "Curatorial strategy, art sourcing, exhibitions, programming, and collector network",
+        bio: "Zach Presley supports The Grand Bedford as Head Curator, helping shape curatorial strategy, artwork sourcing, exhibition development, programming, and collector-facing opportunities. He brings long-standing art-world experience, including gallery operations, broad art-market knowledge, and relationships across artists, collectors, and high-net-worth networks. His role strengthens the platform's ability to source compelling work, develop exhibition programming, and connect the gallery to deeper art and collector ecosystems.",
         contributions: [
-          "Event and activation development",
-          "Partner and sponsor outreach",
-          "Creative programming concepts",
-          "Relationship-based opportunity development",
+          "Curated exhibitions",
+          "Artwork sourcing",
+          "Artist relationships",
+          "Collector introductions",
+          "Programming opportunities",
+          "Art sales pipeline",
+          "Gallery credibility",
         ],
-        engines: ["Events", "Partnerships", "Sponsorship", "Media"],
+        engines: ["Art Sales", "Gallery", "Programming", "Collectors", "Artists"],
       },
     ],
     networkCategories: [
       {
-        title: "Core Leadership",
-        icon: "shield",
+        title: "Gallery Sales & Collector Network",
+        status: "Commission-Aligned / Developing",
         description:
-          "Founder-led strategy, operating structure, financial visibility, and investor communication.",
-        unlocks: "Diligence, capital strategy, execution discipline.",
-        status: "Active",
+          "The Grand Bedford is supported by a developing gallery sales network that includes part-time and independent commission-based contributors with collector relationships, high-net-worth contacts, and in-gallery sales capacity. This structure helps expand outreach and store coverage while keeping compensation aligned with sales activity.",
+        people: [
+          "Johanna — part-time, commission-based gallery and art sales contributor",
+          "Shiri Bobayeva — independent commission-based art sales contributor",
+          "Breanna — curatorial and gallery operations support",
+        ],
+        tags: ["Art Sales", "Collectors", "Gallery", "Commission-Aligned"],
       },
       {
-        title: "Gallery & Art Sales",
-        icon: "gallery",
+        title: "Curatorial & Gallery Operations Support",
+        status: "Project-Based / Developing",
         description:
-          "Artists, curators, sales support, collector relationships, inventory presentation, and follow-up.",
-        unlocks: "Art sales, collector previews, exhibition activity.",
-        status: "Active / Developing",
+          "Curatorial and operations support extends the platform's ability to prepare exhibitions, coordinate artists, support installation logistics, and maintain day-to-day gallery activity. This layer gives the gallery practical execution capacity behind exhibitions, openings, and art sales.",
+        tags: ["Operations", "Gallery", "Exhibitions", "Artists"],
       },
       {
-        title: "Events & Production",
-        icon: "calendar",
-        description:
-          "Event producers, vendors, hosts, production contributors, and programming support.",
-        unlocks: "Private rentals, openings, workshops, brand nights.",
-        status: "Developing",
-      },
-      {
-        title: "Hospitality & Vendors",
-        icon: "dining",
-        description:
-          "Food, beverage, café, catering, and guest-experience partners.",
-        unlocks:
-          "Longer dwell time, better event experience, vendor revenue, hospitality sponsorship.",
-        status: "Partner-Based",
-      },
-      {
-        title: "Brand Partnerships",
-        icon: "handshake",
-        description:
-          "Relationship-based contributors who can support sponsor outreach, activations, and aligned collaborations.",
-        unlocks: "Brand activation fees, sponsorships, in-kind support.",
-        status: "Pipeline",
-      },
-      {
-        title: "Creative / Content / Media",
-        icon: "newspaper",
-        description:
-          "Photographers, videographers, designers, writers, and media connectors.",
-        unlocks: "Event recaps, sponsor decks, proof archive, investor updates.",
+        title: "Creative, Design & Media Network",
         status: "Contributor-Based",
+        description:
+          "The Grand Bedford has access to creative and design collaborators who may support brand presentation, visual identity, event materials, content, investor-facing presentation, and public-facing creative execution. This network includes creative design contacts such as Olivier Duong, with future roles dependent on project scope and formal engagement.",
+        tags: ["Creative", "Design", "Media", "Brand"],
       },
       {
-        title: "Advisors & Specialists",
-        icon: "shield",
+        title: "Artist & Exhibition Network",
+        status: "Active / Developing",
         description:
-          "Legal, finance, hospitality, real estate, marketing, technology, and operating specialists.",
-        unlocks: "Better diligence, execution support, risk management.",
+          "The Grand Bedford's artist network includes exhibition relationships, emerging artist connections, photography programming, and sales arrangements that can support both cultural credibility and revenue activity. Early examples include exhibition programming and gallery-artist sales structures, with public details shown only where approved.",
+        people: [
+          "Alex Silver — prior solo photography exhibition; gallery-artist sales structure",
+        ],
+        tags: ["Artists", "Exhibitions", "Art Sales", "Programming"],
+      },
+      {
+        title: "Hospitality, Food & Beverage Network",
+        status: "Pipeline / Relationship-Based",
+        description:
+          "The platform is developing relationships with restaurateurs, beverage operators, coffee and juice companies, performers, and hospitality collaborators that may support private events, food and beverage activations, café-style partnerships, and neighborhood-facing programming.",
+        tags: ["Hospitality", "Events", "Food & Beverage", "Partnerships"],
+      },
+      {
+        title: "Outdoor / Backyard Activation Network",
+        status: "Planned / Subject to Approvals",
+        description:
+          "A planned backyard conversion may create additional revenue opportunities through outdoor seating, food truck partnerships, private gatherings, picnic-table formats, and hospitality-driven programming, subject to permitting, buildout, and operating approvals.",
+        tags: ["Outdoor", "Events", "Food Trucks", "Programming"],
+      },
+      {
+        title: "Buildout, Architecture & Construction Support",
         status: "Available Where Applicable",
+        description:
+          "The Grand Bedford has access to construction, architecture, and buildout contacts who may support future site improvements, outdoor activation planning, and operational upgrades as project scope, approvals, and capital availability develop.",
+        tags: ["Buildout", "Architecture", "Operations", "Site Planning"],
       },
       {
-        title: "Relationship / Commission Network",
-        icon: "partners",
+        title: "Relationship & Cultural Network",
+        status: "Relationship-Based",
         description:
-          "Commission-aligned and relationship-based contributors who may support introductions, sales, sponsorships, or event opportunities.",
-        unlocks:
-          "Deal flow, bookings, collector introductions, partnership conversations.",
-        status: "Commission-Aligned",
+          "The broader network includes community contacts, cultural relationships, music and entertainment-adjacent connections, and relationship-based contributors who may support attendance, introductions, programming, event energy, and future partnership opportunities where appropriate.",
+        tags: ["Community", "Culture", "Events", "Partnerships"],
       },
     ],
-    opportunities: [
+    proofRow: [
       {
-        title: "Collector Sales",
-        icon: "art",
-        supportedBy:
-          "Artists, curators, sales contributors, collector relationships.",
-        revenueRelevance:
-          "Artwork sales, commissions, previews, repeat collector follow-up.",
-        status: "Active / Developing",
+        label: "Core leadership",
+        value: "Founder, business partner, and curatorial lead",
       },
       {
-        title: "Private Events",
-        icon: "calendar",
-        supportedBy:
-          "Event producers, hospitality partners, vendors, programming contributors.",
-        revenueRelevance:
-          "Venue rental fees, deposits, catering partnerships, recurring programming.",
-        status: "Active Pipeline",
+        label: "Commission-aligned sales",
+        value: "Part-time and independent contributors",
       },
       {
-        title: "Brand Activations",
-        icon: "megaphone",
-        supportedBy:
-          "Partnership contributors, creative producers, media/content support, hospitality partners.",
-        revenueRelevance:
-          "Activation fees, sponsorships, in-kind support, audience growth.",
-        status: "Pipeline / Target",
+        label: "Creative and hospitality network",
+        value: "Design, artists, vendors, performers, and event collaborators",
       },
       {
-        title: "Hospitality Partnerships",
-        icon: "dining",
-        supportedBy: "Food, beverage, coffee, catering, and service partners.",
-        revenueRelevance:
-          "Better guest experience, event upsells, vendor fees, partner revenue share.",
-        status: "Partner-Based",
-      },
-      {
-        title: "Artist & Curator Pipeline",
-        icon: "gallery",
-        supportedBy:
-          "Artists, curators, art advisors, installers, photographers, writers.",
-        revenueRelevance:
-          "Exhibition calendar, inventory expansion, collector engagement.",
-        status: "Developing",
-      },
-      {
-        title: "Sponsorship & Media",
-        icon: "newspaper",
-        supportedBy:
-          "Content producers, designers, media connectors, brand relationship network.",
-        revenueRelevance:
-          "Sponsor recap decks, proof archive, marketing visibility, sponsor renewals.",
-        status: "Developing",
-      },
-      {
-        title: "Strategic Introductions",
-        icon: "handshake",
-        supportedBy:
-          "Relationship-based contributors, advisors, founder network, aligned partners.",
-        revenueRelevance:
-          "Investor conversations, sponsor conversations, partner opportunities.",
-        status: "Where Applicable",
+        label: "Flexible execution model",
+        value: "Core accountability with variable-cost support",
       },
     ],
     ctas: [
