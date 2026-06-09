@@ -93,20 +93,21 @@
       </section>
 
       <!-- 5. Financial Overview -->
-      <section class="investor-section" id="financials">
+      <section class="investor-section financials-section" id="financials">
         <div class="container">
-          <header class="investor-section-header">
-            <span class="divider"></span>
-            <h2>Financial Overview</h2>
-            <p class="intro">
-              High-level snapshot of revenue, collections, and forward projections.
-            </p>
-          </header>
-          <div class="investor-stat-grid investor-kpi-row" id="financials-kpis"></div>
-          <div class="investor-chart-card" style="margin-top: 32px">
-            <span class="placeholder-label">Revenue Chart</span>
-            <p>12-month revenue forecast visualization — Phase 2.</p>
+          <header class="financials-header" id="financials-header"></header>
+          <div class="financials-toggles" id="financials-toggles" role="group" aria-label="Financial view options"></div>
+          <div class="financials-layout">
+            <aside class="financials-actuals" id="financials-actuals"></aside>
+            <div class="financials-main">
+              <div class="financials-chart-card" id="financials-revenue-chart"></div>
+              <div class="financials-bottom">
+                <div class="financials-chart-card financials-chart-card--compact" id="financials-comparison-chart"></div>
+                <div class="financials-takeaways" id="financials-takeaways"></div>
+              </div>
+            </div>
           </div>
+          <footer class="financials-disclosures" id="financials-disclosures"></footer>
         </div>
       </section>
 

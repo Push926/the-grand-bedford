@@ -69,6 +69,18 @@ const ICONS = {
     '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12l8-8 8 8-8 8-8-8z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/><circle cx="15" cy="9" r="1" fill="currentColor"/></svg>',
   artists:
     '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="9" r="2" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="16" cy="9" r="2" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="12" cy="6" r="2" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M4 19c0-2.5 2-4 4-4M16 19c0-2.5 2-4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>',
+  calendar:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M8 3v4M16 3v4M4 10h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+  grid:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/><rect x="14" y="4" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/><rect x="4" y="14" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/><rect x="14" y="14" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>',
+  clock:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+  download:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v10M8 10l4 4 4-4M5 18h14" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  info:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M12 11v5M12 8h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+  check:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12l4 4 8-8" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
 };
 
 function iconMarkup(name) {
@@ -154,6 +166,267 @@ function renderNav() {
     .join("");
 }
 
+function formatChartValue(value) {
+  if (value >= 100) return `$${Math.round(value)}K`;
+  return `$${value % 1 === 0 ? value : value.toFixed(1)}K`;
+}
+
+function buildChartCoords(points, layout) {
+  const { width, height, pad, yMax } = layout;
+  const plotW = width - pad.left - pad.right;
+  const plotH = height - pad.top - pad.bottom;
+  const count = points.length;
+  return points.map((point, index) => ({
+    ...point,
+    x: pad.left + (count > 1 ? (index / (count - 1)) * plotW : plotW / 2),
+    y: pad.top + (1 - point.value / yMax) * plotH,
+  }));
+}
+
+function polylinePath(coords) {
+  return coords.map((c, i) => `${i === 0 ? "M" : "L"}${c.x.toFixed(1)},${c.y.toFixed(1)}`).join(" ");
+}
+
+function buildYAxisTicks(yMax, step = 20) {
+  const ticks = [];
+  for (let v = 0; v <= yMax; v += step) {
+    ticks.push(v);
+  }
+  return ticks;
+}
+
+function renderRevenueChartSvg(chart) {
+  const width = 800;
+  const height = 300;
+  const pad = { top: 28, right: 20, bottom: 56, left: 52 };
+  const coords = buildChartCoords(chart.points, { width, height, pad, yMax: chart.yMax });
+  const actualCoords = coords.filter((c) => c.type === "actual");
+  const forecastStart = coords.findIndex((c) => c.type === "forecast");
+  const forecastCoords =
+    forecastStart >= 0 ? [coords[forecastStart - 1], ...coords.slice(forecastStart)] : [];
+  const yTicks = buildYAxisTicks(chart.yMax);
+  const plotH = height - pad.top - pad.bottom;
+
+  const gridLines = yTicks
+    .map((tick) => {
+      const y = pad.top + (1 - tick / chart.yMax) * plotH;
+      return `<line x1="${pad.left}" y1="${y}" x2="${width - pad.right}" y2="${y}" class="financials-grid-line"/>`;
+    })
+    .join("");
+
+  const yLabels = yTicks
+    .map((tick) => {
+      const y = pad.top + (1 - tick / chart.yMax) * plotH;
+      return `<text x="${pad.left - 10}" y="${y + 4}" class="financials-axis-label" text-anchor="end">$${tick}K</text>`;
+    })
+    .join("");
+
+  const xLabels = coords
+    .map((c) => {
+      const typeClass = c.type === "actual" ? "financials-x-label--actual" : "financials-x-label--forecast";
+      return `<text x="${c.x}" y="${height - 28}" class="financials-x-label ${typeClass}" text-anchor="middle">${c.label}</text>
+        <text x="${c.x}" y="${height - 14}" class="financials-x-year" text-anchor="middle">${c.year}</text>`;
+    })
+    .join("");
+
+  const actualDots = actualCoords
+    .map(
+      (c) =>
+        `<circle cx="${c.x}" cy="${c.y}" r="4" class="financials-dot financials-dot--actual"/>
+         <text x="${c.x}" y="${c.y - 12}" class="financials-point-label" text-anchor="middle">${formatChartValue(c.value)}</text>`,
+    )
+    .join("");
+
+  const forecastDots = coords
+    .filter((c) => c.type === "forecast")
+    .map(
+      (c) =>
+        `<circle cx="${c.x}" cy="${c.y}" r="3.5" class="financials-dot financials-dot--forecast"/>
+         <text x="${c.x}" y="${c.y - 12}" class="financials-point-label financials-point-label--forecast" text-anchor="middle">${formatChartValue(c.value)}</text>`,
+    )
+    .join("");
+
+  const actualPath = actualCoords.length
+    ? `<path d="${polylinePath(actualCoords)}" class="financials-line financials-line--actual" fill="none"/>`
+    : "";
+  const forecastPath = forecastCoords.length
+    ? `<path d="${polylinePath(forecastCoords)}" class="financials-line financials-line--forecast" fill="none"/>`
+    : "";
+
+  const ariaLabel = chart.points
+    .map((p) => `${p.label} ${p.year} ${p.type}: ${formatChartValue(p.value)}`)
+    .join("; ");
+
+  return `
+    <svg class="financials-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="${ariaLabel}">
+      ${gridLines}
+      ${yLabels}
+      ${actualPath}
+      ${forecastPath}
+      ${actualDots}
+      ${forecastDots}
+      ${xLabels}
+      <line x1="${pad.left}" y1="${pad.top + plotH}" x2="${width - pad.right}" y2="${pad.top + plotH}" class="financials-axis-line"/>
+    </svg>
+    <div class="financials-legend">
+      <span class="financials-legend-item"><span class="financials-legend-swatch financials-legend-swatch--actual"></span>Actual</span>
+      <span class="financials-legend-item"><span class="financials-legend-swatch financials-legend-swatch--forecast"></span>Forecast</span>
+    </div>
+  `;
+}
+
+function renderComparisonChartSvg(chart) {
+  const width = 520;
+  const height = 260;
+  const pad = { top: 24, right: 16, bottom: 44, left: 48 };
+  const revenueCoords = buildChartCoords(chart.revenue, { width, height, pad, yMax: chart.yMax });
+  const expenseCoords = buildChartCoords(chart.expense, { width, height, pad, yMax: chart.yMax });
+  const yTicks = buildYAxisTicks(chart.yMax);
+  const plotH = height - pad.top - pad.bottom;
+
+  const gridLines = yTicks
+    .map((tick) => {
+      const y = pad.top + (1 - tick / chart.yMax) * plotH;
+      return `<line x1="${pad.left}" y1="${y}" x2="${width - pad.right}" y2="${y}" class="financials-grid-line"/>`;
+    })
+    .join("");
+
+  const yLabels = yTicks
+    .map((tick) => {
+      const y = pad.top + (1 - tick / chart.yMax) * plotH;
+      return `<text x="${pad.left - 8}" y="${y + 4}" class="financials-axis-label" text-anchor="end">$${tick}K</text>`;
+    })
+    .join("");
+
+  const xLabels = revenueCoords
+    .map(
+      (c) =>
+        `<text x="${c.x}" y="${height - 16}" class="financials-x-label" text-anchor="middle">${c.label}</text>`,
+    )
+    .join("");
+
+  const revenuePath = `<path d="${polylinePath(revenueCoords)}" class="financials-line financials-line--revenue" fill="none"/>`;
+  const expensePath = `<path d="${polylinePath(expenseCoords)}" class="financials-line financials-line--expense" fill="none"/>`;
+
+  const revenueDots = revenueCoords
+    .map((c) => `<circle cx="${c.x}" cy="${c.y}" r="3" class="financials-dot financials-dot--revenue"/>`)
+    .join("");
+  const expenseDots = expenseCoords
+    .map((c) => `<circle cx="${c.x}" cy="${c.y}" r="3" class="financials-dot financials-dot--expense"/>`)
+    .join("");
+
+  const ariaLabel = "Revenue and expense forecast comparison chart";
+
+  return `
+    <svg class="financials-svg financials-svg--compact" viewBox="0 0 ${width} ${height}" role="img" aria-label="${ariaLabel}">
+      ${gridLines}
+      ${yLabels}
+      ${revenuePath}
+      ${expensePath}
+      ${revenueDots}
+      ${expenseDots}
+      ${xLabels}
+      <line x1="${pad.left}" y1="${pad.top + plotH}" x2="${width - pad.right}" y2="${pad.top + plotH}" class="financials-axis-line"/>
+    </svg>
+    <div class="financials-legend">
+      <span class="financials-legend-item"><span class="financials-legend-swatch financials-legend-swatch--revenue"></span>Revenue Forecast</span>
+      <span class="financials-legend-item"><span class="financials-legend-swatch financials-legend-swatch--expense"></span>Expense Forecast</span>
+    </div>
+  `;
+}
+
+function renderFinancialsSection() {
+  const { financials } = sections;
+  const header = document.getElementById("financials-header");
+  const toggles = document.getElementById("financials-toggles");
+  const actuals = document.getElementById("financials-actuals");
+  const revenueChart = document.getElementById("financials-revenue-chart");
+  const comparisonChart = document.getElementById("financials-comparison-chart");
+  const takeaways = document.getElementById("financials-takeaways");
+  const disclosures = document.getElementById("financials-disclosures");
+
+  if (header) {
+    header.innerHTML = `
+      <h2>${financials.headline}</h2>
+      <p class="financials-intro">${financials.intro}</p>
+    `;
+  }
+
+  if (toggles) {
+    toggles.innerHTML = financials.toggles
+      .map(
+        (toggle) => `
+      <button type="button" class="financials-toggle${toggle.active ? " is-active" : ""}" aria-pressed="${toggle.active}">
+        <span class="financials-toggle-icon">${iconMarkup(toggle.icon)}</span>
+        <span>${toggle.label}</span>
+      </button>
+    `,
+      )
+      .join("");
+  }
+
+  if (actuals) {
+    actuals.innerHTML = financials.actuals
+      .map(
+        (card) => `
+      <div class="financials-actual-card">
+        <div class="financials-actual-header">
+          <span class="financials-actual-month">${card.month}</span>
+          <span class="financials-actual-type">${card.type}</span>
+        </div>
+        <span class="financials-actual-icon">${iconMarkup("chart")}</span>
+        <div class="financials-actual-value">${formatMetric(card.key)}</div>
+        <div class="financials-actual-label">Revenue</div>
+      </div>
+    `,
+      )
+      .join("");
+  }
+
+  if (revenueChart) {
+    revenueChart.innerHTML = `
+      <h3 class="financials-chart-title">${financials.revenueChart.title}</h3>
+      <div class="financials-chart-wrap">${renderRevenueChartSvg(financials.revenueChart)}</div>
+    `;
+  }
+
+  if (comparisonChart) {
+    comparisonChart.innerHTML = `
+      <h3 class="financials-chart-title">${financials.comparisonChart.title}</h3>
+      <div class="financials-chart-wrap">${renderComparisonChartSvg(financials.comparisonChart)}</div>
+    `;
+  }
+
+  if (takeaways) {
+    takeaways.innerHTML = `
+      <div class="financials-takeaways-mark">
+        <img src="../assets/logo.png" alt="" width="28" height="28" />
+      </div>
+      <h3 class="financials-takeaways-title">Key Takeaways</h3>
+      <ul class="financials-takeaways-list">
+        ${financials.takeaways.map((item) => `<li><span class="financials-takeaways-check">${iconMarkup("check")}</span>${item}</li>`).join("")}
+      </ul>
+    `;
+  }
+
+  if (disclosures) {
+    disclosures.innerHTML = `
+      <div class="financials-disclosure-item">
+        <span class="financials-disclosure-icon">${iconMarkup("shield")}</span>
+        <span>${financials.disclosures[0]}</span>
+      </div>
+      <div class="financials-disclosure-item">
+        <span class="financials-disclosure-icon">${iconMarkup("info")}</span>
+        <span>${financials.disclosures[1]}</span>
+      </div>
+      <a class="financials-download" href="#" aria-disabled="true">
+        <span class="financials-disclosure-icon">${iconMarkup("download")}</span>
+        <span>${financials.download.label} — ${financials.download.formats}</span>
+      </a>
+    `;
+  }
+}
+
 function renderTractionSection() {
   const { traction } = sections;
   const header = document.getElementById("traction-header");
@@ -229,7 +502,6 @@ function renderTractionSection() {
 
 function renderSectionKpis() {
   const map = {
-    "financials-kpis": sections.financials.kpis,
     "receivables-kpis": sections.receivables.kpis,
     "art-kpis": sections.artInventory.kpis,
     "events-kpis": sections.events.kpis,
@@ -492,6 +764,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderHero();
   renderSectionKpis();
   renderTractionSection();
+  renderFinancialsSection();
   renderEngines();
   renderEventsTable();
   renderPartnersTable();
