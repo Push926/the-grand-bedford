@@ -3162,6 +3162,14 @@
   margin-bottom: 28px;
 }
 
+.pipeline-main {
+  min-width: 0;
+}
+
+.pipeline-sidebar {
+  min-width: 0;
+}
+
 .pipeline-table-wrap {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
@@ -3170,6 +3178,7 @@
   background: var(--inv-card);
   box-shadow: var(--inv-shadow-soft);
   scrollbar-width: thin;
+  max-width: 100%;
 }
 
 .pipeline-table {
@@ -3267,6 +3276,11 @@
 .pipeline-status--confirmed {
   background: rgba(90, 120, 90, 0.16);
   color: #4a6a4a;
+}
+
+.pipeline-table-desktop {
+  display: block;
+  min-width: 0;
 }
 
 .pipeline-cards-mobile {
@@ -6117,6 +6131,19 @@
 
   .pipeline-body {
     grid-template-columns: 1fr;
+  }
+
+  .pipeline-main,
+  .pipeline-sidebar {
+    min-width: 0;
+  }
+
+  .pipeline-table-desktop {
+    display: none;
+  }
+
+  .pipeline-cards-mobile {
+    display: grid;
   }
 
   .people-featured-desktop {
