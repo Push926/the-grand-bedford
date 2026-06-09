@@ -652,13 +652,137 @@ export const sections = {
   },
   partnerships: {
     title: "Partnership Ecosystem",
-    intro: "Active and prospective brand, artist, and community partnerships.",
-    partners: [
-      { name: "Local Artist Collective", type: "Art", status: "Active" },
-      { name: "Wellness Brand Partner", type: "Events", status: "Active" },
-      { name: "National Beauty Brand", type: "Pop-Up", status: "Prospect" },
-      { name: "Community Arts Org", type: "Programming", status: "Active" },
+    eyebrow: "Strategic relationships",
+    headline:
+      "The partnership ecosystem expands the platform beyond the walls.",
+    intro:
+      "A curated network of partners can support programming, hospitality, brand activations, media visibility, community engagement, and long-term platform value.",
+    approach: {
+      label: "Our approach",
+      text: "We partner with brands, organizations, and institutions that align with our values and contribute to a dynamic cultural ecosystem.",
+      principles: [
+        { icon: "star", label: "Curated partnerships" },
+        { icon: "handshake", label: "Mutual value creation" },
+        { icon: "location", label: "Rooted in community" },
+        { icon: "leaf", label: "Sustainable impact" },
+      ],
+    },
+    centerNode: {
+      name: "The Grand Bedford",
+      location: "Williamsburg Brooklyn",
+      icon: "building",
+    },
+    categories: [
+      {
+        id: "food-beverage",
+        name: "Food & Beverage",
+        icon: "dining",
+        position: 1,
+        examples: [
+          { name: "Impact Kitchen", status: "representative" },
+          { name: "Wine / Beverage Partner", status: "target" },
+          { name: "Coffee Partner", status: "target" },
+        ],
+      },
+      {
+        id: "brand-activations",
+        name: "Brand Activations",
+        icon: "megaphone",
+        position: 2,
+        examples: [
+          { name: "Experiential campaigns", status: "aligned" },
+          { name: "Product collaborations", status: "aligned" },
+          { name: "Community engagement", status: "aligned" },
+        ],
+      },
+      {
+        id: "hospitality",
+        name: "Hospitality",
+        icon: "handshake",
+        position: 3,
+        examples: [
+          { name: "Boutique hotel partners", status: "target" },
+          { name: "Hospitality operators", status: "target" },
+          { name: "Event & catering partners", status: "pipeline" },
+        ],
+      },
+      {
+        id: "real-estate",
+        name: "Real Estate",
+        icon: "building",
+        position: 4,
+        examples: [
+          { name: "Local Real Estate Group", status: "in-discussion" },
+        ],
+      },
+      {
+        id: "media",
+        name: "Media",
+        icon: "newspaper",
+        position: 5,
+        examples: [{ name: "Media Partner", status: "target" }],
+      },
+      {
+        id: "artists",
+        name: "Artists",
+        icon: "artist",
+        position: 6,
+        examples: [
+          { name: "Artist / Curator Collective", status: "representative" },
+        ],
+      },
+      {
+        id: "sustainability",
+        name: "Sustainability",
+        icon: "leaf",
+        position: 7,
+        examples: [
+          { name: "Sustainable design partners", status: "aligned" },
+          { name: "Waste & resource management", status: "aligned" },
+        ],
+      },
+      {
+        id: "mobility",
+        name: "Mobility",
+        icon: "bike",
+        position: 8,
+        examples: [{ name: "Rivian", status: "in-discussion" }],
+      },
+      {
+        id: "sponsors",
+        name: "Sponsors",
+        icon: "star",
+        position: 9,
+        examples: [{ name: "Pale Blue Dot", status: "representative" }],
+      },
     ],
+    strategyCards: [
+      {
+        title: "Programming Support",
+        icon: "calendar",
+        copy: "Partners can help deepen the calendar through dinners, panels, workshops, launches, and community experiences.",
+      },
+      {
+        title: "Audience Expansion",
+        icon: "partners",
+        copy: "Aligned partners introduce new guests, collectors, sponsors, and brand audiences into the platform.",
+      },
+      {
+        title: "Hospitality Layer",
+        icon: "handshake",
+        copy: "Food, beverage, wellness, and service partners help elevate the visitor and event experience.",
+      },
+      {
+        title: "Brand Value",
+        icon: "star",
+        copy: "Partnerships can create recurring visibility, sponsorship opportunities, and long-term cultural relevance.",
+      },
+    ],
+    examplesNote:
+      "Representative aligned partners and categories — illustrative examples, not confirmed commitments unless noted in the Partnership Pipeline.",
+    pipelineTeaser:
+      "Quantified pipeline values, probability weighting, and stage tracking appear in the Partnership Pipeline section.",
+    footer: "A cultural platform built for endurance.",
   },
   pipeline: {
     title: "Partnership Pipeline",

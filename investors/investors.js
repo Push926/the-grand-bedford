@@ -81,6 +81,18 @@ const ICONS = {
     '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M12 11v5M12 8h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
   check:
     '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12l4 4 8-8" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  star:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4l2.2 5.5L20 10l-4.5 3.8L16.5 20 12 16.8 7.5 20l1-6.2L4 10l5.8-.5L12 4z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg>',
+  leaf:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 20c6-1 10-5 12-12-7 2-11 6-12 12z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/><path d="M9 15c2-2 4-3 6-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>',
+  megaphone:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10v4h3l5 4V6L8 10H5z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/><path d="M17 9a3 3 0 010 6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>',
+  dining:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v8M8 4v5M10 4v8M6 12v2c0 2 1 3 3 3" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M16 4v16M19 4c1.5 0 2 2 2 4v4c0 2-.5 4-2 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>',
+  bike:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="17" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="18" cy="17" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M6 14h4l2-4h4l2 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 10l2-4h3" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>',
+  newspaper:
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="14" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M8 9h8M8 12h8M8 15h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
 };
 
 function iconMarkup(name) {
@@ -967,20 +979,135 @@ function renderEventsSection() {
   }
 }
 
-function renderPartnersTable() {
-  const tbody = document.getElementById("partners-table-body");
-  if (!tbody) return;
-  tbody.innerHTML = sections.partnerships.partners
+const PARTNERSHIP_EXAMPLE_STATUS = {
+  representative: "Representative",
+  target: "Target",
+  "in-discussion": "In discussion",
+  aligned: "Aligned",
+  pipeline: "Pipeline",
+  potential: "Potential",
+};
+
+function formatPartnershipExampleStatus(status) {
+  return PARTNERSHIP_EXAMPLE_STATUS[status] || status;
+}
+
+function renderPartnershipCategoryNode(category) {
+  const examples = (category.examples || [])
     .map(
-      (p) => `
-    <tr>
-      <td>${p.name}</td>
-      <td>${p.type}</td>
-      <td><span class="status">${p.status}</span></td>
-    </tr>
-  `,
+      (ex) => `
+      <li class="partnerships-example">
+        <span class="partnerships-example-name">${ex.name}</span>
+        <span class="partnerships-example-status">${formatPartnershipExampleStatus(ex.status)}</span>
+      </li>
+    `,
     )
     .join("");
+
+  return `
+    <article class="partnerships-node" data-pos="${category.position}">
+      <span class="partnerships-node-icon">${iconMarkup(category.icon)}</span>
+      <h3 class="partnerships-node-name">${category.name}</h3>
+      ${
+        examples
+          ? `<ul class="partnerships-node-examples" aria-label="Representative examples for ${category.name}">${examples}</ul>`
+          : ""
+      }
+    </article>
+  `;
+}
+
+function renderPartnershipEcosystemSection() {
+  const ps = sections.partnerships;
+  const header = document.getElementById("partnerships-header");
+  const approach = document.getElementById("partnerships-approach");
+  const map = document.getElementById("partnerships-map");
+  const strategy = document.getElementById("partnerships-strategy");
+  const note = document.getElementById("partnerships-note");
+  const footer = document.getElementById("partnerships-footer");
+
+  if (header) {
+    header.innerHTML = `
+      <span class="partnerships-eyebrow">${ps.eyebrow}</span>
+      <h2>${ps.headline}</h2>
+      <p class="partnerships-intro">${ps.intro}</p>
+    `;
+  }
+
+  if (approach) {
+    const principles = ps.approach.principles
+      .map(
+        (item) => `
+        <li class="partnerships-principle">
+          <span class="partnerships-principle-icon">${iconMarkup(item.icon)}</span>
+          <span>${item.label}</span>
+        </li>
+      `,
+      )
+      .join("");
+
+    approach.innerHTML = `
+      <span class="partnerships-approach-label">${ps.approach.label}</span>
+      <p class="partnerships-approach-text">${ps.approach.text}</p>
+      <ul class="partnerships-principles">${principles}</ul>
+    `;
+  }
+
+  if (map) {
+    const { centerNode, categories } = ps;
+    const categoryNodes = categories.map(renderPartnershipCategoryNode).join("");
+    const mapAriaLabel = `Partnership ecosystem centered on ${centerNode.name}, surrounded by ${categories.map((c) => c.name).join(", ")}`;
+
+    map.innerHTML = `
+      <div class="partnerships-ecosystem" role="group" aria-label="${mapAriaLabel}">
+        <svg class="partnerships-connectors" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <line x1="50" y1="50" x2="16" y2="16" />
+          <line x1="50" y1="50" x2="50" y2="10" />
+          <line x1="50" y1="50" x2="84" y2="16" />
+          <line x1="50" y1="50" x2="10" y2="50" />
+          <line x1="50" y1="50" x2="90" y2="50" />
+          <line x1="50" y1="50" x2="16" y2="84" />
+          <line x1="50" y1="50" x2="50" y2="90" />
+          <line x1="50" y1="50" x2="84" y2="84" />
+          <line x1="50" y1="50" x2="50" y2="96" />
+        </svg>
+        <article class="partnerships-hub">
+          <span class="partnerships-hub-icon">${iconMarkup(centerNode.icon)}</span>
+          <h3 class="partnerships-hub-name">${centerNode.name}</h3>
+          <p class="partnerships-hub-location">${centerNode.location}</p>
+        </article>
+        ${categoryNodes}
+      </div>
+    `;
+  }
+
+  if (strategy) {
+    strategy.innerHTML = ps.strategyCards
+      .map(
+        (card) => `
+        <article class="partnerships-strategy-card">
+          <span class="partnerships-strategy-icon">${iconMarkup(card.icon)}</span>
+          <h3 class="partnerships-strategy-title">${card.title}</h3>
+          <p class="partnerships-strategy-copy">${card.copy}</p>
+        </article>
+      `,
+      )
+      .join("");
+  }
+
+  if (note) {
+    note.innerHTML = `
+      <span class="partnerships-note-text">${ps.examplesNote}</span>
+      <span class="partnerships-pipeline-teaser">${ps.pipelineTeaser}</span>
+    `;
+  }
+
+  if (footer) {
+    footer.innerHTML = `
+      <span class="partnerships-footer-icon">${iconMarkup("building")}</span>
+      <span>${ps.footer}</span>
+    `;
+  }
 }
 
 function renderPipelineTable() {
@@ -1164,7 +1291,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initArtInventoryFilters();
   renderEngines();
   renderEventsSection();
-  renderPartnersTable();
+  renderPartnershipEcosystemSection();
   renderPipelineTable();
   renderProofGrid();
   renderRiskGrid();
