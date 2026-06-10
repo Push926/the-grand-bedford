@@ -14,12 +14,16 @@ export const landingData = {
       "Three direct revenue channels",
       "$150,000 investment opportunity",
     ],
+    dealStrip:
+      "$150K investment · 15% passive economic interest · $1M post-money valuation",
     primaryCta: { label: "View the Investment Opportunity", href: "#offer" },
     secondaryCta: { label: "Schedule a Walkthrough", href: "#invest" },
     image: "../assets/Grand_Bedford_Front-a0e70409-7994-433a-bbf8-5802e04e6e1d.png",
   },
   offer: {
     title: "The Offer",
+    summary:
+      "Invest $150,000 for 15% passive participation in The Grand Bedford operating business.",
     terms: [
       { label: "Investment", value: "$150,000" },
       { label: "Investor receives", value: "15% passive economic interest" },
@@ -41,7 +45,7 @@ export const landingData = {
       "Recent artist-show sales proof",
       "Private-event and programming upside",
       "Three direct revenue channels",
-      "Path toward $1M+ annualized revenue",
+      "Path toward $1M+ annualized revenue across multiple channels",
     ],
     proof:
       "A recent artist-show structure generated approximately $50,000 in gross art sales, approximately $25,000 in Grand Bedford art revenue, plus a $7,500 show rental fee.",
@@ -65,7 +69,7 @@ export const landingData = {
   },
   phases: {
     title: "Capital Is Released by Milestone",
-    copy: "The raise is not spent all at once. Funds are deployed first to stabilize the platform, protect July rent, secure insurance/security, and support the core team. Revenue-channel capital is then released in phases so early bookings, art-sales activity, and programming demand can validate the next layer of spend.",
+    copy: "Funds are not deployed all at once. The first priority is platform stability: team runway, back rent, July rent, security, insurance, and overhead. Revenue-channel capital is then released in phases as bookings, art-sales activity, and programming demand validate the next spend.",
     items: [
       {
         title: "Phase 1 — Immediate / First 30 Days",
@@ -90,6 +94,7 @@ export const landingData = {
       phase1: {
         label: "Phase 1 — Immediate",
         total: 11000,
+        purpose: "Make the space private, bookable, and immediately event-ready.",
         items: [
           { label: "Privacy curtains / interior privacy", amount: 5000 },
           { label: "QR signage / booking materials", amount: 1250 },
@@ -103,6 +108,7 @@ export const landingData = {
       phase2: {
         label: "Phase 2 — 30–45 Days",
         total: 8500,
+        purpose: "Expand outdoor usability, power planning, and weather protection.",
         items: [
           { label: "Rear-yard electrical / power solution allowance", amount: 3500 },
           { label: "Front awning / weather protection contribution", amount: 2000 },
@@ -110,7 +116,8 @@ export const landingData = {
           { label: "Outdoor sound / lighting upgrade", amount: 1000 },
         ],
       },
-      note: "This allowance should be described as including electrician review, feasibility, limited implementation, and related permitting, engineering, architectural, or filing costs to the extent required. If permanent electrical work requires heavier filings or infrastructure, the company may phase the work or use temporary power solutions until booked revenue justifies further investment.",
+      powerNote:
+        "This allowance should be described as including electrician review, feasibility, limited implementation, and related permitting, engineering, architectural, or filing costs to the extent required. If permanent electrical work requires heavier filings or infrastructure, the company may phase the work or use temporary power solutions until booked revenue justifies further investment.",
       summary:
         "Channel 1 capital makes the space private, bookable, powered/planned, weather-aware, and event-ready.",
     },
@@ -124,6 +131,7 @@ export const landingData = {
       phase1: {
         label: "Phase 1 — Immediate",
         total: 6500,
+        purpose: "Equip buyer-facing sales tools, artwork tags, and floor coverage.",
         items: [
           { label: "Printer / quality paper / binders / sleeves / punch", amount: 1250 },
           { label: "NFC / QR artwork tags and wall-label materials", amount: 1250 },
@@ -135,12 +143,13 @@ export const landingData = {
       phase2: {
         label: "Phase 2 — 30–60 Days",
         total: 3500,
+        purpose: "Support collector previews and art-sales contingency.",
         items: [
           { label: "Collector preview / membership series", amount: 3000 },
           { label: "Miscellaneous art-sales contingency", amount: 500 },
         ],
       },
-      internalNote:
+      systemsNote:
         "Brian can build the inventory tracker, receivables tracker, CRM architecture, agreement templates, sales split calculator, QR/NFC data structure, buyer follow-up scripts, and investor reporting dashboard internally using legal and AI workflow. Therefore, investor capital is focused on buyer-facing conversion items.",
       summary:
         "Channel 2 capital turns the gallery into a trackable art-sales environment through binders, NFC/QR artwork cards, collector follow-up, sales floor coverage, and private collector experiences.",
@@ -155,6 +164,7 @@ export const landingData = {
       phase1: {
         label: "Phase 1 — Immediate",
         total: 3500,
+        purpose: "Launch immediate events, ticketing, and content documentation.",
         items: [
           { label: "July 4 / launch event support", amount: 1750 },
           { label: "Ticketing / RSVP / calendar setup", amount: 500 },
@@ -165,6 +175,7 @@ export const landingData = {
       phase2: {
         label: "Phase 2 — 30–60 Days",
         total: 2000,
+        purpose: "Pilot family programming and sponsor-ready materials.",
         items: [
           { label: "Kids/family art pilot supplies", amount: 1000 },
           { label: "Sponsor / brand one-pagers", amount: 750 },
@@ -180,9 +191,12 @@ export const landingData = {
     subtitle:
       "A phased view of how capital deployment converts into bookings, art sales, programming revenue, and repeatable operations.",
     periods: ["6 Months", "12 Months", "18 Months", "24 Months"],
-    yLabel: "Projected annualized operating revenue ($K)",
+    chartTitle: "Projected Annualized Revenue Run-Rate",
+    yLabel: "Annualized revenue run-rate",
     disclaimer:
-      "Forecasts are illustrative and depend on execution, bookings, sales activity, programming demand, and operating costs.",
+      "Illustrative annualized run-rate, not guaranteed revenue.",
+    detailNote:
+      "Forecasts depend on execution, bookings, sales activity, programming demand, and operating costs.",
     scenarios: {
       conservative: { label: "Conservative", values: [65, 140, 240, 380], color: "#7a7268" },
       base: { label: "Base Case", values: [110, 260, 480, 720], color: "#9a7b5a" },
@@ -207,15 +221,21 @@ export const landingData = {
     scenarios: [
       {
         label: "Conservative",
-        values: ["~$9K cumulative distributions", "~$24K cumulative distributions", "$300K buyback option", "$300K + tail"],
+        twelveMonth: "~$24K estimated distributions",
+        twentyFourMonth: "~$48K estimated distributions if not bought out",
+        buyout: "$300K + six-month 2.5% tail",
       },
       {
         label: "Base Case",
-        values: ["~$14K cumulative distributions", "~$42K cumulative distributions", "$300K buyback + tail", "$300K + tail complete"],
+        twelveMonth: "~$42K estimated distributions",
+        twentyFourMonth: "~$85K estimated distributions if not bought out",
+        buyout: "$300K + six-month 2.5% tail",
       },
       {
         label: "Upside",
-        values: ["~$22K cumulative distributions", "~$68K cumulative distributions", "$300K buyback + tail", "$300K + tail complete"],
+        twelveMonth: "~$68K estimated distributions",
+        twentyFourMonth: "~$120K estimated distributions if not bought out",
+        buyout: "$300K + six-month 2.5% tail",
       },
     ],
   },
@@ -256,7 +276,7 @@ export const landingData = {
           "collector previews",
           "buyer follow-up",
           "art-sales pipeline",
-          "blue-chip opportunity diligence",
+          "blue-chip opportunity tracking / diligence",
         ],
       },
       {
@@ -276,28 +296,33 @@ export const landingData = {
     title: "Visual Proof: Space, Events & Art",
     items: [
       {
+        role: "exterior",
         category: "Property",
-        caption: "Prime Williamsburg storefront",
+        caption: "Exterior / storefront — prime Williamsburg visibility",
         src: "../assets/Grand_Bedford_Front-a0e70409-7994-433a-bbf8-5802e04e6e1d.png",
       },
       {
+        role: "interior",
         category: "Property",
-        caption: "Interior gallery and event space",
+        caption: "Clean interior gallery and flexible event setting",
         src: "../assets/Grand_Bedford_Interior.png",
       },
       {
+        role: "events",
         category: "Events",
-        caption: "Recent gallery activation",
+        caption: "Event / crowd activation in the gallery",
         src: "../assets/rsvp-hero-event.png",
       },
       {
+        role: "art",
         category: "Art",
-        caption: "Art-sales environment",
+        caption: "Art wall and sales environment",
         src: "../assets/rsvp-haring-art.png",
       },
       {
+        role: "backyard",
         category: "Backyard / activation potential",
-        caption: "Rear yard activation potential",
+        caption: "Backyard / outdoor activation potential",
         src: "../assets/127E76CC-0DE3-4BED-BC3C-7DEFEE53B818-36f97c9b-cba3-49cc-b6f0-3d91779fbc2b.png",
       },
     ],
@@ -315,6 +340,7 @@ export const landingData = {
       "Monthly investor reporting",
       "Blue-chip upside excluded from base case unless documented",
       "Passive investor structure with no operating burden",
+      "Founder-built legal, reporting, and operating systems",
     ],
   },
   invest: {

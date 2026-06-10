@@ -4,7 +4,31 @@ function formatMoney(amount) {
   return `$${amount.toLocaleString("en-US")}`;
 }
 
-function renderPhaseItems(phase) {
+function formatRunRateAxis(valueK) {
+  if (valueK >= 1000) {
+    const millions = valueK / 1000;
+    const rounded =
+      millions >= 10
+        ? millions.toFixed(1)
+        : millions.toFixed(2).replace(/0$/, "");
+    return `$${rounded}M`;
+  }
+  return `$${valueK}K`;
+}
+
+function renderSectionCta({ label, href, variant = "ghost" }) {
+  return `
+    <div class="memo-section-cta">
+      <a class="memo-btn memo-btn--${variant}" href="${href}">${label}</a>
+    </div>
+  `;
+}
+
+function renderPhaseAccordion(phase, channelId, phaseKey) {
+  const summaryLabel =
+    phaseKey === "phase1"
+      ? "View Phase 1 spend details"
+      : "View Phase 2 spend details";
   const rows = phase.items
     .map(
       (item) => `
@@ -17,19 +41,28 @@ function renderPhaseItems(phase) {
     .join("");
 
   return `
-    <div class="memo-phase-block">
-      <h4 class="memo-phase-label">${phase.label}</h4>
+    <details class="memo-accordion" id="channel-${channelId}-${phaseKey}">
+      <summary>${summaryLabel}</summary>
       <ul class="memo-phase-list">${rows}</ul>
-      <p class="memo-phase-total">Phase total: <strong>${formatMoney(phase.total)}</strong></p>
+    </details>
+  `;
+}
+
+function renderPhaseSummary(phase) {
+  return `
+    <div class="memo-phase-summary">
+      <p class="memo-phase-summary-label">${phase.label}</p>
+      <p class="memo-phase-summary-total"><strong>${formatMoney(phase.total)}</strong></p>
+      <p class="memo-phase-summary-purpose">${phase.purpose}</p>
     </div>
   `;
 }
 
 function renderRoadmapChart(roadmap) {
-  const { periods, scenarios, yLabel } = roadmap;
-  const width = 320;
-  const height = 180;
-  const pad = { top: 16, right: 12, bottom: 28, left: 36 };
+  const { periods, scenarios, chartTitle } = roadmap;
+  const width = 360;
+  const height = 200;
+  const pad = { top: 20, right: 16, bottom: 36, left: 44 };
   const chartW = width - pad.left - pad.right;
   const chartH = height - pad.top - pad.bottom;
   const allValues = Object.values(scenarios).flatMap((s) => s.values);
@@ -64,20 +97,23 @@ function renderRoadmapChart(roadmap) {
   const xLabels = periods
     .map((label, i) => {
       const x = pad.left + i * xStep;
-      return `<text x="${x}" y="${height - 6}" text-anchor="middle" class="memo-chart-axis-label">${label}</text>`;
+      const anchor =
+        i === 0 ? "start" : i === periods.length - 1 ? "end" : "middle";
+      const dx = i === 0 ? 0 : i === periods.length - 1 ? 0 : 0;
+      return `<text x="${x + dx}" y="${height - 8}" text-anchor="${anchor}" class="memo-chart-axis-label">${label}</text>`;
     })
     .join("");
 
   const yTicks = [0, 0.5, 1].map((pct) => {
     const val = Math.round((yMax * pct) / 50) * 50;
     const y = pad.top + chartH - pct * chartH;
-    return `<text x="${pad.left - 6}" y="${y + 4}" text-anchor="end" class="memo-chart-axis-label">$${val}K</text>`;
+    return `<text x="${pad.left - 8}" y="${y + 4}" text-anchor="end" class="memo-chart-axis-label">${formatRunRateAxis(val)}</text>`;
   });
 
   return `
     <div class="memo-chart-wrap">
-      <p class="memo-chart-y-label">${yLabel}</p>
-      <svg class="memo-chart" viewBox="0 0 ${width} ${height}" role="img" aria-label="Revenue roadmap line chart">
+      <p class="memo-chart-title">${chartTitle}</p>
+      <svg class="memo-chart" viewBox="0 0 ${width} ${height}" role="img" aria-label="Projected annualized revenue run-rate chart">
         ${yTicks.join("")}
         <line x1="${pad.left}" y1="${pad.top + chartH}" x2="${pad.left + chartW}" y2="${pad.top + chartH}" class="memo-chart-grid" />
         ${lines}
@@ -136,6 +172,7 @@ function renderHero() {
         <div class="memo-hero-content">
           <p class="memo-eyebrow">Private Investment Opportunity</p>
           <h1 class="memo-headline">${h.headline}</h1>
+          <p class="memo-deal-strip">${h.dealStrip}</p>
           <p class="memo-subheadline">${h.subheadline}</p>
           <p class="memo-body">${h.copy}</p>
           <ul class="memo-bullets">${bullets}</ul>
@@ -170,10 +207,12 @@ function renderOffer() {
   el.innerHTML = `
     <div class="memo-wrap">
       <div class="memo-panel memo-panel--featured">
-        <h2 class="memo-section-title">${o.title}</h2>
+        <h2 class="memo-section-title memo-section-title--panel">${o.title}</h2>
+        <p class="memo-offer-summary">${o.summary}</p>
         <div class="memo-terms">${terms}</div>
         <p class="memo-plain-english">${o.plainEnglish}</p>
       </div>
+      ${renderSectionCta({ label: "Schedule a Walkthrough", href: "#invest" })}
     </div>
   `;
 }
@@ -255,11 +294,21 @@ function renderChannels() {
 
   const cards = d.channels
     .map((ch) => {
-      const note = ch.note
-        ? `<p class="memo-channel-note">${ch.note}</p>`
+      const powerNote = ch.powerNote
+        ? `
+        <details class="memo-accordion memo-accordion--note">
+          <summary>Power / permitting note</summary>
+          <p>${ch.powerNote}</p>
+        </details>
+      `
         : "";
-      const internal = ch.internalNote
-        ? `<p class="memo-channel-internal">${ch.internalNote}</p>`
+      const systemsNote = ch.systemsNote
+        ? `
+        <details class="memo-accordion memo-accordion--note">
+          <summary>Operating systems note</summary>
+          <p>${ch.systemsNote}</p>
+        </details>
+      `
         : "";
 
       return `
@@ -267,13 +316,15 @@ function renderChannels() {
           <div class="memo-channel-header">
             <span class="memo-channel-num">Channel ${ch.number}</span>
             <h3 class="memo-channel-title">${ch.title}</h3>
-            <p class="memo-channel-desc">${ch.description}</p>
             <p class="memo-channel-alloc">Allocation: <strong>${formatMoney(ch.allocation)}</strong></p>
+            <p class="memo-channel-desc">${ch.description}</p>
           </div>
-          ${renderPhaseItems(ch.phase1)}
-          ${renderPhaseItems(ch.phase2)}
-          ${note}
-          ${internal}
+          ${renderPhaseSummary(ch.phase1)}
+          ${renderPhaseAccordion(ch.phase1, ch.id, "phase1")}
+          ${renderPhaseSummary(ch.phase2)}
+          ${renderPhaseAccordion(ch.phase2, ch.id, "phase2")}
+          ${powerNote}
+          ${systemsNote}
           <p class="memo-channel-summary">${ch.summary}</p>
         </article>
       `;
@@ -307,7 +358,8 @@ function renderRoadmap() {
       <div class="memo-panel">
         <div class="memo-toggle-group" role="group" aria-label="Revenue scenario">${toggles}</div>
         ${renderRoadmapChart(r)}
-        <p class="memo-disclaimer">${r.disclaimer}</p>
+        <p class="memo-chart-footnote">${r.disclaimer}</p>
+        ${r.detailNote ? `<p class="memo-disclaimer">${r.detailNote}</p>` : ""}
       </div>
     </div>
   `;
@@ -330,14 +382,24 @@ function renderReturns() {
     )
     .join("");
 
-  const headerCells = r.periods.map((p) => `<th>${p}</th>`).join("");
-  const rows = r.scenarios
+  const scenarioCards = r.scenarios
     .map(
       (s) => `
-      <tr>
-        <th scope="row">${s.label}</th>
-        ${s.values.map((v) => `<td>${v}</td>`).join("")}
-      </tr>
+      <article class="memo-return-card">
+        <h3 class="memo-return-card-title">${s.label}</h3>
+        <div class="memo-return-row">
+          <span>12-month estimated distributions</span>
+          <strong>${s.twelveMonth}</strong>
+        </div>
+        <div class="memo-return-row">
+          <span>24-month if not bought out</span>
+          <strong>${s.twentyFourMonth}</strong>
+        </div>
+        <div class="memo-return-row memo-return-row--buyout">
+          <span>Buyout case</span>
+          <strong>${s.buyout}</strong>
+        </div>
+      </article>
     `,
     )
     .join("");
@@ -347,15 +409,9 @@ function renderReturns() {
       <h2 class="memo-section-title">${r.title}</h2>
       <p class="memo-section-intro">${r.intro}</p>
       <div class="memo-stat-grid">${highlights}</div>
-      <div class="memo-table-wrap">
-        <table class="memo-table">
-          <thead>
-            <tr><th scope="col">Scenario</th>${headerCells}</tr>
-          </thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>
+      <div class="memo-return-grid">${scenarioCards}</div>
       <p class="memo-disclaimer">${r.disclaimer}</p>
+      ${renderSectionCta({ label: "Request Investor Call", href: "#invest", variant: "primary" })}
     </div>
   `;
 }
@@ -364,15 +420,29 @@ function renderPeople() {
   const el = document.getElementById("people");
   if (!el) return;
   const p = d.people;
+  const maxFocus = 4;
   const cards = p.team
     .map((person) => {
-      const focus = person.focus.map((f) => `<li>${f}</li>`).join("");
+      const visible = person.focus.slice(0, maxFocus);
+      const extra = person.focus.slice(maxFocus);
+      const focus = visible.map((f) => `<li>${f}</li>`).join("");
+      const extraList =
+        extra.length > 0
+          ? `
+        <details class="memo-accordion memo-accordion--compact">
+          <summary>View all focus areas</summary>
+          <ul class="memo-person-focus">${extra.map((f) => `<li>${f}</li>`).join("")}</ul>
+        </details>
+      `
+          : "";
+
       return `
         <article class="memo-person-card">
           <h3 class="memo-person-name">${person.name}</h3>
           <p class="memo-person-role">${person.role}</p>
           <p class="memo-person-focus-label">30–45 day focus</p>
           <ul class="memo-person-focus">${focus}</ul>
+          ${extraList}
         </article>
       `;
     })
@@ -393,7 +463,7 @@ function renderProof() {
   const items = d.proof.items
     .map(
       (item) => `
-      <figure class="memo-proof-item">
+      <figure class="memo-proof-item memo-proof-item--${item.role || "default"}">
         <img src="${item.src}" alt="${item.caption}" loading="lazy" />
         <figcaption>
           <span class="memo-proof-cat">${item.category}</span>
@@ -438,8 +508,9 @@ function renderInvestForm() {
 
   el.innerHTML = `
     <div class="memo-wrap">
-      <div class="memo-panel memo-panel--featured">
-        <h2 class="memo-section-title">${f.title}</h2>
+      <div class="memo-panel memo-panel--featured memo-panel--form">
+        <h2 class="memo-section-title memo-section-title--panel">${f.title}</h2>
+        <p class="memo-form-intro">Share your details and preferred next step. We will follow up directly.</p>
         <form class="memo-form" id="memo-invest-form">
           <label class="memo-field">
             <span>Full name</span>
