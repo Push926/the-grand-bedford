@@ -251,10 +251,11 @@ img {
 
 .memo-deal-strip {
   margin: 0 0 14px;
-  padding: 10px 14px;
-  font-size: 0.78rem;
-  line-height: 1.5;
-  letter-spacing: 0.02em;
+  padding: 9px 12px;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+  text-align: center;
   color: var(--memo-gold-light);
   background: rgba(154, 123, 90, 0.12);
   border: 1px solid rgba(201, 173, 138, 0.28);
@@ -940,10 +941,17 @@ img {
 }
 
 .memo-chart-title {
-  margin: 0 0 10px;
+  margin: 0 0 6px;
   font-size: 0.82rem;
   font-weight: 600;
   color: var(--memo-ink);
+}
+
+.memo-chart-helper {
+  margin: 0 0 12px;
+  font-size: 0.76rem;
+  line-height: 1.5;
+  color: var(--memo-ink-muted);
 }
 
 .memo-chart-footnote {
@@ -1212,6 +1220,10 @@ img {
   padding: 26px 20px;
 }
 
+.memo-invest .memo-cta-row--stack {
+  margin-bottom: 8px;
+}
+
 .memo-form-intro {
   margin: 0 0 20px;
   font-size: 0.88rem;
@@ -1291,7 +1303,7 @@ img {
   z-index: 90;
   display: flex;
   gap: 10px;
-  padding: 10px 4vw;
+  padding: 10px 4vw calc(10px + env(safe-area-inset-bottom, 0px));
   background: rgba(20, 18, 16, 0.96);
   backdrop-filter: blur(12px);
   border-top: 1px solid var(--memo-line);
@@ -1309,9 +1321,74 @@ img {
   font-size: 0.68rem;
 }
 
+/* ── Mobile polish: pacing + sticky CTA clearance ── */
+
+@media (max-width: 899px) {
+  .memo-section:not(.memo-hero) {
+    padding-top: 32px;
+    padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .memo-section-intro {
+    margin-bottom: 18px;
+    line-height: 1.55;
+  }
+
+  .memo-body {
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .memo-panel {
+    padding: 18px 16px;
+  }
+
+  .memo-panel--form {
+    padding: 20px 16px;
+  }
+
+  .memo-channel-card,
+  .memo-launch-card {
+    padding: 16px 14px;
+  }
+
+  .memo-channel-stack,
+  .memo-launch-stack {
+    gap: 14px;
+  }
+
+  .memo-card-grid,
+  .memo-person-grid,
+  .memo-return-grid,
+  .memo-stat-grid {
+    gap: 12px;
+  }
+
+  .memo-return-card,
+  .memo-person-card {
+    padding: 14px;
+  }
+
+  .memo-form {
+    gap: 14px;
+  }
+
+  .memo-invest .memo-cta-row--stack {
+    margin-bottom: 16px;
+  }
+
+  .memo-main {
+    padding-bottom: calc(var(--memo-sticky-h) + env(safe-area-inset-bottom, 0px) + 16px);
+  }
+}
+
 /* ── Desktop (interpret from mobile) ── */
 
 @media (min-width: 640px) {
+  .memo-deal-strip {
+    font-size: 0.76rem;
+    padding: 10px 14px;
+  }
   .memo-section {
     padding: 56px 0;
   }

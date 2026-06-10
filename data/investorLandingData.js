@@ -15,7 +15,7 @@ export const landingData = {
       "$150,000 investment opportunity",
     ],
     dealStrip:
-      "$150K investment · 15% passive economic interest · $1M post-money valuation · $300K buyout",
+      "$150K · 15% passive interest · $1M valuation · $300K buyout",
     primaryCta: { label: "View the Investment Opportunity", href: "#offer" },
     secondaryCta: { label: "Schedule a Walkthrough", href: "#invest" },
     image: "../assets/Grand_Bedford_Front-a0e70409-7994-433a-bbf8-5802e04e6e1d.png",
@@ -53,11 +53,12 @@ export const landingData = {
   },
   useOfFunds: {
     title: "Use of Funds",
-    intro: "Capital protects the platform first, then activates the direct revenue channels in phases.",
+    intro:
+      "Capital protects the platform first, then activates the direct revenue channels in phases. The first priority is occupancy stability, team runway, security, insurance, and near-term operating continuity.",
     items: [
       { label: "Team activation runway", amount: 50000 },
-      { label: "Back rent / lease stabilization", amount: 35000 },
-      { label: "July rent", amount: 20000 },
+      { label: "Lease / occupancy stabilization reserve", amount: 35000 },
+      { label: "July rent reserve", amount: 20000 },
       { label: "General overhead reserve", amount: 4000 },
       { label: "Security + insurance setup/reserve", amount: 4500 },
       { label: "Channel 1 — Space Revenue", amount: 19500 },
@@ -69,7 +70,7 @@ export const landingData = {
   },
   phases: {
     title: "Capital Is Released by Milestone",
-    copy: "Funds are not deployed all at once. The first priority is platform stability: team runway, back rent, July rent, security, insurance, and overhead. Revenue-channel capital is then released in phases as bookings, art-sales activity, and programming demand validate the next spend.",
+    copy: "Funds are not deployed all at once. First, capital protects platform stability: team runway, lease/occupancy reserve, July rent reserve, security, insurance, and overhead. Then revenue-channel capital is released in phases as bookings, art-sales activity, and programming demand validate the next spend.",
     items: [
       {
         title: "Phase 1 — Immediate / First 30 Days",
@@ -337,6 +338,8 @@ export const landingData = {
       "A phased view of how capital deployment converts into bookings, art sales, programming revenue, and repeatable operations.",
     periods: ["6 Months", "12 Months", "18 Months", "24 Months"],
     chartTitle: "Projected Annualized Revenue Run-Rate",
+    chartHelper:
+      "Illustrates potential annualized run-rate at 6, 12, 18, and 24 months.",
     yLabel: "Annualized revenue run-rate",
     disclaimer:
       "Illustrative annualized run-rate, not guaranteed revenue.",
@@ -352,7 +355,7 @@ export const landingData = {
   returns: {
     title: "Investor Return Path",
     intro:
-      "The investor participates in 15% of net operating distributions while the 15% interest is outstanding. After month 12, the company may repurchase the interest for $300,000. If repurchased, the investor also receives a 2.5% tail participation for six months.",
+      "Investor receives 15% of net operating distributions while the interest is outstanding. After month 12, the company may repurchase the interest for $300,000. If repurchased, the investor also receives a six-month 2.5% tail.",
     highlights: [
       { label: "Initial investment", value: "$150,000" },
       { label: "Passive economic interest", value: "15%" },
@@ -368,19 +371,19 @@ export const landingData = {
         label: "Conservative",
         twelveMonth: "~$24K estimated distributions",
         twentyFourMonth: "~$48K estimated distributions if not bought out",
-        buyout: "$300K + six-month 2.5% tail",
+        buyout: "$300K buyout + six-month 2.5% tail",
       },
       {
         label: "Base Case",
         twelveMonth: "~$42K estimated distributions",
         twentyFourMonth: "~$85K estimated distributions if not bought out",
-        buyout: "$300K + six-month 2.5% tail",
+        buyout: "$300K buyout + six-month 2.5% tail",
       },
       {
         label: "Upside",
         twelveMonth: "~$68K estimated distributions",
         twentyFourMonth: "~$120K estimated distributions if not bought out",
-        buyout: "$300K + six-month 2.5% tail",
+        buyout: "$300K buyout + six-month 2.5% tail",
       },
     ],
   },
@@ -476,7 +479,7 @@ export const landingData = {
     title: "How We Protect the Investment",
     items: [
       "Phased spending instead of all-at-once deployment",
-      "July rent and overhead reserve protected",
+      "Occupancy, July rent, and overhead reserves protected",
       "Security and insurance accounted for",
       "Payment/deposit controls for events",
       "Event agreements and rules",

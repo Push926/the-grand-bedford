@@ -59,7 +59,7 @@ function renderPhaseSummary(phase) {
 }
 
 function renderRoadmapChart(roadmap) {
-  const { periods, scenarios, chartTitle } = roadmap;
+  const { periods, scenarios, chartTitle, chartHelper } = roadmap;
   const width = 360;
   const height = 200;
   const pad = { top: 20, right: 16, bottom: 36, left: 44 };
@@ -110,9 +110,14 @@ function renderRoadmapChart(roadmap) {
     return `<text x="${pad.left - 8}" y="${y + 4}" text-anchor="end" class="memo-chart-axis-label">${formatRunRateAxis(val)}</text>`;
   });
 
+  const helper = chartHelper
+    ? `<p class="memo-chart-helper">${chartHelper}</p>`
+    : "";
+
   return `
     <div class="memo-chart-wrap">
       <p class="memo-chart-title">${chartTitle}</p>
+      ${helper}
       <svg class="memo-chart" viewBox="0 0 ${width} ${height}" role="img" aria-label="Projected annualized revenue run-rate chart">
         ${yTicks.join("")}
         <line x1="${pad.left}" y1="${pad.top + chartH}" x2="${pad.left + chartW}" y2="${pad.top + chartH}" class="memo-chart-grid" />
@@ -670,6 +675,12 @@ function renderInvestForm() {
   });
 }
 
+function initAccordions() {
+  document.querySelectorAll(".memo-accordion").forEach((el) => {
+    el.removeAttribute("open");
+  });
+}
+
 function initStickyCta() {
   const bar = document.getElementById("memo-sticky-cta");
   if (!bar) return;
@@ -706,6 +717,7 @@ function initInvestorMemo() {
   renderProof();
   renderRisk();
   renderInvestForm();
+  initAccordions();
   initStickyCta();
   initFooterYear();
 }

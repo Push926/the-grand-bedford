@@ -39,7 +39,7 @@ function showLoadError(message) {
 
 function loadPortal() {
   dismissGate();
-  import("./investors.js?v=7").catch((err) => {
+  import("./investors.js?v=8").catch((err) => {
     console.error("Failed to load investor memo:", err);
     showLoadError(
       "Unable to load investor materials. Please refresh the page or try again in a moment.",
