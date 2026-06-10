@@ -160,14 +160,14 @@ export const landingData = {
       number: 3,
       title: "Programming Revenue",
       description:
-        "Ticketed events, July 4 activation, salons, workshops, kids/family programming, music/culture events, sponsor-supported programming, and community-facing events.",
+        "Ticketed events, World Cup / FIFA activation programming, salons, workshops, kids/family programming, music/culture events, sponsor-supported programming, and community-facing events.",
       allocation: 5500,
       phase1: {
         label: "Phase 1 — Immediate",
         total: 3500,
-        purpose: "Launch immediate events, ticketing, and content documentation.",
+        purpose: "Launch World Cup / FIFA activation events, ticketing, and content documentation.",
         items: [
-          { label: "July 4 / launch event support", amount: 1750 },
+          { label: "World Cup launch event support", amount: 1750 },
           { label: "Ticketing / RSVP / calendar setup", amount: 500 },
           { label: "Content capture / documentation", amount: 750 },
           { label: "Programming supplies / basic materials", amount: 500 },
@@ -184,7 +184,7 @@ export const landingData = {
         ],
       },
       summary:
-        "Channel 3 starts lean: immediate events, ticketing, documentation, and small repeatable program pilots before larger spending.",
+        "Channel 3 starts lean: World Cup / FIFA activation support, ticketing, documentation, and small repeatable program pilots before larger spending.",
     },
   ],
   launchPlan: {
@@ -203,7 +203,7 @@ export const landingData = {
           {
             period: "Month 1",
             range: "$3K–$7.5K",
-            note: "launch event packages, July 4 activation, private-event outreach",
+            note: "launch event packages, World Cup activation, private-event outreach",
           },
           {
             period: "Month 2",
@@ -284,14 +284,14 @@ export const landingData = {
         id: "programming",
         title: "Programming Revenue",
         description:
-          "Ticketed events, July 4 activation, salons, workshops, kids/family art programs, music/culture events, sponsor-supported programming, and later sports-culture or World Cup-style events.",
+          "Ticketed events, World Cup / FIFA activation programming, salons, workshops, kids/family art programs, music/culture events, sponsor-supported programming, and community partner collaboration.",
         valueLine:
-          "Programming is designed to create revenue, audience data, sponsor inventory, and repeat visitation.",
+          "World Cup / FIFA activation events create a near-term programming opportunity for ticketed gatherings, sponsor/vendor participation, local business collaboration, and repeat audience development.",
         forecast: [
           {
             period: "Month 1",
             range: "$2K–$5K",
-            note: "July 4 / launch events, ticketing, first RSVP list",
+            note: "World Cup / FIFA activation events, ticketing, first RSVP list",
           },
           {
             period: "Month 2",
@@ -315,6 +315,7 @@ export const landingData = {
           },
         ],
         drivers: [
+          "World Cup / FIFA activation events",
           "ticket sales",
           "workshops",
           "kids/family programs",
@@ -393,7 +394,7 @@ export const landingData = {
     team: [
       {
         name: "Brian",
-        role: "Founder / legal / finance / operations",
+        role: "Legal / finance / operations",
         focus: [
           "investor documents",
           "payment/deposit controls",
@@ -428,10 +429,10 @@ export const landingData = {
         ],
       },
       {
-        name: "Sony/Soni",
+        name: "Soni",
         role: "Programming / music / culture / network activation",
         focus: [
-          "July programming",
+          "World Cup / FIFA programming",
           "music/culture events",
           "community activation",
           "partner outreach",
@@ -487,8 +488,8 @@ export const landingData = {
       "Collector CRM and sales follow-up",
       "Monthly investor reporting",
       "Blue-chip upside excluded from base case unless documented",
-      "Passive investor structure with no operating burden",
       "Founder-built legal, reporting, and operating systems",
+      "Passive investor structure with no operating burden",
     ],
   },
   invest: {

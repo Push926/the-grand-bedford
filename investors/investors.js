@@ -60,9 +60,9 @@ function renderPhaseSummary(phase) {
 
 function renderRoadmapChart(roadmap) {
   const { periods, scenarios, chartTitle, chartHelper } = roadmap;
-  const width = 360;
+  const width = 380;
   const height = 200;
-  const pad = { top: 20, right: 16, bottom: 36, left: 44 };
+  const pad = { top: 20, right: 28, bottom: 40, left: 44 };
   const chartW = width - pad.left - pad.right;
   const chartH = height - pad.top - pad.bottom;
   const allValues = Object.values(scenarios).flatMap((s) => s.values);
@@ -100,7 +100,7 @@ function renderRoadmapChart(roadmap) {
       const anchor =
         i === 0 ? "start" : i === periods.length - 1 ? "end" : "middle";
       const dx = i === 0 ? 0 : i === periods.length - 1 ? 0 : 0;
-      return `<text x="${x + dx}" y="${height - 8}" text-anchor="${anchor}" class="memo-chart-axis-label">${label}</text>`;
+      return `<text x="${x + dx}" y="${height - 10}" text-anchor="${anchor}" class="memo-chart-axis-label">${label}</text>`;
     })
     .join("");
 
