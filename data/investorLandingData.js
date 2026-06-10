@@ -406,7 +406,7 @@ export const landingData = {
         ],
       },
       {
-        name: "Fran",
+        name: "Francesca",
         role: "Business development / relationships / community",
         focus: [
           "investor outreach",
@@ -417,7 +417,7 @@ export const landingData = {
         ],
       },
       {
-        name: "Zach",
+        name: "Zac",
         role: "Curator / art sales / artist pipeline",
         focus: [
           "art inventory priorities",
