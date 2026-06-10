@@ -532,21 +532,61 @@ img {
 
 /* ── Use of funds ── */
 
-.memo-fund-row {
-  margin-bottom: 14px;
+.memo-fund-item {
+  border-bottom: 1px solid rgba(154, 123, 90, 0.12);
 }
 
-.memo-fund-row:last-child {
-  margin-bottom: 0;
+.memo-fund-item:last-child {
+  border-bottom: none;
+}
+
+.memo-fund-item summary {
+  padding: 12px 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.memo-fund-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.memo-fund-item summary::after {
+  content: "View details";
+  display: block;
+  margin-top: 6px;
+  font-size: 0.66rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--memo-gold);
+}
+
+.memo-fund-item[open] summary::after {
+  content: "Hide details";
 }
 
 .memo-fund-row-head {
   display: flex;
   justify-content: space-between;
+  align-items: baseline;
   gap: 12px;
   font-size: 0.84rem;
   margin-bottom: 6px;
   line-height: 1.4;
+}
+
+.memo-fund-row-head strong {
+  font-weight: 600;
+  color: var(--memo-ink);
+  flex-shrink: 0;
+}
+
+.memo-fund-detail {
+  margin: 0 0 12px;
+  padding: 0 0 4px;
+  font-size: 0.78rem;
+  line-height: 1.55;
+  color: var(--memo-ink-muted);
 }
 
 .memo-fund-bar {
@@ -1371,6 +1411,14 @@ img {
 
   .memo-form {
     gap: 14px;
+  }
+
+  .memo-fund-item summary {
+    padding: 10px 0;
+  }
+
+  .memo-funds .memo-panel {
+    padding-bottom: 8px;
   }
 
   .memo-invest .memo-cta-row--stack {

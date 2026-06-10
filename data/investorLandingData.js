@@ -54,23 +54,62 @@ export const landingData = {
   useOfFunds: {
     title: "Use of Funds",
     intro:
-      "Capital protects the platform first, then activates the direct revenue channels in phases. The first priority is occupancy stability, team runway, security, insurance, and near-term operating continuity.",
+      "Capital protects the platform first, then activates the direct revenue channels in phases. The first priority is occupancy stability, team runway, security, insurance, operating continuity, and controlled revenue activation.",
     items: [
-      { label: "Team activation runway", amount: 50000 },
-      { label: "Lease / occupancy stabilization reserve", amount: 35000 },
-      { label: "July rent reserve", amount: 20000 },
-      { label: "General overhead reserve", amount: 4000 },
-      { label: "Security + insurance setup/reserve", amount: 4500 },
-      { label: "Channel 1 — Space Revenue", amount: 19500 },
-      { label: "Channel 2 — Art Revenue", amount: 10000 },
-      { label: "Channel 3 — Programming Revenue", amount: 5500 },
-      { label: "Activation contingency", amount: 1500 },
+      {
+        label: "Team activation runway",
+        amount: 50000,
+        detail:
+          "Supports the core operators during the 30–45 day activation window, including legal/finance/operations, relationship development, art sales, curatorial execution, and programming support.",
+      },
+      {
+        label: "Lease / occupancy stabilization reserve",
+        amount: 50000,
+        detail:
+          "Protects the company’s occupancy position and near-term rent continuity so the space remains controlled while revenue channels are activated.",
+      },
+      {
+        label: "General overhead reserve",
+        amount: 6000,
+        detail:
+          "Covers basic operating continuity, including utilities, cleaning, supplies, software, administrative needs, and ordinary space overhead.",
+      },
+      {
+        label: "Security + insurance setup/reserve",
+        amount: 6000,
+        detail:
+          "Covers security installation, monitoring, insurance binder/down payment, and near-term insurance/security reserves.",
+      },
+      {
+        label: "Channel 1 — Space Revenue",
+        amount: 19500,
+        detail:
+          "Funds private-event readiness, privacy, booking materials, event setup, outdoor usability, power planning, weather protection, and space/event revenue infrastructure.",
+      },
+      {
+        label: "Channel 2 — Art Revenue",
+        amount: 10000,
+        detail:
+          "Funds buyer-facing art-sales tools, NFC/QR artwork cards, binders, sales floor coverage, art handling supplies, CRM tools, and collector preview support.",
+      },
+      {
+        label: "Channel 3 — Programming Revenue",
+        amount: 5500,
+        detail:
+          "Funds World Cup / FIFA activation programming, ticketing/RSVP setup, content documentation, program supplies, family/kids pilot programming, and sponsor-ready materials.",
+      },
+      {
+        label: "Activation contingency",
+        amount: 3000,
+        detail:
+          "Maintains a small controlled reserve for overruns, timing gaps, urgent setup needs, and minor activation costs that should not disrupt rent, insurance, or operating reserves.",
+      },
     ],
     total: 150000,
   },
   phases: {
     title: "Capital Is Released by Milestone",
-    copy: "Funds are not deployed all at once. First, capital protects platform stability: team runway, lease/occupancy reserve, July rent reserve, security, insurance, and overhead. Then revenue-channel capital is released in phases as bookings, art-sales activity, and programming demand validate the next spend.",
+    copy: "Funds are not deployed all at once. First, capital protects platform stability: team runway, lease/occupancy reserve, security, insurance, overhead, and operating continuity. Then revenue-channel capital is released in phases as bookings, art-sales activity, and programming demand validate the next spend.",
     items: [
       {
         title: "Phase 1 — Immediate / First 30 Days",
@@ -480,7 +519,7 @@ export const landingData = {
     title: "How We Protect the Investment",
     items: [
       "Phased spending instead of all-at-once deployment",
-      "Occupancy, July rent, and overhead reserves protected",
+      "Occupancy and overhead reserves protected",
       "Security and insurance accounted for",
       "Payment/deposit controls for events",
       "Event agreements and rules",

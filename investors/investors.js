@@ -245,16 +245,22 @@ function renderUseOfFunds() {
   if (!el) return;
   const f = d.useOfFunds;
   const items = f.items
-    .map((item) => {
+    .map((item, index) => {
       const pct = Math.round((item.amount / f.total) * 100);
+      const detail = item.detail
+        ? `<p class="memo-fund-detail">${item.detail}</p>`
+        : "";
       return `
-        <div class="memo-fund-row">
-          <div class="memo-fund-row-head">
-            <span>${item.label}</span>
-            <span>${formatMoney(item.amount)}</span>
-          </div>
-          <div class="memo-fund-bar" aria-hidden="true"><span style="width:${pct}%"></span></div>
-        </div>
+        <details class="memo-fund-item" id="fund-item-${index}">
+          <summary>
+            <div class="memo-fund-row-head">
+              <span>${item.label}</span>
+              <strong>${formatMoney(item.amount)}</strong>
+            </div>
+            <div class="memo-fund-bar" aria-hidden="true"><span style="width:${pct}%"></span></div>
+          </summary>
+          ${detail}
+        </details>
       `;
     })
     .join("");
@@ -676,7 +682,7 @@ function renderInvestForm() {
 }
 
 function initAccordions() {
-  document.querySelectorAll(".memo-accordion").forEach((el) => {
+  document.querySelectorAll(".memo-accordion, .memo-fund-item").forEach((el) => {
     el.removeAttribute("open");
   });
 }
