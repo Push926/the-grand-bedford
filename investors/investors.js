@@ -1,2233 +1,563 @@
-import {
-  investorMetrics,
-  investorNav,
-  heroData,
-  sections,
-  closingData,
-  footerData,
-} from "../data/investorData.js";
+import { landingData as d } from "../data/investorLandingData.js";
 
-function formatMetric(key) {
-  const val = investorMetrics[key];
-  if (val === undefined) return "—";
-  return typeof val === "number" ? val.toLocaleString() : val;
+function formatMoney(amount) {
+  return `$${amount.toLocaleString("en-US")}`;
 }
 
-function parseMetricValue(key, rawValue) {
-  const val = rawValue !== undefined ? rawValue : investorMetrics[key];
-  if (typeof val === "number") return val;
-  if (typeof val !== "string") return 0;
-  const cleaned = val.replace(/[$,]/g, "");
-  const match = cleaned.match(/^([\d.]+)([KMB])?$/i);
-  if (!match) return 0;
-  let num = parseFloat(match[1]);
-  const suffix = (match[2] || "").toUpperCase();
-  if (suffix === "K") num *= 1000;
-  else if (suffix === "M") num *= 1000000;
-  else if (suffix === "B") num *= 1000000000;
-  return num;
-}
-
-const ICONS = {
-  chart:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5M4 19h16M8 17V11M12 17V7M16 17v-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>',
-  lock:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M8 11V8a4 4 0 118 0v3" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>',
-  frame:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/><rect x="8" y="8" width="8" height="8" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>',
-  bank:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10h18M5 10V19M9 10V19M15 10V19M19 10V19M2 19h20M12 3l9 5H3l9-5z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-  ledger:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10a2 2 0 012 2v14l-4-2-4 2-4-2-4 2V6a2 2 0 012-2z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/><path d="M9 8h6M9 12h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
-  forecast:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18V6M4 18h16M7 15l3-4 3 2 4-6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-  partners:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="16" cy="9" r="2.5" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M4 19c0-3 2.5-5 5-5s5 2 5 5M13 19c0-2.5 1.5-4.5 3.5-4.5S20 16.5 20 19" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>',
-  gallery:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M3 15l5-5 4 4 5-6 4 5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg>',
-  events:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="2.5" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="15" cy="8" r="2.5" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="12" cy="13" r="2.5" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M5 19c0-2 2-3.5 4-3.5M15 19c0-2 2-3.5 4-3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>',
-  handshake:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12l3-2 3 2 2-3 3 1 2 4-4 3-5-1-3-3-1 1Z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/><path d="M8 10V7a2 2 0 114 0v1M14 11V8a2 2 0 114 0v2" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>',
-  location:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.33 6-10a6 6 0 10-12 0c0 4.67 6 10 6 10z" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="12" cy="11" r="2" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>',
-  arrow:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-  art:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M4 16l4-4 3 3 5-6 4 5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg>',
-  column:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4h8v3H8zM7 7h10v13H7z" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M9 10h6M9 13h6M9 16h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
-  building:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V8l7-4 7 4v12" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/><path d="M9 12h2v3H9zM13 12h2v3h-2zM9 16h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
-  shield:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6l8-3z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg>',
-  artist:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M6 20c0-3.5 2.5-6 6-6s6 2.5 6 6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>',
-  balance:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="16" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M8 8h8M8 12h8M8 16h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
-  inventory:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="14" height="12" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/><rect x="7" y="7" width="14" height="12" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>',
-  tag:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12l8-8 8 8-8 8-8-8z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/><circle cx="15" cy="9" r="1" fill="currentColor"/></svg>',
-  artists:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="9" r="2" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="16" cy="9" r="2" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="12" cy="6" r="2" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M4 19c0-2.5 2-4 4-4M16 19c0-2.5 2-4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>',
-  calendar:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M8 3v4M16 3v4M4 10h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
-  grid:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/><rect x="14" y="4" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/><rect x="4" y="14" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/><rect x="14" y="14" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>',
-  clock:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
-  download:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v10M8 10l4 4 4-4M5 18h14" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-  info:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M12 11v5M12 8h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
-  check:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12l4 4 8-8" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-  star:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4l2.2 5.5L20 10l-4.5 3.8L16.5 20 12 16.8 7.5 20l1-6.2L4 10l5.8-.5L12 4z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg>',
-  leaf:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 20c6-1 10-5 12-12-7 2-11 6-12 12z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/><path d="M9 15c2-2 4-3 6-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>',
-  megaphone:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10v4h3l5 4V6L8 10H5z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/><path d="M17 9a3 3 0 010 6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>',
-  dining:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v8M8 4v5M10 4v8M6 12v2c0 2 1 3 3 3" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M16 4v16M19 4c1.5 0 2 2 2 4v4c0 2-.5 4-2 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>',
-  bike:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="17" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="18" cy="17" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M6 14h4l2-4h4l2 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 10l2-4h3" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>',
-  newspaper:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="14" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M8 9h8M8 12h8M8 15h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
-  diamond:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10l8-12 8 12-8 12-8-12z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg>',
-  gift:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="1" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M12 10v10M4 10h16M12 10c-2 0-3-1.5-3-3.5S10 3 12 3s3 1.5 3 3.5S14 10 12 10z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>',
-  phone:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 4h3l2 5-2.5 1.5a11 11 0 005 5L14 13l5 2v3a2 2 0 01-2 2C9.5 20 4 14.5 4 8.5A2 2 0 016.5 4z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg>',
-  search:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M16 16l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
-  folder:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h6l2 2h8v10H4V7z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg>',
-  message:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6h14a2 2 0 012 2v7a2 2 0 01-2 2H10l-5 4v-4H5a2 2 0 01-2-2V8a2 2 0 012-2z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/><path d="M9 11h6M9 14h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
-  pen:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18l2-6 9-9 3 3-9 9-6 2 1-1z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/><path d="M13 5l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
-  warning:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5l8 14H4L12 5z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/><path d="M12 10v4M12 16h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
-  trend:
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M8 14l3-3 2 2 4-5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-};
-
-function iconMarkup(name) {
-  return ICONS[name] || "";
-}
-
-function createKpiCard(label, value, footnote, icon) {
-  const card = document.createElement("div");
-  card.className = footnote ? "investor-kpi-card investor-kpi-card--hero" : "investor-kpi-card";
-  const iconHtml = icon
-    ? `<div class="kpi-icon">${iconMarkup(icon)}</div>`
-    : "";
-  const footnoteHtml = footnote ? `<div class="footnote">${footnote}</div>` : "";
-  card.innerHTML = `
-    ${iconHtml}
-    <div class="label">${label}</div>
-    <div class="value">${value}</div>
-    ${footnoteHtml}
-  `;
-  return card;
-}
-
-function renderKpiRow(container, kpiDefs, heroStyle = false) {
-  if (!container) return;
-  container.innerHTML = "";
-  kpiDefs.forEach(({ label, key, footnote, icon }) => {
-    container.appendChild(
-      createKpiCard(
-        label,
-        formatMetric(key),
-        heroStyle ? footnote : undefined,
-        heroStyle ? icon : undefined,
-      ),
-    );
-  });
-}
-
-function renderCtaButton({ label, href, icon }, variant) {
-  return `<a class="investor-cta ${variant}" href="${href}">
-    <span class="cta-icon">${iconMarkup(icon)}</span>
-    <span>${label}</span>
-  </a>`;
-}
-
-function renderHero() {
-  const heroContent = document.getElementById("hero-content");
-  const heroImage = document.getElementById("hero-image");
-  const heroKpis = document.getElementById("hero-kpis");
-  const heroTagline = document.getElementById("hero-tagline");
-
-  if (heroContent) {
-    const paragraphs = heroData.copy
-      .map((text) => `<p class="hero-copy">${text}</p>`)
-      .join("");
-    heroContent.innerHTML = `
-      <h1>${heroData.headline}</h1>
-      ${paragraphs}
-      <div class="investor-hero-actions">
-        ${renderCtaButton(heroData.primaryCta, "primary")}
-        ${renderCtaButton(heroData.secondaryCta, "secondary")}
-      </div>
-    `;
-  }
-
-  if (heroImage) {
-    heroImage.innerHTML = `
-      <div class="investor-hero-image-frame">
-        <img src="${heroData.image.src}" alt="${heroData.image.alt}" />
-      </div>
-    `;
-  }
-
-  renderKpiRow(heroKpis, heroData.kpis, true);
-
-  if (heroTagline) {
-    heroTagline.textContent = heroData.tagline;
-  }
-}
-
-function renderNav() {
-  const nav = document.getElementById("investor-nav");
-  if (!nav) return;
-  nav.innerHTML = investorNav
-    .map(({ id, label }) => `<a href="#${id}">${label}</a>`)
-    .join("");
-}
-
-function formatChartValue(value) {
-  if (value >= 100) return `$${Math.round(value)}K`;
-  return `$${value % 1 === 0 ? value : value.toFixed(1)}K`;
-}
-
-function buildChartCoords(points, layout) {
-  const { width, height, pad, yMax } = layout;
-  const plotW = width - pad.left - pad.right;
-  const plotH = height - pad.top - pad.bottom;
-  const count = points.length;
-  return points.map((point, index) => ({
-    ...point,
-    x: pad.left + (count > 1 ? (index / (count - 1)) * plotW : plotW / 2),
-    y: pad.top + (1 - point.value / yMax) * plotH,
-  }));
-}
-
-function polylinePath(coords) {
-  return coords.map((c, i) => `${i === 0 ? "M" : "L"}${c.x.toFixed(1)},${c.y.toFixed(1)}`).join(" ");
-}
-
-function buildYAxisTicks(yMax, step = 20) {
-  const ticks = [];
-  for (let v = 0; v <= yMax; v += step) {
-    ticks.push(v);
-  }
-  return ticks;
-}
-
-function renderRevenueChartSvg(chart) {
-  const width = 800;
-  const height = 300;
-  const pad = { top: 28, right: 20, bottom: 56, left: 52 };
-  const coords = buildChartCoords(chart.points, { width, height, pad, yMax: chart.yMax });
-  const actualCoords = coords.filter((c) => c.type === "actual");
-  const forecastStart = coords.findIndex((c) => c.type === "forecast");
-  const forecastCoords =
-    forecastStart >= 0 ? [coords[forecastStart - 1], ...coords.slice(forecastStart)] : [];
-  const yTicks = buildYAxisTicks(chart.yMax);
-  const plotH = height - pad.top - pad.bottom;
-
-  const gridLines = yTicks
-    .map((tick) => {
-      const y = pad.top + (1 - tick / chart.yMax) * plotH;
-      return `<line x1="${pad.left}" y1="${y}" x2="${width - pad.right}" y2="${y}" class="financials-grid-line"/>`;
-    })
-    .join("");
-
-  const yLabels = yTicks
-    .map((tick) => {
-      const y = pad.top + (1 - tick / chart.yMax) * plotH;
-      return `<text x="${pad.left - 10}" y="${y + 4}" class="financials-axis-label" text-anchor="end">$${tick}K</text>`;
-    })
-    .join("");
-
-  const xLabels = coords
-    .map((c) => {
-      const typeClass = c.type === "actual" ? "financials-x-label--actual" : "financials-x-label--forecast";
-      return `<text x="${c.x}" y="${height - 28}" class="financials-x-label ${typeClass}" text-anchor="middle">${c.label}</text>
-        <text x="${c.x}" y="${height - 14}" class="financials-x-year" text-anchor="middle">${c.year}</text>`;
-    })
-    .join("");
-
-  const actualDots = actualCoords
+function renderPhaseItems(phase) {
+  const rows = phase.items
     .map(
-      (c) =>
-        `<circle cx="${c.x}" cy="${c.y}" r="4" class="financials-dot financials-dot--actual"/>
-         <text x="${c.x}" y="${c.y - 12}" class="financials-point-label" text-anchor="middle">${formatChartValue(c.value)}</text>`,
-    )
-    .join("");
-
-  const forecastDots = coords
-    .filter((c) => c.type === "forecast")
-    .map(
-      (c) =>
-        `<circle cx="${c.x}" cy="${c.y}" r="3.5" class="financials-dot financials-dot--forecast"/>
-         <text x="${c.x}" y="${c.y - 12}" class="financials-point-label financials-point-label--forecast" text-anchor="middle">${formatChartValue(c.value)}</text>`,
-    )
-    .join("");
-
-  const actualPath = actualCoords.length
-    ? `<path d="${polylinePath(actualCoords)}" class="financials-line financials-line--actual" fill="none"/>`
-    : "";
-  const forecastPath = forecastCoords.length
-    ? `<path d="${polylinePath(forecastCoords)}" class="financials-line financials-line--forecast" fill="none"/>`
-    : "";
-
-  const ariaLabel = chart.points
-    .map((p) => `${p.label} ${p.year} ${p.type}: ${formatChartValue(p.value)}`)
-    .join("; ");
-
-  return `
-    <svg class="financials-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="${ariaLabel}">
-      ${gridLines}
-      ${yLabels}
-      ${actualPath}
-      ${forecastPath}
-      ${actualDots}
-      ${forecastDots}
-      ${xLabels}
-      <line x1="${pad.left}" y1="${pad.top + plotH}" x2="${width - pad.right}" y2="${pad.top + plotH}" class="financials-axis-line"/>
-    </svg>
-    <div class="financials-legend">
-      <span class="financials-legend-item"><span class="financials-legend-swatch financials-legend-swatch--actual"></span>Actual</span>
-      <span class="financials-legend-item"><span class="financials-legend-swatch financials-legend-swatch--forecast"></span>Forecast</span>
-    </div>
-  `;
-}
-
-function renderComparisonChartSvg(chart) {
-  const width = 520;
-  const height = 260;
-  const pad = { top: 24, right: 16, bottom: 44, left: 48 };
-  const revenueCoords = buildChartCoords(chart.revenue, { width, height, pad, yMax: chart.yMax });
-  const expenseCoords = buildChartCoords(chart.expense, { width, height, pad, yMax: chart.yMax });
-  const yTicks = buildYAxisTicks(chart.yMax);
-  const plotH = height - pad.top - pad.bottom;
-
-  const gridLines = yTicks
-    .map((tick) => {
-      const y = pad.top + (1 - tick / chart.yMax) * plotH;
-      return `<line x1="${pad.left}" y1="${y}" x2="${width - pad.right}" y2="${y}" class="financials-grid-line"/>`;
-    })
-    .join("");
-
-  const yLabels = yTicks
-    .map((tick) => {
-      const y = pad.top + (1 - tick / chart.yMax) * plotH;
-      return `<text x="${pad.left - 8}" y="${y + 4}" class="financials-axis-label" text-anchor="end">$${tick}K</text>`;
-    })
-    .join("");
-
-  const xLabels = revenueCoords
-    .map(
-      (c) =>
-        `<text x="${c.x}" y="${height - 16}" class="financials-x-label" text-anchor="middle">${c.label}</text>`,
-    )
-    .join("");
-
-  const revenuePath = `<path d="${polylinePath(revenueCoords)}" class="financials-line financials-line--revenue" fill="none"/>`;
-  const expensePath = `<path d="${polylinePath(expenseCoords)}" class="financials-line financials-line--expense" fill="none"/>`;
-
-  const revenueDots = revenueCoords
-    .map((c) => `<circle cx="${c.x}" cy="${c.y}" r="3" class="financials-dot financials-dot--revenue"/>`)
-    .join("");
-  const expenseDots = expenseCoords
-    .map((c) => `<circle cx="${c.x}" cy="${c.y}" r="3" class="financials-dot financials-dot--expense"/>`)
-    .join("");
-
-  const ariaLabel = "Revenue and expense forecast comparison chart";
-
-  return `
-    <svg class="financials-svg financials-svg--compact" viewBox="0 0 ${width} ${height}" role="img" aria-label="${ariaLabel}">
-      ${gridLines}
-      ${yLabels}
-      ${revenuePath}
-      ${expensePath}
-      ${revenueDots}
-      ${expenseDots}
-      ${xLabels}
-      <line x1="${pad.left}" y1="${pad.top + plotH}" x2="${width - pad.right}" y2="${pad.top + plotH}" class="financials-axis-line"/>
-    </svg>
-    <div class="financials-legend">
-      <span class="financials-legend-item"><span class="financials-legend-swatch financials-legend-swatch--revenue"></span>Revenue Forecast</span>
-      <span class="financials-legend-item"><span class="financials-legend-swatch financials-legend-swatch--expense"></span>Expense Forecast</span>
-    </div>
-  `;
-}
-
-function renderStatusPill(status, label) {
-  return `<span class="receivables-status receivables-status--${status}">${label}</span>`;
-}
-
-let artInventoryFilter = "all";
-
-function artworkMatchesFilter(artwork, filterId) {
-  if (filterId === "all") return true;
-  return artwork.filterTags.includes(filterId);
-}
-
-function renderArtworkImage(artwork) {
-  if (artwork.image) {
-    return `<img src="${artwork.image}" alt="" class="art-inventory-card-image" loading="lazy" />`;
-  }
-  const tone = artwork.placeholderTone || "ivory";
-  const label = artwork.imageLabel || "Image redacted";
-  return `<div class="art-inventory-card-placeholder art-inventory-card-placeholder--${tone}" role="img" aria-label="${label}">
-    <span class="art-inventory-placeholder-inner">
-      <span class="art-inventory-placeholder-mark">${iconMarkup("frame")}</span>
-      <span class="art-inventory-placeholder-label">${label}</span>
-    </span>
-  </div>`;
-}
-
-function renderArtworkStatusPill(status, label) {
-  return `<span class="art-inventory-status art-inventory-status--${status}">${label}</span>`;
-}
-
-function renderArtworkCard(artwork) {
-  const soldFields =
-    artwork.status.startsWith("sold")
-      ? `
-      <div class="art-inventory-card-financials">
-        <div><span class="art-inventory-card-fin-label">Sold Price</span><span class="art-inventory-card-fin-value">${artwork.soldPrice}</span></div>
-        <div><span class="art-inventory-card-fin-label">Collected</span><span class="art-inventory-card-fin-value">${artwork.amountCollected}</span></div>
-        <div><span class="art-inventory-card-fin-label">Balance Due</span><span class="art-inventory-card-fin-value">${artwork.balanceDue}</span></div>
-      </div>
-    `
-      : "";
-
-  return `
-    <article class="art-inventory-card" data-status="${artwork.status}">
-      <div class="art-inventory-card-media">
-        ${renderArtworkImage(artwork)}
-        ${renderArtworkStatusPill(artwork.status, artwork.statusLabel)}
-      </div>
-      <div class="art-inventory-card-body">
-        <p class="art-inventory-card-artist">${artwork.artist}</p>
-        <h3 class="art-inventory-card-title">${artwork.title}</h3>
-        <p class="art-inventory-card-meta">${artwork.type} · ${artwork.medium}</p>
-        <p class="art-inventory-card-meta">${artwork.dimensions} · ${artwork.year}</p>
-        <div class="art-inventory-card-price">
-          <span class="art-inventory-card-price-label">List Price</span>
-          <span class="art-inventory-card-price-value">${artwork.listPrice}</span>
-        </div>
-        ${soldFields}
-      </div>
-    </article>
-  `;
-}
-
-function renderArtInventoryGrid() {
-  const grid = document.getElementById("art-inventory-grid");
-  if (!grid) return;
-  const { artworks } = sections.artInventory;
-  const filtered = artworks.filter((item) => artworkMatchesFilter(item, artInventoryFilter));
-  grid.innerHTML =
-    filtered.length > 0
-      ? filtered.map((item) => renderArtworkCard(item)).join("")
-      : `<p class="art-inventory-empty">No works match this filter. Inventory is tracked across all statuses for investor review.</p>`;
-}
-
-function updateArtInventoryFilterButtons() {
-  const filters = document.getElementById("art-inventory-filters");
-  if (!filters) return;
-  filters.querySelectorAll(".art-inventory-filter").forEach((btn) => {
-    const isActive = btn.dataset.filter === artInventoryFilter;
-    btn.classList.toggle("is-active", isActive);
-    btn.setAttribute("aria-pressed", String(isActive));
-  });
-}
-
-function initArtInventoryFilters() {
-  const filters = document.getElementById("art-inventory-filters");
-  if (!filters) return;
-  filters.addEventListener("click", (event) => {
-    const button = event.target.closest(".art-inventory-filter");
-    if (!button) return;
-    artInventoryFilter = button.dataset.filter;
-    updateArtInventoryFilterButtons();
-    renderArtInventoryGrid();
-  });
-}
-
-function renderArtInventorySection() {
-  const { artInventory } = sections;
-  const header = document.getElementById("art-inventory-header");
-  const metrics = document.getElementById("art-inventory-metrics");
-  const filters = document.getElementById("art-inventory-filters");
-  const note = document.getElementById("art-inventory-note");
-
-  if (header) {
-    header.innerHTML = `
-      <h2>${artInventory.headline}</h2>
-      <p class="art-inventory-intro">${artInventory.intro}</p>
-      ${
-        artInventory.redactionNote
-          ? `<p class="art-inventory-redaction"><span class="art-inventory-redaction-icon">${iconMarkup("lock")}</span>${artInventory.redactionNote}</p>`
-          : ""
-      }
-    `;
-  }
-
-  if (metrics) {
-    metrics.innerHTML = artInventory.metrics
-      .map(
-        (item) => `
-      <div class="art-inventory-metric">
-        <span class="art-inventory-metric-icon">${iconMarkup(item.icon)}</span>
-        <span class="art-inventory-metric-label">${item.label}</span>
-        <span class="art-inventory-metric-value">${formatMetric(item.key)}</span>
-      </div>
-    `,
-      )
-      .join("");
-  }
-
-  if (filters) {
-    filters.innerHTML = artInventory.filters
-      .map(
-        (filter) => `
-      <button type="button" class="art-inventory-filter${filter.active ? " is-active" : ""}" data-filter="${filter.id}" aria-pressed="${filter.active}">
-        ${filter.label}
-      </button>
-    `,
-      )
-      .join("");
-    artInventoryFilter = artInventory.filters.find((f) => f.active)?.id || "all";
-  }
-
-  renderArtInventoryGrid();
-
-  if (note) {
-    note.innerHTML = `
-      <span class="art-inventory-note-icon">${iconMarkup("shield")}</span>
-      <p>${artInventory.note}</p>
-    `;
-  }
-}
-
-function renderReceivablesSection() {
-  const { receivables } = sections;
-  const breadcrumb = document.getElementById("receivables-breadcrumb");
-  const header = document.getElementById("receivables-header");
-  const summary = document.getElementById("receivables-summary");
-  const table = document.getElementById("receivables-table");
-  const cards = document.getElementById("receivables-cards");
-  const footer = document.getElementById("receivables-footer");
-
-  if (breadcrumb) {
-    breadcrumb.innerHTML = `
-      <span class="receivables-breadcrumb-label">${receivables.breadcrumb}</span>
-      <span class="receivables-breadcrumb-icon">${iconMarkup("shield")}</span>
-    `;
-  }
-
-  if (header) {
-    header.innerHTML = `
-      <h2>${receivables.headline}</h2>
-      <p class="receivables-intro">${receivables.intro}</p>
-    `;
-  }
-
-  if (summary) {
-    const maxVal = parseMetricValue(receivables.barBaseKey) || 1;
-    const metrics = receivables.summary
-      .map(
-        (item) => `
-      <div class="receivables-metric receivables-metric--${item.tone}">
-        <span class="receivables-metric-label">${item.label}</span>
-        <span class="receivables-metric-value">${formatMetric(item.key)}</span>
-        <span class="receivables-metric-accent" aria-hidden="true"></span>
-      </div>
-    `,
-      )
-      .join("");
-
-    const bars = receivables.summary
-      .map((item) => {
-        const value = parseMetricValue(item.key);
-        const pct = Math.min(100, (value / maxVal) * 100);
-        return `
-        <div class="receivables-bar-row">
-          <span class="receivables-bar-label">${item.label}</span>
-          <div class="receivables-bar-track" role="presentation">
-            <div class="receivables-bar-fill receivables-bar-fill--${item.tone}" style="width: ${pct}%"></div>
-          </div>
-          <span class="receivables-bar-value">${formatMetric(item.key)}</span>
-        </div>
-      `;
-      })
-      .join("");
-
-    const axis = receivables.barAxis.map((tick) => `<span>${tick}</span>`).join("");
-
-    summary.innerHTML = `
-      <p class="receivables-summary-label">${receivables.summaryLabel}</p>
-      <div class="receivables-metrics">${metrics}</div>
-      <div class="receivables-bars" role="img" aria-label="Revenue summary comparison bars">${bars}</div>
-      <div class="receivables-bar-axis" aria-hidden="true">${axis}</div>
-    `;
-  }
-
-  if (table) {
-    const headers = receivables.tableColumns
-      .map((col) => `<th scope="col">${col.label}</th>`)
-      .join("");
-    const rows = receivables.rows
-      .map(
-        (row) => `
-      <tr>
-        <td>${row.buyer}</td>
-        <td>${row.category}</td>
-        <td>${row.grossAmount}</td>
-        <td>${row.collectedAmount}</td>
-        <td>${row.balanceDue}</td>
-        <td>${row.dueDate}</td>
-        <td>${renderStatusPill(row.status, row.statusLabel)}</td>
-      </tr>
-    `,
-      )
-      .join("");
-
-    table.innerHTML = `
-      <div class="receivables-table-wrap">
-        <table class="receivables-table">
-          <caption class="visually-hidden">Accounts receivable ledger with collection status</caption>
-          <thead><tr>${headers}</tr></thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>
-    `;
-  }
-
-  if (cards) {
-    cards.innerHTML = receivables.rows
-      .map(
-        (row) => `
-      <article class="receivables-card">
-        <div class="receivables-card-top">
-          <h3 class="receivables-card-buyer">${row.buyer}</h3>
-          ${renderStatusPill(row.status, row.statusLabel)}
-        </div>
-        <p class="receivables-card-category">${row.category}</p>
-        <dl class="receivables-card-details">
-          <div><dt>Gross Amount</dt><dd>${row.grossAmount}</dd></div>
-          <div><dt>Collected</dt><dd>${row.collectedAmount}</dd></div>
-          <div><dt>Balance Due</dt><dd>${row.balanceDue}</dd></div>
-          <div><dt>Due Date</dt><dd>${row.dueDate}</dd></div>
-        </dl>
-      </article>
-    `,
-      )
-      .join("");
-  }
-
-  if (footer) {
-    footer.innerHTML = `
-      <span class="receivables-footer-icon">${iconMarkup("shield")}</span>
-      <span>${receivables.footerNote}</span>
-    `;
-  }
-}
-
-function renderFinancialsSection() {
-  const { financials } = sections;
-  const header = document.getElementById("financials-header");
-  const toggles = document.getElementById("financials-toggles");
-  const actuals = document.getElementById("financials-actuals");
-  const revenueChart = document.getElementById("financials-revenue-chart");
-  const comparisonChart = document.getElementById("financials-comparison-chart");
-  const takeaways = document.getElementById("financials-takeaways");
-  const disclosures = document.getElementById("financials-disclosures");
-
-  if (header) {
-    header.innerHTML = `
-      <h2>${financials.headline}</h2>
-      <p class="financials-intro">${financials.intro}</p>
-    `;
-  }
-
-  if (toggles) {
-    toggles.innerHTML = financials.toggles
-      .map(
-        (toggle) => `
-      <button type="button" class="financials-toggle${toggle.active ? " is-active" : ""}" aria-pressed="${toggle.active}">
-        <span class="financials-toggle-icon">${iconMarkup(toggle.icon)}</span>
-        <span>${toggle.label}</span>
-      </button>
-    `,
-      )
-      .join("");
-  }
-
-  if (actuals) {
-    actuals.innerHTML = financials.actuals
-      .map(
-        (card) => `
-      <div class="financials-actual-card">
-        <div class="financials-actual-header">
-          <span class="financials-actual-month">${card.month}</span>
-          <span class="financials-actual-type">${card.type}</span>
-        </div>
-        <span class="financials-actual-icon">${iconMarkup("chart")}</span>
-        <div class="financials-actual-value">${formatMetric(card.key)}</div>
-        <div class="financials-actual-label">Revenue</div>
-      </div>
-    `,
-      )
-      .join("");
-  }
-
-  if (revenueChart) {
-    revenueChart.innerHTML = `
-      <h3 class="financials-chart-title">${financials.revenueChart.title}</h3>
-      <div class="financials-chart-wrap">${renderRevenueChartSvg(financials.revenueChart)}</div>
-    `;
-  }
-
-  if (comparisonChart) {
-    comparisonChart.innerHTML = `
-      <h3 class="financials-chart-title">${financials.comparisonChart.title}</h3>
-      <div class="financials-chart-wrap">${renderComparisonChartSvg(financials.comparisonChart)}</div>
-    `;
-  }
-
-  if (takeaways) {
-    takeaways.innerHTML = `
-      <div class="financials-takeaways-mark">
-        <img src="../assets/GB logo.png" alt="" width="32" height="32" />
-      </div>
-      <h3 class="financials-takeaways-title">Key Takeaways</h3>
-      <ul class="financials-takeaways-list">
-        ${financials.takeaways.map((item) => `<li><span class="financials-takeaways-check">${iconMarkup("check")}</span>${item}</li>`).join("")}
-      </ul>
-    `;
-  }
-
-  if (disclosures) {
-    disclosures.innerHTML = `
-      <div class="financials-disclosure-item">
-        <span class="financials-disclosure-icon">${iconMarkup("shield")}</span>
-        <span>${financials.disclosures[0]}</span>
-      </div>
-      <div class="financials-disclosure-item">
-        <span class="financials-disclosure-icon">${iconMarkup("info")}</span>
-        <span>${financials.disclosures[1]}</span>
-      </div>
-      <a class="financials-download" href="${financials.download.href}">
-        <span class="financials-disclosure-icon">${iconMarkup("download")}</span>
-        <span>${financials.download.label}</span>
-      </a>
-    `;
-  }
-}
-
-function renderTractionSection() {
-  const { traction } = sections;
-  const header = document.getElementById("traction-header");
-  const kpis = document.getElementById("traction-kpis");
-  const chart = document.getElementById("traction-chart");
-  const note = document.getElementById("traction-note");
-
-  if (header) {
-    header.innerHTML = `
-      <h2>${traction.headline}</h2>
-      <p class="traction-intro">${traction.intro}</p>
-    `;
-  }
-
-  if (kpis) {
-    kpis.innerHTML = traction.kpis
-      .map(
-        (item) => `
-      <div class="traction-kpi-card">
-        <span class="traction-kpi-icon">${iconMarkup(item.icon)}</span>
-        <div class="traction-kpi-content">
-          <span class="traction-kpi-label">${item.label}</span>
-          <span class="traction-kpi-value">${formatMetric(item.key)}</span>
-        </div>
-      </div>
-    `,
-      )
-      .join("");
-  }
-
-  if (chart) {
-    const maxVal = parseMetricValue(traction.chart.baseKey) || 1;
-    const rows = traction.chart.rows
-      .map((row) => {
-        const value = parseMetricValue(row.key);
-        const pct = Math.min(100, (value / maxVal) * 100);
-        return `
-        <div class="traction-bar-row">
-          <span class="traction-bar-label">${row.label}</span>
-          <div class="traction-bar-track" role="presentation">
-            <div class="traction-bar-fill" style="width: ${pct}%"></div>
-          </div>
-          <span class="traction-bar-value">${formatMetric(row.key)}</span>
-        </div>
-      `;
-      })
-      .join("");
-    const axis = traction.chart.axis
-      .map((tick) => `<span>${tick}</span>`)
-      .join("");
-
-    chart.innerHTML = `
-      <h3 class="traction-chart-title">${traction.chart.title}</h3>
-      <div class="traction-bars" role="img" aria-label="Financial traction overview bar chart">${rows}</div>
-      <div class="traction-chart-axis" aria-hidden="true">${axis}</div>
-    `;
-  }
-
-  if (note) {
-    note.innerHTML = `
-      <div class="traction-note-mark">
-        <img src="../assets/GB logo.png" alt="" width="34" height="34" />
-      </div>
-      <h3>${traction.note.headline}</h3>
-      <p>${traction.note.copy}</p>
-      <a class="traction-note-cta" href="${traction.note.cta.href}">
-        ${traction.note.cta.label}
-        <span class="traction-note-arrow">${iconMarkup("arrow")}</span>
-      </a>
-    `;
-  }
-}
-
-function renderCapitalSection() {
-  const cap = sections.capital;
-  const header = document.getElementById("capital-header");
-  const metricsHeader = document.getElementById("capital-metrics-header");
-  const kpis = document.getElementById("capital-kpis");
-  const overview = document.getElementById("capital-overview");
-  const timeline = document.getElementById("capital-timeline");
-  const materials = document.getElementById("capital-materials");
-  const actions = document.getElementById("capital-actions");
-
-  if (header) {
-    header.innerHTML = `
-      <span class="capital-badge">${cap.badge}</span>
-      <h2>${cap.headline} <em class="capital-headline-emphasis">${cap.headlineEmphasis}</em></h2>
-      <p class="capital-intro">${cap.intro}</p>
-    `;
-  }
-
-  if (metricsHeader) {
-    metricsHeader.innerHTML = `
-      <span class="capital-metrics-label">${cap.metricsLabel}</span>
-      <span class="capital-metrics-note">
-        <span class="capital-metrics-lock">${iconMarkup("lock")}</span>
-        ${cap.metricsNote}
-      </span>
-    `;
-  }
-
-  if (kpis) {
-    const kpiCards = cap.kpis
-      .map(
-        (item) => `
-        <div class="capital-kpi-card">
-          <span class="capital-kpi-icon">${iconMarkup(item.icon)}</span>
-          <span class="capital-kpi-label">${item.label}</span>
-          <span class="capital-kpi-value">${formatMetric(item.key)}</span>
-        </div>
-      `,
-      )
-      .join("");
-    const pipelineNote = cap.pipelineNote
-      ? `<p class="capital-pipeline-note">${cap.pipelineNote}</p>`
-      : "";
-    kpis.innerHTML = `<div class="capital-kpi-grid">${kpiCards}</div>${pipelineNote}`;
-  }
-
-  if (overview) {
-    const principles = cap.overview.principles
-      .map(
-        (item) => `
-        <li class="capital-principle">
-          <span class="capital-principle-icon">${iconMarkup(item.icon)}</span>
-          <div>
-            <span class="capital-principle-title">${item.title}</span>
-            <p class="capital-principle-copy">${item.copy}</p>
-          </div>
-        </li>
-      `,
-      )
-      .join("");
-
-    overview.innerHTML = `
-      <h3 class="capital-overview-title">${cap.overview.headline}</h3>
-      <p class="capital-overview-copy">${cap.overview.copy}</p>
-      <ul class="capital-principles">${principles}</ul>
-    `;
-  }
-
-  if (timeline) {
-    const steps = cap.timeline
-      .map(
-        (item) => `
-        <li class="capital-step">
-          <div class="capital-step-marker">
-            <span class="capital-step-num">${String(item.step).padStart(2, "0")}</span>
-            <span class="capital-step-icon">${iconMarkup(item.icon)}</span>
-          </div>
-          <div class="capital-step-body">
-            <h4 class="capital-step-title">${item.title}</h4>
-            <p class="capital-step-copy">${item.copy}</p>
-          </div>
-        </li>
-      `,
-      )
-      .join("");
-
-    timeline.innerHTML = `
-      <span class="capital-timeline-label">${cap.timelineLabel}</span>
-      <ol class="capital-timeline-steps" aria-label="${cap.timelineLabel}">${steps}</ol>
-    `;
-  }
-
-  if (materials) {
-    materials.innerHTML = `
-      <span class="capital-materials-label">${cap.materialsLabel}</span>
-      <div class="capital-materials-grid">
-        ${cap.materials
-          .map(
-            (item) => `
-          <a class="capital-material-card" href="${item.href}">
-            <span class="capital-material-icon">${iconMarkup(item.icon)}</span>
-            <h4 class="capital-material-title">${item.title}</h4>
-            <p class="capital-material-copy">${item.copy}</p>
-          </a>
-        `,
-          )
-          .join("")}
-      </div>
-    `;
-  }
-
-  if (actions) {
-    const ctas = cap.ctas.map((cta) => renderCtaButton(cta, cta.variant)).join("");
-    actions.innerHTML = `
-      <div class="capital-ctas">${ctas}</div>
-      <span class="capital-security">
-        <span class="capital-security-icon">${iconMarkup("shield")}</span>
-        ${cap.securityNote}
-      </span>
-    `;
-  }
-}
-
-function renderEngines() {
-  const { engines } = sections;
-  const header = document.getElementById("engines-header");
-  const grid = document.getElementById("engines-grid");
-  const footer = document.getElementById("engines-footer");
-
-  if (header) {
-    header.innerHTML = `
-      <div class="engines-brand-mark">
-        <img src="../assets/GB logo.png" alt="" width="40" height="40" />
-        <span class="engines-brand-name">${engines.brand}</span>
-      </div>
-      <h2>${engines.headline}</h2>
-      <span class="engines-headline-divider" aria-hidden="true"></span>
-      <p class="engines-intro">${engines.intro}</p>
-    `;
-  }
-
-  if (grid) {
-    grid.innerHTML = engines.items
-      .map(
-        (item) => `
-      <article class="engines-card">
-        <span class="engines-card-icon">${iconMarkup(item.icon)}</span>
-        <span class="engines-card-number">${item.number}</span>
-        <h3>${item.title}</h3>
-        <p>${item.description}</p>
-        <span class="engines-card-divider" aria-hidden="true"></span>
-        <span class="engines-card-label">${item.label}</span>
-      </article>
-    `,
-      )
-      .join("");
-  }
-
-  if (footer) {
-    footer.innerHTML = `
-      <span class="engines-footer-icon">${iconMarkup("shield")}</span>
-      <span>${engines.footer}</span>
-    `;
-  }
-}
-
-function renderEventCategoryImage(category) {
-  if (category.image) {
-    return `<img src="${category.image}" alt="" class="events-category-image" loading="lazy" />`;
-  }
-  const tone = category.placeholderTone || "ivory";
-  return `<div class="events-category-placeholder events-category-placeholder--${tone}" role="img" aria-label="Format concept">
-    <span class="events-category-placeholder-inner">
-      <span class="events-category-placeholder-icon">${iconMarkup(category.icon)}</span>
-      <span class="events-category-placeholder-label">Format concept</span>
-    </span>
-  </div>`;
-}
-
-function renderRevenueStreamChart(chart) {
-  const { yMax, streams, quarters } = chart;
-  const yLabels = chart.yAxis
-    .map(
-      (tick, index) =>
-        `<span class="events-stacked-y-label" style="bottom: ${(index / (chart.yAxis.length - 1)) * 100}%">${tick}</span>`,
-    )
-    .join("");
-
-  const columns = quarters
-    .map((quarter) => {
-      const total = streams.reduce((sum, stream) => sum + (quarter.values[stream.id] || 0), 0);
-      const barHeight = Math.min(100, (total / yMax) * 100);
-      const segments = [...streams]
-        .reverse()
-        .map((stream) => {
-          const value = quarter.values[stream.id] || 0;
-          const segHeight = total > 0 ? (value / total) * 100 : 0;
-          return `<div class="events-stack-segment events-stack--${stream.id}" style="height: ${segHeight}%"></div>`;
-        })
-        .join("");
-      return `
-        <div class="events-stacked-col">
-          <div class="events-stacked-bar-wrap">
-            <div class="events-stacked-bar" style="height: ${barHeight}%">${segments}</div>
-          </div>
-          <span class="events-stacked-label">${quarter.label}</span>
-        </div>
-      `;
-    })
-    .join("");
-
-  const legend = streams
-    .map(
-      (stream) =>
-        `<span class="events-legend-item"><span class="events-legend-swatch events-stack--${stream.id}"></span>${stream.label}</span>`,
-    )
-    .join("");
-
-  const ariaLabel = quarters
-    .map((quarter) => {
-      const parts = streams.map((s) => `${s.label} $${quarter.values[s.id] || 0}K`);
-      return `${quarter.label}: ${parts.join(", ")}`;
-    })
-    .join("; ");
-
-  return `
-    <h3 class="events-chart-title">${chart.title}</h3>
-    <div class="events-stacked-chart" role="img" aria-label="${ariaLabel}">
-      <div class="events-stacked-y-axis" aria-hidden="true">${yLabels}</div>
-      <div class="events-stacked-cols">${columns}</div>
-    </div>
-    <div class="events-legend">${legend}</div>
-    <p class="events-chart-disclaimer">${chart.disclaimer}</p>
-  `;
-}
-
-function renderEventsFormatCard(format) {
-  const discipline = format.discipline
-    ? `<p class="events-format-discipline">${format.discipline}</p>`
-    : "";
-  const compliance = format.compliance
-    ? `<p class="events-format-compliance">${format.compliance}</p>`
-    : "";
-  const tags = format.tags
-    .map((tag) => `<span class="events-format-tag">${tag}</span>`)
-    .join("");
-
-  return `
-    <article class="events-format-card">
-      <span class="events-format-status">${format.status}</span>
-      <h3 class="events-format-title">${format.title}</h3>
-      <p class="events-format-copy">${format.copy}</p>
-      ${discipline}
-      ${compliance}
-      <p class="events-revenue-logic"><span>Revenue logic:</span> ${format.revenueLogic}</p>
-      <div class="events-format-tags" aria-label="Format tags">${tags}</div>
-    </article>
-  `;
-}
-
-function renderEventsSection() {
-  const { events } = sections;
-  const header = document.getElementById("events-header");
-  const thesis = document.getElementById("events-thesis");
-  const chart = document.getElementById("events-chart");
-  const kpis = document.getElementById("events-kpis");
-  const supporting = document.getElementById("events-supporting");
-  const proof = document.getElementById("events-proof");
-  const formatsHeader = document.getElementById("events-formats-header");
-  const formats = document.getElementById("events-formats");
-  const workflow = document.getElementById("events-workflow");
-  const notes = document.getElementById("events-notes");
-  const footer = document.getElementById("events-footer");
-
-  if (header) {
-    header.innerHTML = `
-      <p class="events-eyebrow">${events.eyebrow}</p>
-      <h2 id="events-title">${events.headline}</h2>
-      <p class="events-intro">${events.intro}</p>
-    `;
-  }
-
-  if (thesis && events.thesis) {
-    thesis.innerHTML = `<p class="events-thesis">${events.thesis}</p>`;
-  }
-
-  if (chart) {
-    chart.innerHTML = renderRevenueStreamChart(events.revenueStreamChart);
-  }
-
-  if (kpis) {
-    kpis.innerHTML = events.kpis
-      .map(
-        (item) => `
-      <div class="events-kpi-card">
-        <span class="events-kpi-icon">${iconMarkup(item.icon)}</span>
-        <span class="events-kpi-value">${formatMetric(item.key)}</span>
-        <span class="events-kpi-label">${item.label}</span>
-        <span class="events-kpi-footnote">${item.footnote}</span>
-      </div>
-    `,
-      )
-      .join("");
-  }
-
-  if (supporting) {
-    const items = events.supportingBreakdown.items
-      .map(
-        (item) => `
-      <span class="events-supporting-item">
-        <span class="events-supporting-item-label">${item.label}</span>
-        <span class="events-supporting-item-value">${formatMetric(item.key)}</span>
-      </span>
-    `,
-      )
-      .join("");
-    supporting.innerHTML = `
-      <span class="events-supporting-heading">${events.supportingBreakdown.label}</span>
-      <div class="events-supporting-items">${items}</div>
-      <span class="events-supporting-note">${events.supportingBreakdown.note}</span>
-    `;
-  }
-
-  if (proof && events.proof?.length) {
-    const cards = events.proof
-      .map(
-        (item) => `
-      <article class="events-proof-card">
-        <h4 class="events-proof-label">${item.label}</h4>
-        <p class="events-proof-copy">${item.copy}</p>
-      </article>
-    `,
-      )
-      .join("");
-    const narrative = events.proofNote
-      ? `<p class="events-proof-narrative">${events.proofNote}</p>`
-      : "";
-    proof.innerHTML = `
-      <div class="events-proof-grid">${cards}</div>
-      ${narrative}
-    `;
-  }
-
-  if (formatsHeader) {
-    formatsHeader.innerHTML = `
-      <h3>${events.formatsHeadline}</h3>
-      <p>${events.formatsIntro}</p>
-    `;
-  }
-
-  if (formats) {
-    formats.innerHTML = events.formats.map(renderEventsFormatCard).join("");
-  }
-
-  if (workflow && events.workflow?.length) {
-    const steps = events.workflow
-      .map(
-        (item, index) => `
-      <article class="events-workflow-step">
-        <span class="events-workflow-step-num">${index + 1}</span>
-        <h4 class="events-workflow-step-title">${item.step}</h4>
-        <p class="events-workflow-step-copy">${item.copy}</p>
-      </article>
-    `,
-      )
-      .join("");
-    workflow.innerHTML = `
-      <header class="events-workflow-header">
-        <h3>${events.workflowHeadline}</h3>
-        <p>${events.workflowIntro}</p>
-      </header>
-      <div class="events-workflow-steps">${steps}</div>
-    `;
-  }
-
-  if (notes) {
-    const systems = events.systemsNote
-      ? `
-      <article class="events-systems-note">
-        <h4>${events.systemsNote.title}</h4>
-        <p>${events.systemsNote.copy}</p>
-      </article>
-    `
-      : "";
-    const hospitality = events.hospitalityNote
-      ? `
-      <article class="events-compliance-note">
-        <h4>${events.hospitalityNote.title}</h4>
-        <p>${events.hospitalityNote.copy}</p>
-      </article>
-    `
-      : "";
-    notes.innerHTML = `${systems}${hospitality}`;
-  }
-
-  if (footer && events.footerLink) {
-    footer.innerHTML = `
-      <a class="events-footer-link" href="${events.footerLink.href}">${events.footerLink.label}</a>
-    `;
-  } else if (footer) {
-    footer.innerHTML = "";
-  }
-}
-
-const PARTNERSHIP_EXAMPLE_STATUS = {
-  representative: "Representative",
-  target: "Target",
-  "in-discussion": "In Discussion",
-  "aligned-category": "Aligned Category",
-  aligned: "Aligned Category",
-  pipeline: "Pipeline",
-  potential: "Potential",
-  "available-where-applicable": "Available Where Applicable",
-};
-
-function formatPartnershipExampleStatus(status) {
-  return PARTNERSHIP_EXAMPLE_STATUS[status] || status;
-}
-
-function renderPartnershipCategoryNode(category) {
-  const examples = (category.examples || [])
-    .map(
-      (ex) => `
-      <li class="partnerships-example">
-        <span class="partnerships-example-name">${ex.name}</span>
-        <span class="partnerships-example-status">${formatPartnershipExampleStatus(ex.status)}</span>
+      (item) => `
+      <li class="memo-phase-row">
+        <span>${item.label}</span>
+        <span>${formatMoney(item.amount)}</span>
       </li>
     `,
     )
     .join("");
 
   return `
-    <article class="partnerships-node" data-pos="${category.position}">
-      <span class="partnerships-node-icon">${iconMarkup(category.icon)}</span>
-      <h3 class="partnerships-node-name">${category.name}</h3>
-      ${
-        examples
-          ? `<ul class="partnerships-node-examples" aria-label="Representative examples for ${category.name}">${examples}</ul>`
-          : ""
-      }
-    </article>
-  `;
-}
-
-function renderPartnershipEcosystemSection() {
-  const ps = sections.partnerships;
-  const header = document.getElementById("partnerships-header");
-  const approach = document.getElementById("partnerships-approach");
-  const map = document.getElementById("partnerships-map");
-  const strategy = document.getElementById("partnerships-strategy");
-  const note = document.getElementById("partnerships-note");
-  const footer = document.getElementById("partnerships-footer");
-
-  if (header) {
-    header.innerHTML = `
-      <span class="partnerships-eyebrow">${ps.eyebrow}</span>
-      <h2>${ps.headline}</h2>
-      <p class="partnerships-intro">${ps.intro}</p>
-    `;
-  }
-
-  if (approach) {
-    const principles = ps.approach.principles
-      .map(
-        (item) => `
-        <li class="partnerships-principle">
-          <span class="partnerships-principle-icon">${iconMarkup(item.icon)}</span>
-          <span>${item.label}</span>
-        </li>
-      `,
-      )
-      .join("");
-
-    approach.innerHTML = `
-      <span class="partnerships-approach-label">${ps.approach.label}</span>
-      <p class="partnerships-approach-text">${ps.approach.text}</p>
-      <ul class="partnerships-principles">${principles}</ul>
-    `;
-  }
-
-  if (map) {
-    const { centerNode, categories } = ps;
-    const categoryNodes = categories.map(renderPartnershipCategoryNode).join("");
-    const mapAriaLabel = `Partnership ecosystem centered on ${centerNode.name}, surrounded by ${categories.map((c) => c.name).join(", ")}`;
-
-    map.innerHTML = `
-      <div class="partnerships-ecosystem" role="group" aria-label="${mapAriaLabel}">
-        <svg class="partnerships-connectors" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-          <line x1="50" y1="50" x2="16" y2="16" />
-          <line x1="50" y1="50" x2="50" y2="10" />
-          <line x1="50" y1="50" x2="84" y2="16" />
-          <line x1="50" y1="50" x2="10" y2="50" />
-          <line x1="50" y1="50" x2="90" y2="50" />
-          <line x1="50" y1="50" x2="16" y2="84" />
-          <line x1="50" y1="50" x2="50" y2="90" />
-          <line x1="50" y1="50" x2="84" y2="84" />
-          <line x1="50" y1="50" x2="50" y2="96" />
-        </svg>
-        <article class="partnerships-hub">
-          <span class="partnerships-hub-icon">${iconMarkup(centerNode.icon)}</span>
-          <h3 class="partnerships-hub-name">${centerNode.name}</h3>
-          <p class="partnerships-hub-location">${centerNode.location}</p>
-        </article>
-        ${categoryNodes}
-      </div>
-    `;
-  }
-
-  if (strategy) {
-    strategy.innerHTML = ps.strategyCards
-      .map(
-        (card) => `
-        <article class="partnerships-strategy-card">
-          <span class="partnerships-strategy-icon">${iconMarkup(card.icon)}</span>
-          <h3 class="partnerships-strategy-title">${card.title}</h3>
-          <p class="partnerships-strategy-copy">${card.copy}</p>
-        </article>
-      `,
-      )
-      .join("");
-  }
-
-  if (note) {
-    note.innerHTML = `
-      <span class="partnerships-note-icon">${iconMarkup("shield")}</span>
-      <span class="partnerships-note-content">
-        <span class="partnerships-note-text">${ps.examplesNote}</span>
-        <span class="partnerships-pipeline-teaser">${ps.pipelineTeaser}</span>
-      </span>
-    `;
-  }
-
-  if (footer) {
-    footer.innerHTML = `
-      <span class="partnerships-footer-icon">${iconMarkup("building")}</span>
-      <span>${ps.footer}</span>
-    `;
-  }
-}
-
-const PIPELINE_STATUS_LABELS = {
-  "in-discussion": "In Discussion",
-  target: "Target",
-  pipeline: "Pipeline",
-  "aligned-category": "Aligned Category",
-  aligned: "Aligned Category",
-  confirmed: "Confirmed",
-  representative: "Representative",
-};
-
-function pipelineStatusMarkup(status) {
-  const label = PIPELINE_STATUS_LABELS[status] || status;
-  return `<span class="pipeline-status pipeline-status--${status}">${label}</span>`;
-}
-
-function renderPipelineSection() {
-  const pl = sections.pipeline;
-  const header = document.getElementById("pipeline-header");
-  const kpis = document.getElementById("pipeline-kpis");
-  const table = document.getElementById("pipeline-table");
-  const cards = document.getElementById("pipeline-cards");
-  const methodology = document.getElementById("pipeline-methodology");
-  const viz = document.getElementById("pipeline-viz");
-  const footer = document.getElementById("pipeline-footer");
-
-  if (header) {
-    header.innerHTML = `
-      <h2>${pl.headline}</h2>
-      <p class="pipeline-intro">${pl.intro}</p>
-    `;
-  }
-
-  if (kpis) {
-    kpis.innerHTML = pl.kpis
-      .map(
-        (item) => `
-        <div class="pipeline-kpi-card">
-          <span class="pipeline-kpi-icon">${iconMarkup(item.icon)}</span>
-          <span class="pipeline-kpi-label">${item.label}</span>
-          <span class="pipeline-kpi-value">${formatMetric(item.key)}</span>
-        </div>
-      `,
-      )
-      .join("");
-  }
-
-  if (table) {
-    const headers = pl.tableColumns.map((col) => `<th scope="col">${col.label}</th>`).join("");
-    const rows = pl.rows
-      .map(
-        (row) => `
-        <tr>
-          <td class="pipeline-cell-partner">${row.partner}</td>
-          <td>${row.category}</td>
-          <td>${pipelineStatusMarkup(row.status)}</td>
-          <td class="pipeline-cell-num">${row.oneTime}</td>
-          <td class="pipeline-cell-num">${row.monthly}</td>
-          <td class="pipeline-cell-num">${row.annual}</td>
-          <td class="pipeline-cell-num">${row.probability}</td>
-          <td class="pipeline-cell-num pipeline-cell-weighted">${row.weighted}</td>
-          <td class="pipeline-cell-notes">${row.notes}</td>
-        </tr>
-      `,
-      )
-      .join("");
-
-    table.innerHTML = `
-      <div class="pipeline-table-wrap">
-        <table class="pipeline-table">
-          <thead><tr>${headers}</tr></thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>
-    `;
-  }
-
-  if (cards) {
-    cards.innerHTML = pl.rows
-      .map(
-        (row) => `
-        <article class="pipeline-card">
-          <div class="pipeline-card-top">
-            <div>
-              <h3 class="pipeline-card-partner">${row.partner}</h3>
-              <p class="pipeline-card-category">${row.category}</p>
-            </div>
-            ${pipelineStatusMarkup(row.status)}
-          </div>
-          <dl class="pipeline-card-details">
-            <div><dt>Est. One-Time</dt><dd>${row.oneTime}</dd></div>
-            <div><dt>Est. Monthly</dt><dd>${row.monthly}</dd></div>
-            <div><dt>Est. Annual</dt><dd>${row.annual}</dd></div>
-            <div><dt>Probability</dt><dd>${row.probability}</dd></div>
-            <div><dt>Weighted Value</dt><dd class="pipeline-card-weighted">${row.weighted}</dd></div>
-          </dl>
-          <p class="pipeline-card-notes">${row.notes}</p>
-        </article>
-      `,
-      )
-      .join("");
-  }
-
-  if (methodology) {
-    methodology.innerHTML = `
-      <span class="pipeline-methodology-icon">${iconMarkup("info")}</span>
-      <h3 class="pipeline-methodology-title">${pl.methodology.headline}</h3>
-      <p class="pipeline-methodology-copy">${pl.methodology.copy}</p>
-    `;
-  }
-
-  if (viz) {
-    const maxWeighted = Math.max(
-      ...pl.rows.map((row) => parseMetricValue(undefined, row.weighted)),
-      1,
-    );
-
-    const bars = pl.rows
-      .map((row) => {
-        const val = parseMetricValue(undefined, row.weighted);
-        const pct = Math.round((val / maxWeighted) * 100);
-        return `
-          <div class="pipeline-viz-row">
-            <span class="pipeline-viz-label">${row.partner}</span>
-            <div class="pipeline-viz-track" role="presentation">
-              <div class="pipeline-viz-fill" style="width: ${pct}%"></div>
-            </div>
-            <span class="pipeline-viz-value">${row.weighted}</span>
-          </div>
-        `;
-      })
-      .join("");
-
-    const ariaLabel = pl.rows
-      .map((row) => `${row.partner}: ${row.weighted} weighted value`)
-      .join("; ");
-
-    viz.innerHTML = `
-      <h3 class="pipeline-viz-title">${pl.visualization.title}</h3>
-      <div class="pipeline-viz-chart" role="img" aria-label="${ariaLabel}">${bars}</div>
-      <p class="pipeline-viz-disclaimer">${pl.visualization.disclaimer}</p>
-    `;
-  }
-
-  if (footer) {
-    const networkLink = pl.networkCta
-      ? `<a class="pipeline-network-cta" href="${pl.networkCta.href}">${pl.networkCta.label} ${iconMarkup("arrow")}</a>`
-      : "";
-    footer.innerHTML = `
-      <div class="pipeline-footer-inner">
-        <p class="pipeline-footer-note">
-          <span class="pipeline-footer-icon">${iconMarkup("shield")}</span>
-          <span>${pl.footerNote}</span>
-        </p>
-        ${networkLink}
-      </div>
-    `;
-  }
-}
-
-function renderPeopleProfileMedia(profile) {
-  if (profile.image) {
-    return `<img src="${profile.image}" alt="${profile.alt || profile.name}" loading="lazy" />`;
-  }
-  return `
-    <div class="people-profile-placeholder" aria-hidden="true">
-      <span class="people-profile-initials">${profile.initials || "—"}</span>
+    <div class="memo-phase-block">
+      <h4 class="memo-phase-label">${phase.label}</h4>
+      <ul class="memo-phase-list">${rows}</ul>
+      <p class="memo-phase-total">Phase total: <strong>${formatMoney(phase.total)}</strong></p>
     </div>
   `;
 }
 
-function renderPeopleProfileContent(profile) {
-  const contributions = profile.contributions
-    .map((item) => `<li>${item}</li>`)
+function renderRoadmapChart(roadmap) {
+  const { periods, scenarios, yLabel } = roadmap;
+  const width = 320;
+  const height = 180;
+  const pad = { top: 16, right: 12, bottom: 28, left: 36 };
+  const chartW = width - pad.left - pad.right;
+  const chartH = height - pad.top - pad.bottom;
+  const allValues = Object.values(scenarios).flatMap((s) => s.values);
+  const yMax = Math.max(...allValues) * 1.1;
+  const xStep = chartW / (periods.length - 1);
+
+  const lines = Object.entries(scenarios)
+    .map(([key, scenario]) => {
+      const points = scenario.values
+        .map((val, i) => {
+          const x = pad.left + i * xStep;
+          const y = pad.top + chartH - (val / yMax) * chartH;
+          return `${x},${y}`;
+        })
+        .join(" ");
+      return `<polyline class="memo-chart-line memo-chart-line--${key}" data-scenario="${key}" points="${points}" fill="none" stroke="${scenario.color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />`;
+    })
     .join("");
-  const engines = profile.engines
-    .map((tag) => `<span class="people-engine-tag">${tag}</span>`)
-    .join("");
-  const summary = profile.summary
-    ? `<p class="people-profile-summary">${profile.summary}</p>`
-    : "";
 
-  return `
-    <div class="people-profile-content">
-      <span class="people-status">${profile.status}</span>
-      <h3 class="people-profile-name">${profile.name}</h3>
-      <p class="people-profile-role">${profile.role}</p>
-      ${summary}
-      <p class="people-profile-bio">${profile.bio}</p>
-      <p class="people-profile-unlocks-label">Helps unlock</p>
-      <ul class="people-profile-contributions">${contributions}</ul>
-      <div class="people-engine-tags" aria-label="Business engines">${engines}</div>
-    </div>
-  `;
-}
-
-function renderPeopleFeaturedPanel(profile, { hidden = false, mobile = false } = {}) {
-  const hiddenAttr = hidden ? ' hidden style="display:none"' : "";
-  const panelClass = mobile
-    ? "people-profile-panel people-profile-panel--mobile"
-    : "people-profile-panel";
-  const panelId = mobile ? "" : ` id="people-profile-panel-${profile.id}"`;
-
-  return `
-    <article class="${panelClass}"${panelId}${hiddenAttr} data-profile-id="${profile.id}">
-      <div class="people-profile-media">${renderPeopleProfileMedia(profile)}</div>
-      ${renderPeopleProfileContent(profile)}
-    </article>
-  `;
-}
-
-function initPeopleFeaturedTabs() {
-  const tabs = document.querySelectorAll(".people-featured-tab");
-  const panels = document.querySelectorAll(
-    ".people-profile-panel:not(.people-profile-panel--mobile)",
-  );
-  if (!tabs.length || !panels.length) return;
-
-  tabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
-      const profileId = tab.dataset.profileId;
-      tabs.forEach((btn) => {
-        const isActive = btn.dataset.profileId === profileId;
-        btn.classList.toggle("is-active", isActive);
-        btn.setAttribute("aria-selected", isActive ? "true" : "false");
-      });
-      panels.forEach((panel) => {
-        const isActive = panel.dataset.profileId === profileId;
-        panel.hidden = !isActive;
-        panel.style.display = isActive ? "" : "none";
-      });
-    });
-  });
-}
-
-function renderPeopleSection() {
-  const people = sections.people;
-  const header = document.getElementById("people-header");
-  const featured = document.getElementById("people-featured");
-  const network = document.getElementById("people-network");
-  const opportunities = document.getElementById("people-opportunities");
-  const footer = document.getElementById("people-footer");
-
-  if (!people) return;
-
-  if (header) {
-    header.innerHTML = `
-      <span class="people-eyebrow">${people.eyebrow}</span>
-      <h2 id="people-title">${people.headline}</h2>
-      <span class="people-divider" aria-hidden="true"></span>
-      <p class="people-intro">${people.intro}</p>
-    `;
-  }
-
-  if (featured) {
-    const tabs = people.featured
-      .map(
-        (profile, index) => `
-      <button
-        type="button"
-        class="people-featured-tab${index === 0 ? " is-active" : ""}"
-        data-profile-id="${profile.id}"
-        role="tab"
-        aria-selected="${index === 0 ? "true" : "false"}"
-        aria-controls="people-profile-panel-${profile.id}"
-        id="people-tab-${profile.id}"
-      >
-        ${profile.name}
-      </button>
-    `,
-      )
-      .join("");
-
-    const desktopPanels = people.featured
-      .map((profile, index) =>
-        renderPeopleFeaturedPanel(profile, { hidden: index !== 0, mobile: false }),
-      )
-      .join("");
-
-    const mobilePanels = people.featured
-      .map((profile) => renderPeopleFeaturedPanel(profile, { mobile: true }))
-      .join("");
-
-    featured.innerHTML = `
-      <div class="people-featured-label">${people.featuredLabel}</div>
-      <div class="people-featured-desktop" role="tablist" aria-label="Featured contributors">
-        <div class="people-featured-tabs">${tabs}</div>
-        <div class="people-featured-panels">${desktopPanels}</div>
-      </div>
-      <div class="people-featured-mobile">${mobilePanels}</div>
-    `;
-  }
-
-  if (network) {
-    const cards = people.networkCategories
-      .map((cat) => {
-        const peopleList = cat.people?.length
-          ? `<ul class="people-network-people">${cat.people.map((person) => `<li>${person}</li>`).join("")}</ul>`
-          : "";
-        const tags = cat.tags?.length
-          ? `<div class="people-network-tags" aria-label="Network tags">${cat.tags.map((tag) => `<span class="people-network-tag">${tag}</span>`).join("")}</div>`
-          : "";
-
-        return `
-      <article class="people-network-card">
-        <span class="people-network-status">${cat.status}</span>
-        <h3 class="people-network-title">${cat.title}</h3>
-        <p class="people-network-desc">${cat.description}</p>
-        ${peopleList}
-        ${tags}
-      </article>
-    `;
-      })
-      .join("");
-
-    network.innerHTML = `
-      <header class="people-subheader">
-        <h3>${people.networkHeadline}</h3>
-        <p>${people.networkIntro}</p>
-      </header>
-      <div class="people-network-grid">${cards}</div>
-    `;
-  }
-
-  if (opportunities && people.proofRow?.length) {
-    const items = people.proofRow
-      .map(
-        (item) => `
-      <article class="people-proof-card">
-        <h4 class="people-proof-label">${item.label}</h4>
-        <p class="people-proof-value">${item.value}</p>
-      </article>
-    `,
-      )
-      .join("");
-
-    opportunities.innerHTML = `<div class="people-proof-row">${items}</div>`;
-  } else if (opportunities) {
-    opportunities.innerHTML = "";
-  }
-
-  if (footer) {
-    const ctas = people.ctas
-      .map((cta) => renderCtaButton(cta, cta.variant))
-      .join("");
-
-    footer.innerHTML = `
-      <p class="people-note">${people.roleNote}</p>
-      <div class="people-ctas">${ctas}</div>
-    `;
-  }
-
-  initPeopleFeaturedTabs();
-}
-
-function renderLocationAbstractMap(label, caption) {
-  return `
-    <div class="location-map" role="img" aria-label="${label} — abstract neighborhood context">
-      <svg class="location-map-svg" viewBox="0 0 240 180" aria-hidden="true">
-        <rect x="0" y="0" width="240" height="180" rx="8" fill="rgba(250,247,242,0.8)" />
-        <path d="M20 90 H220 M120 20 V160 M60 40 L180 140 M180 40 L60 140" stroke="currentColor" stroke-width="0.8" opacity="0.22" />
-        <ellipse cx="120" cy="90" rx="70" ry="52" stroke="currentColor" stroke-width="1" fill="none" opacity="0.35" />
-        <ellipse cx="95" cy="75" rx="28" ry="20" stroke="currentColor" stroke-width="0.8" fill="none" opacity="0.2" />
-        <ellipse cx="145" cy="105" rx="32" ry="22" stroke="currentColor" stroke-width="0.8" fill="none" opacity="0.2" />
-        <circle cx="120" cy="90" r="6" fill="currentColor" opacity="0.55" />
-        <circle cx="120" cy="90" r="10" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4" />
-      </svg>
-      <span class="location-map-label">${label}</span>
-      <span class="location-map-caption">${caption}</span>
-    </div>
-  `;
-}
-
-function renderLocationSection() {
-  const loc = sections.location;
-  const header = document.getElementById("location-header");
-  const narrative = document.getElementById("location-narrative");
-  const visual = document.getElementById("location-visual");
-  const advantages = document.getElementById("location-advantages");
-  const thesis = document.getElementById("location-thesis");
-  const revenue = document.getElementById("location-revenue");
-  const footer = document.getElementById("location-footer");
-
-  if (header) {
-    header.innerHTML = `
-      <h2>${loc.headline}</h2>
-      <p class="location-intro">${loc.intro}</p>
-    `;
-  }
-
-  if (narrative) {
-    const paragraphs = loc.narrative.map((p) => `<p>${p}</p>`).join("");
-    narrative.innerHTML = `
-      <div class="location-narrative-body">${paragraphs}</div>
-    `;
-  }
-
-  if (visual) {
-    const photos = loc.visual.images
-      .map(
-        (img) => `
-        <figure class="location-photo">
-          <img src="${img.src}" alt="${img.alt}" loading="lazy" />
-          <figcaption>${img.caption}</figcaption>
-        </figure>
-      `,
-      )
-      .join("");
-
-    visual.innerHTML = `
-      <div class="location-visual-grid">
-        ${photos}
-        ${renderLocationAbstractMap(loc.visual.mapLabel, loc.visual.mapCaption)}
-      </div>
-    `;
-  }
-
-  if (advantages) {
-    advantages.innerHTML = `
-      <span class="location-section-label">${loc.advantagesLabel}</span>
-      <div class="location-advantages-grid">
-        ${loc.advantages
-          .map(
-            (item) => `
-          <article class="location-advantage-card">
-            <span class="location-advantage-icon">${iconMarkup(item.icon)}</span>
-            <h3 class="location-advantage-title">${item.title}</h3>
-            <p class="location-advantage-copy">${item.copy}</p>
-          </article>
-        `,
-          )
-          .join("")}
-      </div>
-    `;
-  }
-
-  if (thesis) {
-    thesis.innerHTML = `
-      <span class="location-thesis-icon">${iconMarkup("location")}</span>
-      <h3 class="location-thesis-title">${loc.thesis.headline}</h3>
-      <p class="location-thesis-copy">${loc.thesis.copy}</p>
-    `;
-  }
-
-  if (revenue) {
-    revenue.innerHTML = `
-      <span class="location-section-label">${loc.revenueLabel}</span>
-      <div class="location-revenue-grid">
-        ${loc.revenueStreams
-          .map(
-            (item) => `
-          <article class="location-revenue-card">
-            <span class="location-revenue-icon">${iconMarkup(item.icon)}</span>
-            <h4 class="location-revenue-title">${item.title}</h4>
-            <p class="location-revenue-copy">${item.copy}</p>
-          </article>
-        `,
-          )
-          .join("")}
-      </div>
-    `;
-  }
-
-  if (footer) {
-    footer.innerHTML = `
-      <span class="location-footer-divider" aria-hidden="true"></span>
-      <span>${loc.footer}</span>
-    `;
-  }
-}
-
-function renderProofArchiveMedia(item) {
-  if (item.image) {
-    return `<img src="${item.image.src}" alt="${item.image.alt}" loading="lazy" />`;
-  }
-  return `
-    <div class="proof-archive-placeholder proof-archive-placeholder--${item.placeholderTone || "ivory"}">
-      ${iconMarkup(item.icon)}
-    </div>
-  `;
-}
-
-function renderVisualProofArchiveSection() {
-  const proof = sections.proof;
-  const header = document.getElementById("proof-header");
-  const callout = document.getElementById("proof-callout");
-  const grid = document.getElementById("proof-archive-grid");
-  const curation = document.getElementById("proof-archive-curation");
-
-  if (header) {
-    header.innerHTML = `
-      <h2>${proof.headline}</h2>
-      <p class="proof-archive-supporting">${proof.supportingLine}</p>
-      <p class="proof-archive-intro">${proof.intro}</p>
-    `;
-  }
-
-  if (callout) {
-    callout.innerHTML = `
-      <span class="proof-archive-callout-icon">${iconMarkup("shield")}</span>
-      <span class="proof-archive-callout-label">${proof.privacyCallout.label}</span>
-      <p class="proof-archive-callout-copy">${proof.privacyCallout.copy}</p>
-    `;
-  }
-
-  if (grid) {
-    grid.innerHTML = proof.archive
-      .map(
-        (item) => `
-        <article class="proof-archive-card">
-          <div class="proof-archive-media">
-            ${renderProofArchiveMedia(item)}
-            ${
-              item.locked
-                ? `<span class="proof-archive-lock">${iconMarkup("lock")}</span>`
-                : ""
-            }
-          </div>
-          <div class="proof-archive-body">
-            <div class="proof-archive-card-top">
-              <span class="proof-archive-category">${item.category}</span>
-              <span class="proof-archive-status">${item.statusBadge}</span>
-            </div>
-            <h3 class="proof-archive-title">${item.title}</h3>
-            <p class="proof-archive-meta">${item.meta}</p>
-            <p class="proof-archive-desc">${item.description}</p>
-          </div>
-        </article>
-      `,
-      )
-      .join("");
-  }
-
-  if (curation) {
-    curation.innerHTML = `
-      <span class="proof-archive-curation-icon">${iconMarkup("shield")}</span>
-      <h3 class="proof-archive-curation-title">${proof.curation.headline}</h3>
-      <p class="proof-archive-curation-copy">${proof.curation.copy}</p>
-    `;
-  }
-}
-
-function renderRiskSection() {
-  const risk = sections.risk;
-  const header = document.getElementById("risk-header");
-  const columns = document.getElementById("risk-columns");
-  const footer = document.getElementById("risk-footer");
-
-  if (header) {
-    header.innerHTML = `
-      <span class="risk-flourish" aria-hidden="true">${iconMarkup("diamond")}</span>
-      <h2>${risk.headline}</h2>
-      <p class="risk-intro">${risk.intro}</p>
-    `;
-  }
-
-  if (columns) {
-    columns.innerHTML = risk.columns
-      .map((col) => {
-        const items = col.items
-          .map(
-            (item) => `
-            <li class="risk-item">
-              <span class="risk-item-icon">${iconMarkup(item.icon)}</span>
-              <span class="risk-item-text">${item.text}</span>
-            </li>
-          `,
-          )
-          .join("");
-
-        return `
-          <article class="risk-column" id="${col.id}">
-            <span class="risk-column-icon">${iconMarkup(col.icon)}</span>
-            <h3 class="risk-column-title">${col.title}</h3>
-            <span class="risk-column-divider" aria-hidden="true">${iconMarkup("diamond")}</span>
-            <ul class="risk-items">${items}</ul>
-          </article>
-        `;
-      })
-      .join("");
-  }
-
-  if (footer) {
-    footer.innerHTML = `
-      <span class="risk-footer-icon">${iconMarkup("building")}</span>
-      <div class="risk-footer-copy">
-        <p>${risk.footer.copy}</p>
-        <p class="risk-footer-emphasis">${risk.footer.emphasis}</p>
-      </div>
-    `;
-  }
-}
-
-function renderBulletList(id, items) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.innerHTML = items.map((item) => `<li>${item}</li>`).join("");
-}
-
-function renderWhatIsSection() {
-  const { whatIs } = sections;
-  const main = document.getElementById("what-is-main");
-  const collage = document.getElementById("what-is-collage");
-  const detail = document.getElementById("what-is-detail");
-
-  if (main) {
-    const paragraphs = whatIs.copy
-      .map((text) => `<p class="what-is-copy">${text}</p>`)
-      .join("");
-    const cards = whatIs.cards
-      .map(
-        (card) => `
-      <a class="what-is-card" href="${card.href}" aria-label="${card.title}: ${card.description}">
-        <span class="what-is-card-icon">${iconMarkup(card.icon)}</span>
-        <span class="what-is-card-title">${card.title}</span>
-        <span class="what-is-card-arrow">${iconMarkup("arrow")}</span>
-      </a>
-    `,
-      )
-      .join("");
-
-    main.innerHTML = `
-      <div class="what-is-text">
-        <span class="what-is-eyebrow">${whatIs.eyebrow}</span>
-        <h2>${whatIs.title}</h2>
-        <span class="what-is-divider" aria-hidden="true"></span>
-        <div class="what-is-body">${paragraphs}</div>
-      </div>
-      <div class="what-is-cards">${cards}</div>
-    `;
-  }
-
-  if (collage) {
-    const { main: mainImg, bottomLeft, bottomRight } = whatIs.images;
-    collage.innerHTML = `
-      <figure class="what-is-collage-main">
-        <img src="${mainImg.src}" alt="${mainImg.alt}" loading="lazy" />
-      </figure>
-      <div class="what-is-collage-bottom">
-        <figure class="what-is-collage-small">
-          <img src="${bottomLeft.src}" alt="${bottomLeft.alt}" loading="lazy" />
-        </figure>
-        <figure class="what-is-collage-small">
-          <img src="${bottomRight.src}" alt="${bottomRight.alt}" loading="lazy" />
-        </figure>
-      </div>
-    `;
-  }
-
-  if (detail) {
-    detail.innerHTML = `
-      <span class="what-is-detail-left">${whatIs.detail.left}</span>
-      <span class="what-is-detail-right">${whatIs.detail.right}</span>
-    `;
-  }
-}
-
-function renderEvidenceDocPreview(label) {
-  return `
-    <div class="evidence-card-doc" aria-hidden="true">
-      <span class="evidence-card-doc-label">${label}</span>
-      <div class="evidence-card-doc-preview">
-        <span class="evidence-card-doc-line evidence-card-doc-line--wide"></span>
-        <span class="evidence-card-doc-line"></span>
-        <span class="evidence-card-doc-line"></span>
-        <span class="evidence-card-doc-bar"></span>
-      </div>
-    </div>
-  `;
-}
-
-function renderEvidenceSection() {
-  const ev = sections.evidence;
-  const header = document.getElementById("evidence-header");
-  const grid = document.getElementById("evidence-grid");
-  const protocol = document.getElementById("evidence-protocol");
-  const note = document.getElementById("evidence-note");
-  const footer = document.getElementById("evidence-footer");
-
-  if (header) {
-    header.innerHTML = `
-      <span class="evidence-eyebrow">${ev.eyebrow}</span>
-      <h2>${ev.headline}</h2>
-      <p class="evidence-intro">${ev.intro}</p>
-    `;
-  }
-
-  if (grid) {
-    grid.innerHTML = ev.categories
-      .map(
-        (cat) => `
-        <article class="evidence-card">
-          <div class="evidence-card-main">
-            <div class="evidence-card-top">
-              <span class="evidence-card-icon">${iconMarkup(cat.icon)}</span>
-              <div class="evidence-card-text">
-                <h3 class="evidence-card-title">${cat.title}</h3>
-                <p class="evidence-card-copy">${cat.copy}</p>
-              </div>
-            </div>
-            ${renderEvidenceDocPreview("Summary")}
-          </div>
-          <div class="evidence-card-footer">
-            <span class="evidence-badge evidence-badge--access">
-              <span class="evidence-badge-icon">${iconMarkup("lock")}</span>
-              ${cat.accessBadge}
-            </span>
-            <span class="evidence-badge evidence-badge--availability">${cat.availabilityBadge}</span>
-          </div>
-        </article>
-      `,
-      )
-      .join("");
-  }
-
-  if (protocol) {
-    const steps = ev.protocol.steps
-      .map(
-        (item) => `
-        <li class="evidence-protocol-step">
-          <span class="evidence-protocol-num">${String(item.step).padStart(2, "0")}</span>
-          <div>
-            <span class="evidence-protocol-step-title">${item.title}</span>
-            <p class="evidence-protocol-step-copy">${item.copy}</p>
-          </div>
-        </li>
-      `,
-      )
-      .join("");
-
-    protocol.innerHTML = `
-      <span class="evidence-protocol-icon">${iconMarkup("shield")}</span>
-      <h3 class="evidence-protocol-title">${ev.protocol.headline}</h3>
-      <p class="evidence-protocol-copy">${ev.protocol.copy}</p>
-      <ol class="evidence-protocol-steps">${steps}</ol>
-    `;
-  }
-
-  if (note) {
-    note.innerHTML = `
-      <span class="evidence-note-icon">${iconMarkup("shield")}</span>
-      <span>${ev.supportingNote}</span>
-    `;
-  }
-
-  if (footer) {
-    footer.innerHTML = `
-      <span class="evidence-footer-divider" aria-hidden="true"></span>
-      <span>${ev.footer}</span>
-    `;
-  }
-}
-
-function initNavToggle() {
-  const toggle = document.getElementById("investor-nav-toggle");
-  const nav = document.getElementById("investor-nav");
-  if (!toggle || !nav) return;
-
-  toggle.addEventListener("click", () => {
-    const open = nav.classList.toggle("is-open");
-    toggle.setAttribute("aria-expanded", open ? "true" : "false");
-  });
-
-  nav.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => nav.classList.remove("is-open"));
-  });
-}
-
-function initScrollSpy() {
-  const navLinks = document.querySelectorAll("#investor-nav a");
-  const sectionIds = investorNav.map((n) => n.id);
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const id = entry.target.id;
-          navLinks.forEach((link) => {
-            link.classList.toggle("is-active", link.getAttribute("href") === `#${id}`);
-          });
-        }
-      });
-    },
-    { rootMargin: "-30% 0px -60% 0px", threshold: 0 },
-  );
-
-  sectionIds.forEach((id) => {
-    const el = document.getElementById(id);
-    if (el) observer.observe(el);
-  });
-}
-
-function renderClosingSection() {
-  const root = document.getElementById("closing-content");
-  if (!root) return;
-
-  const cards = closingData.cards
-    .map(
-      (card) => `
-    <a class="closing-card" href="${card.href}">
-      <span class="closing-card-icon" aria-hidden="true">${iconMarkup(card.icon)}</span>
-      <span class="closing-card-title">${card.title}</span>
-      <span class="closing-card-text">${card.text}</span>
-      <span class="closing-card-arrow" aria-hidden="true">${iconMarkup("arrow")}</span>
-    </a>
-  `,
+  const dots = Object.entries(scenarios)
+    .map(([key, scenario]) =>
+      scenario.values
+        .map((val, i) => {
+          const x = pad.left + i * xStep;
+          const y = pad.top + chartH - (val / yMax) * chartH;
+          return `<circle class="memo-chart-dot memo-chart-dot--${key}" data-scenario="${key}" cx="${x}" cy="${y}" r="3.5" fill="${scenario.color}" />`;
+        })
+        .join(""),
     )
     .join("");
 
-  root.innerHTML = `
-    <div class="closing-inner">
-      <div class="closing-copy">
-        <p class="closing-eyebrow">${closingData.eyebrow}</p>
-        <h2 id="closing-title">${closingData.headline}</h2>
-        <p class="closing-intro">${closingData.intro}</p>
-      </div>
-      <div class="closing-card-grid">${cards}</div>
-      <p class="closing-note">${closingData.note}</p>
+  const xLabels = periods
+    .map((label, i) => {
+      const x = pad.left + i * xStep;
+      return `<text x="${x}" y="${height - 6}" text-anchor="middle" class="memo-chart-axis-label">${label}</text>`;
+    })
+    .join("");
+
+  const yTicks = [0, 0.5, 1].map((pct) => {
+    const val = Math.round((yMax * pct) / 50) * 50;
+    const y = pad.top + chartH - pct * chartH;
+    return `<text x="${pad.left - 6}" y="${y + 4}" text-anchor="end" class="memo-chart-axis-label">$${val}K</text>`;
+  });
+
+  return `
+    <div class="memo-chart-wrap">
+      <p class="memo-chart-y-label">${yLabel}</p>
+      <svg class="memo-chart" viewBox="0 0 ${width} ${height}" role="img" aria-label="Revenue roadmap line chart">
+        ${yTicks.join("")}
+        <line x1="${pad.left}" y1="${pad.top + chartH}" x2="${pad.left + chartW}" y2="${pad.top + chartH}" class="memo-chart-grid" />
+        ${lines}
+        ${dots}
+        ${xLabels}
+      </svg>
+      <div class="memo-chart-legend" id="roadmap-legend"></div>
     </div>
   `;
 }
 
-function renderFooter() {
-  const root = document.getElementById("investor-footer-content");
-  if (!root) return;
+function initRoadmapToggle(roadmap) {
+  const toggles = document.querySelectorAll("[data-roadmap-toggle]");
+  const lines = document.querySelectorAll("[data-scenario]");
+  const legend = document.getElementById("roadmap-legend");
 
-  root.innerHTML = `
-    <div class="investor-footer-brand">
-      <img src="../assets/GB logo.png" alt="" class="investor-footer-mark" width="40" height="40" />
-      <div>
-        <p class="investor-footer-name">${footerData.brand}</p>
-        <p class="investor-footer-location">${footerData.location}</p>
-        <p class="investor-footer-address">${footerData.address}</p>
+  if (legend) {
+    legend.innerHTML = Object.entries(roadmap.scenarios)
+      .map(
+        ([key, s]) =>
+          `<span class="memo-legend-item" data-legend="${key}"><span class="memo-legend-swatch" style="background:${s.color}"></span>${s.label}</span>`,
+      )
+      .join("");
+  }
+
+  function setActive(scenario) {
+    toggles.forEach((btn) => {
+      btn.classList.toggle("is-active", btn.dataset.roadmapToggle === scenario);
+      btn.setAttribute("aria-pressed", btn.dataset.roadmapToggle === scenario ? "true" : "false");
+    });
+    lines.forEach((el) => {
+      const match = el.dataset.scenario === scenario;
+      el.style.opacity = match ? "1" : "0.2";
+    });
+    legend?.querySelectorAll("[data-legend]").forEach((el) => {
+      el.style.opacity = el.dataset.legend === scenario ? "1" : "0.45";
+    });
+  }
+
+  toggles.forEach((btn) => {
+    btn.addEventListener("click", () => setActive(btn.dataset.roadmapToggle));
+  });
+
+  setActive(roadmap.defaultScenario);
+}
+
+function renderHero() {
+  const el = document.getElementById("hero");
+  if (!el) return;
+  const h = d.hero;
+  const bullets = h.proof.map((item) => `<li>${item}</li>`).join("");
+
+  el.innerHTML = `
+    <div class="memo-wrap">
+      <div class="memo-hero-grid">
+        <div class="memo-hero-content">
+          <p class="memo-eyebrow">Private Investment Opportunity</p>
+          <h1 class="memo-headline">${h.headline}</h1>
+          <p class="memo-subheadline">${h.subheadline}</p>
+          <p class="memo-body">${h.copy}</p>
+          <ul class="memo-bullets">${bullets}</ul>
+          <div class="memo-cta-row">
+            <a class="memo-btn memo-btn--primary" href="${h.primaryCta.href}">${h.primaryCta.label}</a>
+            <a class="memo-btn memo-btn--ghost" href="${h.secondaryCta.href}">${h.secondaryCta.label}</a>
+          </div>
+        </div>
+        <div class="memo-hero-media">
+          <img src="${h.image}" alt="The Grand Bedford storefront in Williamsburg" loading="eager" />
+        </div>
       </div>
     </div>
-    <div class="investor-footer-contact">
-      <p class="investor-footer-label">${footerData.contactLabel}</p>
-      <a href="mailto:${footerData.email}">${footerData.email}</a>
-    </div>
-    <div class="investor-footer-privacy">
-      <p class="investor-footer-label">${footerData.privacyLabel}</p>
-      <p>${footerData.privacyNote}</p>
-      <a href="${footerData.mainSiteHref}">${footerData.mainSiteLabel}</a>
+  `;
+}
+
+function renderOffer() {
+  const el = document.getElementById("offer");
+  if (!el) return;
+  const o = d.offer;
+  const terms = o.terms
+    .map(
+      (t) => `
+      <div class="memo-term-row">
+        <span class="memo-term-label">${t.label}</span>
+        <span class="memo-term-value">${t.value}</span>
+      </div>
+    `,
+    )
+    .join("");
+
+  el.innerHTML = `
+    <div class="memo-wrap">
+      <div class="memo-panel memo-panel--featured">
+        <h2 class="memo-section-title">${o.title}</h2>
+        <div class="memo-terms">${terms}</div>
+        <p class="memo-plain-english">${o.plainEnglish}</p>
+      </div>
     </div>
   `;
+}
+
+function renderValuation() {
+  const el = document.getElementById("valuation");
+  if (!el) return;
+  const v = d.valuation;
+  const points = v.points.map((p) => `<li>${p}</li>`).join("");
+
+  el.innerHTML = `
+    <div class="memo-wrap">
+      <h2 class="memo-section-title">${v.title}</h2>
+      <ul class="memo-check-list">${points}</ul>
+      <div class="memo-callout">
+        <p>${v.proof}</p>
+      </div>
+      <p class="memo-note">${v.note}</p>
+    </div>
+  `;
+}
+
+function renderUseOfFunds() {
+  const el = document.getElementById("use-of-funds");
+  if (!el) return;
+  const f = d.useOfFunds;
+  const items = f.items
+    .map((item) => {
+      const pct = Math.round((item.amount / f.total) * 100);
+      return `
+        <div class="memo-fund-row">
+          <div class="memo-fund-row-head">
+            <span>${item.label}</span>
+            <span>${formatMoney(item.amount)}</span>
+          </div>
+          <div class="memo-fund-bar" aria-hidden="true"><span style="width:${pct}%"></span></div>
+        </div>
+      `;
+    })
+    .join("");
+
+  el.innerHTML = `
+    <div class="memo-wrap">
+      <h2 class="memo-section-title">${f.title}</h2>
+      <p class="memo-section-intro">${f.intro}</p>
+      <div class="memo-panel">${items}</div>
+      <p class="memo-fund-total">Total raise: <strong>${formatMoney(f.total)}</strong></p>
+    </div>
+  `;
+}
+
+function renderPhases() {
+  const el = document.getElementById("phases");
+  if (!el) return;
+  const p = d.phases;
+  const cards = p.items
+    .map(
+      (item) => `
+      <article class="memo-card">
+        <h3 class="memo-card-title">${item.title}</h3>
+        <p class="memo-card-copy">${item.purpose}</p>
+      </article>
+    `,
+    )
+    .join("");
+
+  el.innerHTML = `
+    <div class="memo-wrap">
+      <h2 class="memo-section-title">${p.title}</h2>
+      <p class="memo-section-intro">${p.copy}</p>
+      <div class="memo-card-grid">${cards}</div>
+    </div>
+  `;
+}
+
+function renderChannels() {
+  const el = document.getElementById("channels");
+  if (!el) return;
+
+  const cards = d.channels
+    .map((ch) => {
+      const note = ch.note
+        ? `<p class="memo-channel-note">${ch.note}</p>`
+        : "";
+      const internal = ch.internalNote
+        ? `<p class="memo-channel-internal">${ch.internalNote}</p>`
+        : "";
+
+      return `
+        <article class="memo-channel-card" id="channel-${ch.id}">
+          <div class="memo-channel-header">
+            <span class="memo-channel-num">Channel ${ch.number}</span>
+            <h3 class="memo-channel-title">${ch.title}</h3>
+            <p class="memo-channel-desc">${ch.description}</p>
+            <p class="memo-channel-alloc">Allocation: <strong>${formatMoney(ch.allocation)}</strong></p>
+          </div>
+          ${renderPhaseItems(ch.phase1)}
+          ${renderPhaseItems(ch.phase2)}
+          ${note}
+          ${internal}
+          <p class="memo-channel-summary">${ch.summary}</p>
+        </article>
+      `;
+    })
+    .join("");
+
+  el.innerHTML = `
+    <div class="memo-wrap">
+      <h2 class="memo-section-title">Revenue Channels</h2>
+      <p class="memo-section-intro">Three direct revenue-producing channels activated in phased milestones.</p>
+      <div class="memo-channel-stack">${cards}</div>
+    </div>
+  `;
+}
+
+function renderRoadmap() {
+  const el = document.getElementById("roadmap");
+  if (!el) return;
+  const r = d.roadmap;
+  const toggles = Object.entries(r.scenarios)
+    .map(
+      ([key, s]) =>
+        `<button type="button" class="memo-toggle-btn" data-roadmap-toggle="${key}" aria-pressed="false">${s.label}</button>`,
+    )
+    .join("");
+
+  el.innerHTML = `
+    <div class="memo-wrap">
+      <h2 class="memo-section-title">${r.title}</h2>
+      <p class="memo-section-intro">${r.subtitle}</p>
+      <div class="memo-panel">
+        <div class="memo-toggle-group" role="group" aria-label="Revenue scenario">${toggles}</div>
+        ${renderRoadmapChart(r)}
+        <p class="memo-disclaimer">${r.disclaimer}</p>
+      </div>
+    </div>
+  `;
+
+  initRoadmapToggle(r);
+}
+
+function renderReturns() {
+  const el = document.getElementById("returns");
+  if (!el) return;
+  const r = d.returns;
+  const highlights = r.highlights
+    .map(
+      (h) => `
+      <div class="memo-stat-card">
+        <span class="memo-stat-label">${h.label}</span>
+        <span class="memo-stat-value">${h.value}</span>
+      </div>
+    `,
+    )
+    .join("");
+
+  const headerCells = r.periods.map((p) => `<th>${p}</th>`).join("");
+  const rows = r.scenarios
+    .map(
+      (s) => `
+      <tr>
+        <th scope="row">${s.label}</th>
+        ${s.values.map((v) => `<td>${v}</td>`).join("")}
+      </tr>
+    `,
+    )
+    .join("");
+
+  el.innerHTML = `
+    <div class="memo-wrap">
+      <h2 class="memo-section-title">${r.title}</h2>
+      <p class="memo-section-intro">${r.intro}</p>
+      <div class="memo-stat-grid">${highlights}</div>
+      <div class="memo-table-wrap">
+        <table class="memo-table">
+          <thead>
+            <tr><th scope="col">Scenario</th>${headerCells}</tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+      <p class="memo-disclaimer">${r.disclaimer}</p>
+    </div>
+  `;
+}
+
+function renderPeople() {
+  const el = document.getElementById("people");
+  if (!el) return;
+  const p = d.people;
+  const cards = p.team
+    .map((person) => {
+      const focus = person.focus.map((f) => `<li>${f}</li>`).join("");
+      return `
+        <article class="memo-person-card">
+          <h3 class="memo-person-name">${person.name}</h3>
+          <p class="memo-person-role">${person.role}</p>
+          <p class="memo-person-focus-label">30–45 day focus</p>
+          <ul class="memo-person-focus">${focus}</ul>
+        </article>
+      `;
+    })
+    .join("");
+
+  el.innerHTML = `
+    <div class="memo-wrap">
+      <h2 class="memo-section-title">${p.title}</h2>
+      <div class="memo-person-grid">${cards}</div>
+      <p class="memo-note">${p.note}</p>
+    </div>
+  `;
+}
+
+function renderProof() {
+  const el = document.getElementById("proof");
+  if (!el) return;
+  const items = d.proof.items
+    .map(
+      (item) => `
+      <figure class="memo-proof-item">
+        <img src="${item.src}" alt="${item.caption}" loading="lazy" />
+        <figcaption>
+          <span class="memo-proof-cat">${item.category}</span>
+          ${item.caption}
+        </figcaption>
+      </figure>
+    `,
+    )
+    .join("");
+
+  el.innerHTML = `
+    <div class="memo-wrap">
+      <h2 class="memo-section-title">${d.proof.title}</h2>
+      <div class="memo-proof-grid">${items}</div>
+    </div>
+  `;
+}
+
+function renderRisk() {
+  const el = document.getElementById("risk");
+  if (!el) return;
+  const items = d.risk.items.map((item) => `<li>${item}</li>`).join("");
+
+  el.innerHTML = `
+    <div class="memo-wrap">
+      <h2 class="memo-section-title">${d.risk.title}</h2>
+      <ul class="memo-risk-list">${items}</ul>
+    </div>
+  `;
+}
+
+function renderInvestForm() {
+  const el = document.getElementById("invest");
+  if (!el) return;
+  const f = d.invest;
+  const nextSteps = f.fields.nextSteps
+    .map((opt) => `<option value="${opt}">${opt}</option>`)
+    .join("");
+  const accredited = f.fields.accredited
+    .map((opt) => `<option value="${opt}">${opt}</option>`)
+    .join("");
+
+  el.innerHTML = `
+    <div class="memo-wrap">
+      <div class="memo-panel memo-panel--featured">
+        <h2 class="memo-section-title">${f.title}</h2>
+        <form class="memo-form" id="memo-invest-form">
+          <label class="memo-field">
+            <span>Full name</span>
+            <input type="text" name="name" required autocomplete="name" />
+          </label>
+          <label class="memo-field">
+            <span>Email</span>
+            <input type="email" name="email" required autocomplete="email" />
+          </label>
+          <label class="memo-field">
+            <span>Phone</span>
+            <input type="tel" name="phone" autocomplete="tel" />
+          </label>
+          <label class="memo-field">
+            <span>Entity name, if applicable</span>
+            <input type="text" name="entity" />
+          </label>
+          <label class="memo-field">
+            <span>Intended investment amount</span>
+            <input type="text" name="amount" placeholder="$150,000" />
+          </label>
+          <label class="memo-field">
+            <span>Accredited investor status</span>
+            <select name="accredited" required>${accredited}</select>
+          </label>
+          <label class="memo-field">
+            <span>Preferred next step</span>
+            <select name="nextStep" required>${nextSteps}</select>
+          </label>
+          <label class="memo-field">
+            <span>Notes</span>
+            <textarea name="notes" rows="3"></textarea>
+          </label>
+          <label class="memo-checkbox">
+            <input type="checkbox" name="acknowledge" required />
+            <span>${f.disclaimer}</span>
+          </label>
+          <div class="memo-cta-row memo-cta-row--stack">
+            <button type="submit" class="memo-btn memo-btn--primary memo-btn--full" data-action="call">${f.primaryCta}</button>
+            <button type="submit" class="memo-btn memo-btn--ghost memo-btn--full" data-action="walkthrough">${f.secondaryCta}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  `;
+
+  const form = document.getElementById("memo-invest-form");
+  let submitAction = "call";
+
+  form?.querySelectorAll("[data-action]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      submitAction = btn.dataset.action;
+    });
+  });
+
+  form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const data = new FormData(form);
+    const subject =
+      submitAction === "walkthrough"
+        ? "Walkthrough Request — The Grand Bedford Investment"
+        : "Investor Call Request — The Grand Bedford Investment";
+    const body = [
+      `Name: ${data.get("name")}`,
+      `Email: ${data.get("email")}`,
+      `Phone: ${data.get("phone") || "—"}`,
+      `Entity: ${data.get("entity") || "—"}`,
+      `Intended amount: ${data.get("amount") || "—"}`,
+      `Accredited: ${data.get("accredited")}`,
+      `Next step: ${data.get("nextStep")}`,
+      `Notes: ${data.get("notes") || "—"}`,
+    ].join("\n");
+
+    window.location.href = `mailto:${d.brand.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  });
+}
+
+function initStickyCta() {
+  const bar = document.getElementById("memo-sticky-cta");
+  if (!bar) return;
+  bar.hidden = false;
+
+  const hero = document.getElementById("hero");
+  if (!hero) return;
+
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      bar.classList.toggle("is-visible", !entry.isIntersecting);
+    },
+    { threshold: 0 },
+  );
+  observer.observe(hero);
 }
 
 function initFooterYear() {
-  const yearEl = document.getElementById("investor-year");
-  if (yearEl) yearEl.textContent = new Date().getFullYear();
+  const year = document.getElementById("memo-year");
+  if (year) year.textContent = new Date().getFullYear();
 }
 
-function initInvestorPortal() {
-  renderNav();
+function initInvestorMemo() {
   renderHero();
-  renderTractionSection();
-  renderFinancialsSection();
-  renderReceivablesSection();
-  renderArtInventorySection();
-  initArtInventoryFilters();
-  renderEngines();
-  renderEventsSection();
-  renderPartnershipEcosystemSection();
-  renderPipelineSection();
-  renderPeopleSection();
-  renderCapitalSection();
-  renderLocationSection();
-  renderVisualProofArchiveSection();
-  renderRiskSection();
-  renderEvidenceSection();
-  renderWhatIsSection();
-  renderClosingSection();
-  renderFooter();
-  initNavToggle();
-  initScrollSpy();
+  renderOffer();
+  renderValuation();
+  renderUseOfFunds();
+  renderPhases();
+  renderChannels();
+  renderRoadmap();
+  renderReturns();
+  renderPeople();
+  renderProof();
+  renderRisk();
+  renderInvestForm();
+  initStickyCta();
   initFooterYear();
 }
 
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initInvestorPortal);
+  document.addEventListener("DOMContentLoaded", initInvestorMemo);
 } else {
-  initInvestorPortal();
+  initInvestorMemo();
 }

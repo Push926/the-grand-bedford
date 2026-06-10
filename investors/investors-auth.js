@@ -18,7 +18,7 @@ function showPortal() {
 
   if (gate) gate.hidden = true;
   if (portal) portal.hidden = false;
-  document.body.classList.remove("investor-page--locked");
+  document.body.classList.remove("memo-page--locked");
 
   import("./investors.js");
 }
@@ -47,7 +47,7 @@ function initGate() {
   });
 }
 
-document.body.classList.add("investor-page--locked");
+document.body.classList.add("memo-page--locked");
 
 if (sessionStorage.getItem(AUTH_KEY) === "1") {
   showPortal();

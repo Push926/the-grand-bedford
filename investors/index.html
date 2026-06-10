@@ -3,19 +3,18 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>The Grand Bedford Investor Portal</title>
+    <title>The Grand Bedford — Investment Opportunity</title>
     <meta
       name="description"
-      content="A private investor overview for The Grand Bedford, a Williamsburg cultural platform combining art, events, partnerships, and structured operating visibility."
+      content="A $150,000 passive investment opportunity in The Grand Bedford — a prime Williamsburg cultural platform entering its revenue launch phase."
     />
-    <meta property="og:title" content="The Grand Bedford Investor Portal" />
+    <meta property="og:title" content="The Grand Bedford — Investment Opportunity" />
     <meta
       property="og:description"
-      content="A private investor overview for The Grand Bedford — art, events, partnerships, and structured operating visibility in Williamsburg, Brooklyn."
+      content="15% passive economic interest at a $1M post-money valuation. Stabilize the platform and activate three direct revenue channels."
     />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="../assets/Grand_Bedford_Front-a0e70409-7994-433a-bbf8-5802e04e6e1d.png" />
-    <link rel="stylesheet" href="../styles.css" />
     <link rel="stylesheet" href="investors.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="anonymous" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
@@ -24,290 +23,65 @@
       rel="stylesheet"
     />
   </head>
-  <body class="investor-page investor-page--locked">
+  <body class="memo-page memo-page--locked">
 
-    <div class="investor-gate" id="investor-gate">
-      <div class="investor-gate-card">
-        <img src="../assets/GB logo.png" alt="" class="investor-gate-logo" width="56" height="56" />
-        <p class="investor-gate-eyebrow">Private Access</p>
-        <h1 class="investor-gate-title">Investor Portal</h1>
-        <p class="investor-gate-copy">Enter the access password to view confidential investor materials.</p>
-        <form class="investor-gate-form" id="investor-gate-form">
-          <label class="investor-gate-label" for="investor-gate-password">Password</label>
+    <div class="memo-gate" id="investor-gate">
+      <div class="memo-gate-card">
+        <img src="../assets/GB logo.png" alt="" class="memo-gate-logo" width="56" height="56" />
+        <p class="memo-gate-eyebrow">Private Access</p>
+        <h1 class="memo-gate-title">Investor Memo</h1>
+        <p class="memo-gate-copy">Enter the access password to view confidential investment materials.</p>
+        <form class="memo-gate-form" id="investor-gate-form">
+          <label class="memo-gate-label" for="investor-gate-password">Password</label>
           <input
-            class="investor-gate-input"
+            class="memo-gate-input"
             id="investor-gate-password"
             name="password"
             type="password"
             autocomplete="current-password"
             required
           />
-          <p class="investor-gate-error" id="investor-gate-error" hidden>Incorrect password. Please try again.</p>
-          <button class="investor-gate-submit" type="submit">Enter Portal</button>
+          <p class="memo-gate-error" id="investor-gate-error" hidden>Incorrect password. Please try again.</p>
+          <button class="memo-btn memo-btn--primary memo-btn--full" type="submit">Enter</button>
         </form>
       </div>
     </div>
 
     <div id="investor-portal" hidden>
+      <header class="memo-header">
+        <div class="memo-header-inner">
+          <a href="#hero" class="memo-brand">
+            <img src="../assets/GB logo.png" alt="" width="36" height="36" />
+            <span>The Grand Bedford</span>
+          </a>
+          <a class="memo-header-cta" href="#invest">Walkthrough</a>
+        </div>
+      </header>
 
-    <!-- Header / anchor navigation -->
-    <header class="investor-header">
-      <div class="container investor-header-inner">
-        <a href="../index.html" class="investor-brand" aria-label="The Grand Bedford home">
-          <img src="../assets/GB logo.png" alt="" class="investor-brand-mark" width="48" height="48" />
-          <span class="investor-brand-text">
-            <span class="investor-brand-name">The Grand Bedford</span>
-            <span class="investor-brand-location">Williamsburg, Brooklyn</span>
-          </span>
-        </a>
-        <span class="investor-portal-label">Investor Portal</span>
-        <button
-          type="button"
-          class="investor-nav-toggle"
-          id="investor-nav-toggle"
-          aria-expanded="false"
-          aria-controls="investor-nav"
-          aria-label="Toggle section navigation"
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M4 7h16M4 12h16M4 17h16" />
-          </svg>
-        </button>
-        <nav class="investor-nav" id="investor-nav" aria-label="Investor sections"></nav>
+      <main class="memo-main">
+        <section class="memo-section memo-hero" id="hero"></section>
+        <section class="memo-section memo-offer" id="offer"></section>
+        <section class="memo-section memo-valuation" id="valuation"></section>
+        <section class="memo-section memo-funds" id="use-of-funds"></section>
+        <section class="memo-section memo-phases" id="phases"></section>
+        <section class="memo-section memo-channels" id="channels"></section>
+        <section class="memo-section memo-roadmap" id="roadmap"></section>
+        <section class="memo-section memo-returns" id="returns"></section>
+        <section class="memo-section memo-people" id="people"></section>
+        <section class="memo-section memo-proof" id="proof"></section>
+        <section class="memo-section memo-risk" id="risk"></section>
+        <section class="memo-section memo-invest" id="invest"></section>
+      </main>
+
+      <footer class="memo-footer">
+        <p>© <span id="memo-year"></span> The Grand Bedford. Private investment materials.</p>
+        <p class="memo-footer-address">165 Bedford Avenue, Brooklyn, NY 11211</p>
+      </footer>
+
+      <div class="memo-sticky-cta" id="memo-sticky-cta" hidden>
+        <a class="memo-btn memo-btn--ghost" href="#invest">Walkthrough</a>
+        <a class="memo-btn memo-btn--primary" href="#invest">View Opportunity</a>
       </div>
-    </header>
-
-    <main>
-
-      <!-- 1. Hero / Investor Overview -->
-      <section class="investor-hero" id="overview">
-        <div class="container">
-          <div class="investor-hero-grid">
-            <div class="investor-hero-content" id="hero-content"></div>
-            <div class="investor-hero-image" id="hero-image"></div>
-          </div>
-          <div class="investor-kpi-row investor-hero-kpis" id="hero-kpis"></div>
-          <p class="investor-hero-tagline" id="hero-tagline"></p>
-        </div>
-      </section>
-
-      <!-- 2. What The Grand Bedford Is -->
-      <section class="investor-section what-is-section" id="what-is">
-        <div class="container">
-          <div class="what-is-layout">
-            <div class="what-is-main" id="what-is-main"></div>
-            <div class="what-is-collage" id="what-is-collage"></div>
-          </div>
-          <div class="what-is-detail" id="what-is-detail"></div>
-        </div>
-      </section>
-
-      <!-- 3. Four Connected Engines -->
-      <section class="investor-section engines-section" id="engines">
-        <div class="container">
-          <header class="engines-header" id="engines-header"></header>
-          <div class="engines-grid" id="engines-grid"></div>
-          <p class="engines-footer" id="engines-footer"></p>
-        </div>
-      </section>
-
-      <!-- 4. Early Traction -->
-      <section class="investor-section traction-section" id="traction">
-        <div class="container">
-          <header class="traction-header" id="traction-header"></header>
-          <div class="traction-kpi-grid" id="traction-kpis"></div>
-          <div class="traction-bottom">
-            <div class="traction-chart-wrap" id="traction-chart"></div>
-            <div class="traction-note" id="traction-note"></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 5. Financial Overview -->
-      <section class="investor-section financials-section" id="financials">
-        <div class="container">
-          <header class="financials-header" id="financials-header"></header>
-          <div class="financials-toggles" id="financials-toggles" role="group" aria-label="Financial view options"></div>
-          <div class="financials-layout">
-            <aside class="financials-actuals" id="financials-actuals"></aside>
-            <div class="financials-main">
-              <div class="financials-chart-card" id="financials-revenue-chart"></div>
-              <div class="financials-bottom">
-                <div class="financials-chart-card financials-chart-card--compact" id="financials-comparison-chart"></div>
-                <div class="financials-takeaways" id="financials-takeaways"></div>
-              </div>
-            </div>
-          </div>
-          <footer class="financials-disclosures" id="financials-disclosures"></footer>
-        </div>
-      </section>
-
-      <!-- 6. Accounts Receivable / Collections -->
-      <section class="investor-section receivables-section" id="receivables">
-        <div class="container">
-          <div class="receivables-breadcrumb" id="receivables-breadcrumb"></div>
-          <header class="receivables-header" id="receivables-header"></header>
-          <div class="receivables-summary-card" id="receivables-summary"></div>
-          <div class="receivables-table-desktop" id="receivables-table"></div>
-          <div class="receivables-cards-mobile" id="receivables-cards"></div>
-          <footer class="receivables-footer" id="receivables-footer"></footer>
-        </div>
-      </section>
-
-      <!-- 7. Art Inventory + Sales Engine -->
-      <section class="investor-section art-inventory-section" id="art-inventory">
-        <div class="container">
-          <header class="art-inventory-header" id="art-inventory-header"></header>
-          <div class="art-inventory-metrics" id="art-inventory-metrics"></div>
-          <div class="art-inventory-filters" id="art-inventory-filters" role="group" aria-label="Artwork filters"></div>
-          <div class="art-inventory-grid" id="art-inventory-grid"></div>
-          <aside class="art-inventory-note" id="art-inventory-note"></aside>
-        </div>
-      </section>
-
-      <!-- 8. Events Pipeline -->
-      <section class="investor-section events-section" id="events">
-        <div class="container">
-          <header class="events-header" id="events-header"></header>
-          <div class="events-thesis" id="events-thesis"></div>
-          <div class="events-engine">
-            <div class="events-chart-card" id="events-chart"></div>
-            <div class="events-kpi-panel" id="events-kpis"></div>
-          </div>
-          <div class="events-supporting" id="events-supporting"></div>
-          <div class="events-proof-wrap" id="events-proof"></div>
-          <header class="events-formats-header" id="events-formats-header"></header>
-          <div class="events-formats" id="events-formats"></div>
-          <div class="events-workflow" id="events-workflow"></div>
-          <div class="events-notes" id="events-notes"></div>
-          <footer class="events-footer" id="events-footer"></footer>
-        </div>
-      </section>
-
-      <!-- 9. Partnership Ecosystem -->
-      <section class="investor-section partnerships-section" id="partnerships">
-        <div class="container">
-          <header class="partnerships-header" id="partnerships-header"></header>
-          <div class="partnerships-main">
-            <aside class="partnerships-approach" id="partnerships-approach"></aside>
-            <div class="partnerships-map" id="partnerships-map"></div>
-          </div>
-          <div class="partnerships-strategy" id="partnerships-strategy"></div>
-          <p class="partnerships-note" id="partnerships-note"></p>
-          <footer class="partnerships-footer" id="partnerships-footer"></footer>
-        </div>
-      </section>
-
-      <!-- 10. Partnership Pipeline -->
-      <section class="investor-section pipeline-section" id="pipeline">
-        <div class="container">
-          <header class="pipeline-header" id="pipeline-header"></header>
-          <div class="pipeline-kpis" id="pipeline-kpis"></div>
-          <div class="pipeline-body">
-            <div class="pipeline-main">
-              <div class="pipeline-table-desktop" id="pipeline-table"></div>
-              <div class="pipeline-cards-mobile" id="pipeline-cards"></div>
-            </div>
-            <aside class="pipeline-sidebar">
-              <div class="pipeline-methodology" id="pipeline-methodology"></div>
-              <div class="pipeline-viz" id="pipeline-viz"></div>
-            </aside>
-          </div>
-          <footer class="pipeline-footer" id="pipeline-footer"></footer>
-        </div>
-      </section>
-
-      <!-- 11. Team, Advisors & Strategic Network -->
-      <section class="investor-section people-section" id="people" aria-labelledby="people-title">
-        <div class="container">
-          <header class="people-header" id="people-header"></header>
-          <div class="people-featured-wrap" id="people-featured"></div>
-          <div class="people-network" id="people-network"></div>
-          <div class="people-opportunities" id="people-opportunities"></div>
-          <footer class="people-footer" id="people-footer"></footer>
-        </div>
-      </section>
-
-      <!-- 12. Investor Access / Capital Strategy -->
-      <section class="investor-section capital-section" id="capital">
-        <div class="container">
-          <header class="capital-header" id="capital-header"></header>
-          <div class="capital-metrics-header" id="capital-metrics-header"></div>
-          <div class="capital-kpis" id="capital-kpis"></div>
-          <div class="capital-main">
-            <div class="capital-overview" id="capital-overview"></div>
-            <div class="capital-timeline-wrap" id="capital-timeline"></div>
-          </div>
-          <div class="capital-materials" id="capital-materials"></div>
-          <div class="capital-actions" id="capital-actions"></div>
-        </div>
-      </section>
-
-      <!-- 12. Williamsburg / Location Story -->
-      <section class="investor-section location-section" id="location">
-        <div class="container">
-          <header class="location-header" id="location-header"></header>
-          <div class="location-hero">
-            <div class="location-narrative" id="location-narrative"></div>
-            <div class="location-visual" id="location-visual"></div>
-          </div>
-          <div class="location-advantages" id="location-advantages"></div>
-          <div class="location-thesis" id="location-thesis"></div>
-          <div class="location-revenue" id="location-revenue"></div>
-          <footer class="location-footer" id="location-footer"></footer>
-        </div>
-      </section>
-
-      <!-- 13. Evidence Behind the Story -->
-      <section class="investor-section evidence-section" id="evidence">
-        <div class="container">
-          <header class="evidence-header" id="evidence-header"></header>
-          <div class="evidence-grid" id="evidence-grid"></div>
-          <div class="evidence-bottom">
-            <aside class="evidence-protocol" id="evidence-protocol"></aside>
-            <p class="evidence-note" id="evidence-note"></p>
-          </div>
-          <footer class="evidence-footer" id="evidence-footer"></footer>
-        </div>
-      </section>
-
-      <!-- 14. Visual Proof Archive -->
-      <section class="investor-section proof-archive-section" id="proof">
-        <div class="container">
-          <div class="proof-archive-top">
-            <header class="proof-archive-header" id="proof-header"></header>
-            <aside class="proof-archive-callout" id="proof-callout"></aside>
-          </div>
-          <div class="proof-archive-grid" id="proof-archive-grid"></div>
-          <aside class="proof-archive-curation" id="proof-archive-curation"></aside>
-        </div>
-      </section>
-
-      <!-- 15. Risk + Mitigation -->
-      <section class="investor-section risk-section" id="risk">
-        <div class="container">
-          <header class="risk-header" id="risk-header"></header>
-          <div class="risk-columns" id="risk-columns"></div>
-          <footer class="risk-footer" id="risk-footer"></footer>
-        </div>
-      </section>
-
-    </main>
-
-    <!-- Investor closing layer -->
-    <section class="investor-closing" id="closing" aria-labelledby="closing-title">
-      <div class="container">
-        <div id="closing-content"></div>
-      </div>
-    </section>
-
-    <footer class="investor-footer">
-      <div class="container investor-footer-inner" id="investor-footer-content"></div>
-      <div class="container investor-footer-bottom">
-        <p>© <span id="investor-year">2026</span> The Grand Bedford. All rights reserved.</p>
-      </div>
-    </footer>
-
     </div>
 
     <script type="module" src="investors-auth.js"></script>
