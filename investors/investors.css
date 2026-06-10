@@ -51,6 +51,13 @@ img {
 
 /* ── Gate ── */
 
+.memo-gate[hidden],
+.memo-gate--closed,
+#investor-portal[hidden],
+.memo-portal--closed {
+  display: none !important;
+}
+
 .memo-gate {
   position: fixed;
   inset: 0;

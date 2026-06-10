@@ -16,8 +16,14 @@ function showPortal() {
   const gate = document.getElementById("investor-gate");
   const portal = document.getElementById("investor-portal");
 
-  if (gate) gate.hidden = true;
-  if (portal) portal.hidden = false;
+  if (gate) {
+    gate.hidden = true;
+    gate.classList.add("memo-gate--closed");
+  }
+  if (portal) {
+    portal.hidden = false;
+    portal.classList.remove("memo-portal--closed");
+  }
   document.body.classList.remove("memo-page--locked");
 
   import("./investors.js");
@@ -33,12 +39,17 @@ function initGate() {
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    const hash = await hashPassword(input.value);
-    if (hash === PASSWORD_HASH) {
-      sessionStorage.setItem(AUTH_KEY, "1");
-      if (error) error.hidden = true;
-      showPortal();
-      return;
+    try {
+      const value = input.value.trim();
+      const hash = await hashPassword(value);
+      if (hash === PASSWORD_HASH) {
+        sessionStorage.setItem(AUTH_KEY, "1");
+        if (error) error.hidden = true;
+        showPortal();
+        return;
+      }
+    } catch (err) {
+      console.error("Password check failed:", err);
     }
 
     if (error) error.hidden = false;
