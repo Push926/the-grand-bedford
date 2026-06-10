@@ -15,7 +15,7 @@ export const landingData = {
       "$150,000 investment opportunity",
     ],
     dealStrip:
-      "$150K investment · 15% passive economic interest · $1M post-money valuation",
+      "$150K investment · 15% passive economic interest · $1M post-money valuation · $300K buyout",
     primaryCta: { label: "View the Investment Opportunity", href: "#offer" },
     secondaryCta: { label: "Schedule a Walkthrough", href: "#invest" },
     image: "../assets/Grand_Bedford_Front-a0e70409-7994-433a-bbf8-5802e04e6e1d.png",
