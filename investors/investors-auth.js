@@ -12,24 +12,44 @@ async function hashPassword(value) {
   ).join("");
 }
 
-function showPortal() {
+function dismissGate() {
   const gate = document.getElementById("investor-gate");
-  const portal = document.getElementById("investor-portal");
-
   if (gate) {
-    gate.hidden = true;
-    gate.classList.add("memo-gate--closed");
-  }
-  if (portal) {
-    portal.hidden = false;
-    portal.classList.remove("memo-portal--closed");
+    gate.classList.add("is-dismissed");
+    gate.setAttribute("aria-hidden", "true");
   }
   document.body.classList.remove("memo-page--locked");
+}
 
-  import("./investors.js");
+function showLoadError(message) {
+  const main = document.querySelector(".memo-main");
+  if (!main) return;
+  main.innerHTML = `
+    <div class="memo-wrap">
+      <div class="memo-panel memo-load-error">
+        <p>${message}</p>
+        <button type="button" class="memo-btn memo-btn--primary" id="memo-reload-btn">Reload page</button>
+      </div>
+    </div>
+  `;
+  document.getElementById("memo-reload-btn")?.addEventListener("click", () => {
+    location.reload();
+  });
+}
+
+function loadPortal() {
+  dismissGate();
+  import("./investors.js?v=3").catch((err) => {
+    console.error("Failed to load investor memo:", err);
+    showLoadError(
+      "Unable to load investor materials. Please refresh the page or try again in a moment.",
+    );
+  });
 }
 
 function initGate() {
+  document.body.classList.add("memo-page--locked");
+
   const form = document.getElementById("investor-gate-form");
   const error = document.getElementById("investor-gate-error");
   const input = document.getElementById("investor-gate-password");
@@ -45,23 +65,30 @@ function initGate() {
       if (hash === PASSWORD_HASH) {
         sessionStorage.setItem(AUTH_KEY, "1");
         if (error) error.hidden = true;
-        showPortal();
+        loadPortal();
         return;
       }
     } catch (err) {
       console.error("Password check failed:", err);
+      if (error) {
+        error.textContent =
+          "Unable to verify password in this browser. Try refreshing the page.";
+        error.hidden = false;
+      }
+      return;
     }
 
-    if (error) error.hidden = false;
+    if (error) {
+      error.textContent = "Incorrect password. Please try again.";
+      error.hidden = false;
+    }
     input.value = "";
     input.focus();
   });
 }
 
-document.body.classList.add("memo-page--locked");
-
 if (sessionStorage.getItem(AUTH_KEY) === "1") {
-  showPortal();
+  loadPortal();
 } else {
   initGate();
 }

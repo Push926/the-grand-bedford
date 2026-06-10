@@ -51,13 +51,6 @@ img {
 
 /* ── Gate ── */
 
-.memo-gate[hidden],
-.memo-gate--closed,
-#investor-portal[hidden],
-.memo-portal--closed {
-  display: none !important;
-}
-
 .memo-gate {
   position: fixed;
   inset: 0;
@@ -67,6 +60,20 @@ img {
   justify-content: center;
   padding: 24px;
   background: var(--memo-bg);
+}
+
+.memo-gate.is-dismissed {
+  display: none !important;
+}
+
+.memo-load-error {
+  text-align: center;
+  color: var(--memo-ink);
+}
+
+.memo-load-error p {
+  margin: 0 0 16px;
+  line-height: 1.6;
 }
 
 .memo-gate-card {
