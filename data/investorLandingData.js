@@ -190,6 +190,8 @@ export const landingData = {
     title: "90-Day Revenue Launch Plan",
     subtitle:
       "The first 90 days focus on converting the three direct revenue channels into booked events, collected art revenue, ticketed programming, and sponsor/partner pipeline.",
+    summary:
+      "Base-case 90-day objective: convert early traction into recurring private events, collected art revenue, ticketed programming, and sponsor/partner pipeline.",
     channels: [
       {
         id: "space",
@@ -260,7 +262,7 @@ export const landingData = {
           },
           {
             period: "12 Months",
-            range: "$600K–$800K target",
+            range: "$600K–$800K annual target",
             note: "gallery sales, show fees, and representation revenue",
           },
         ],
@@ -282,6 +284,8 @@ export const landingData = {
         title: "Programming Revenue",
         description:
           "Ticketed events, July 4 activation, salons, workshops, kids/family art programs, music/culture events, sponsor-supported programming, and later sports-culture or World Cup-style events.",
+        valueLine:
+          "Programming is designed to create revenue, audience data, sponsor inventory, and repeat visitation.",
         forecast: [
           {
             period: "Month 1",
@@ -305,7 +309,7 @@ export const landingData = {
           },
           {
             period: "12 Months",
-            range: "$250K–$500K target",
+            range: "$250K–$500K annual target",
             note: "ticketed events, workshops, sponsorships, and brand-supported programming",
           },
         ],
@@ -321,8 +325,10 @@ export const landingData = {
       },
     ],
     partnership: {
-      title: "Community & Partnership Capital",
-      copy: "In parallel, The Grand Bedford will pursue grants, fiscal-sponsor relationships, community arts partnerships, sponsored access programs, and strategic neighborhood partnerships. These are treated separately from ordinary operating revenue and are not relied on in the base-case direct revenue forecast.",
+      title: "Community Impact & Partnership Capital",
+      copy: "In parallel, The Grand Bedford will pursue grants, fiscal-sponsor relationships, community arts partnerships, sponsored access programs, and strategic neighborhood partnerships.",
+      emphasis:
+        "These opportunities are tracked separately and are not relied on in the base-case direct revenue forecast.",
     },
   },
   roadmap: {

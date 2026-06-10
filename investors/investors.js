@@ -382,10 +382,15 @@ function renderLaunchPlan() {
         ? `<p class="memo-launch-callout memo-launch-callout--upside">${ch.blueChipNote}</p>`
         : "";
 
+      const valueLine = ch.valueLine
+        ? `<p class="memo-launch-value">${ch.valueLine}</p>`
+        : "";
+
       return `
         <article class="memo-launch-card" id="launch-${ch.id}">
           <h3 class="memo-launch-title">${ch.title}</h3>
           <p class="memo-launch-desc">${ch.description}</p>
+          ${valueLine}
           ${renderLaunchForecast(ch.forecast)}
           ${proofNote}
           ${blueChipNote}
@@ -395,10 +400,15 @@ function renderLaunchPlan() {
     })
     .join("");
 
+  const partnershipEmphasis = lp.partnership.emphasis
+    ? `<p class="memo-launch-emphasis">${lp.partnership.emphasis}</p>`
+    : "";
+
   const partnership = `
     <article class="memo-launch-card memo-launch-card--support">
       <h3 class="memo-launch-title">${lp.partnership.title}</h3>
       <p class="memo-launch-desc">${lp.partnership.copy}</p>
+      ${partnershipEmphasis}
     </article>
   `;
 
@@ -406,6 +416,7 @@ function renderLaunchPlan() {
     <div class="memo-wrap">
       <h2 class="memo-section-title">${lp.title}</h2>
       <p class="memo-section-intro">${lp.subtitle}</p>
+      ${lp.summary ? `<p class="memo-launch-summary">${lp.summary}</p>` : ""}
       <div class="memo-launch-stack">${cards}${partnership}</div>
     </div>
   `;
