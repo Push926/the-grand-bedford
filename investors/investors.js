@@ -340,6 +340,77 @@ function renderChannels() {
   `;
 }
 
+function renderLaunchForecast(forecast) {
+  const rows = forecast
+    .map(
+      (row) => `
+      <li class="memo-launch-forecast-row">
+        <div class="memo-launch-forecast-head">
+          <span class="memo-launch-period">${row.period}</span>
+          <span class="memo-launch-range">${row.range}</span>
+        </div>
+        <p class="memo-launch-note">${row.note}</p>
+      </li>
+    `,
+    )
+    .join("");
+
+  return `<ul class="memo-launch-forecast">${rows}</ul>`;
+}
+
+function renderLaunchDrivers(drivers) {
+  const items = drivers.map((driver) => `<li>${driver}</li>`).join("");
+  return `
+    <details class="memo-accordion memo-accordion--compact">
+      <summary>View revenue drivers</summary>
+      <ul class="memo-launch-drivers">${items}</ul>
+    </details>
+  `;
+}
+
+function renderLaunchPlan() {
+  const el = document.getElementById("launch-plan");
+  if (!el) return;
+  const lp = d.launchPlan;
+
+  const cards = lp.channels
+    .map((ch) => {
+      const proofNote = ch.proofNote
+        ? `<p class="memo-launch-callout memo-launch-callout--proof">${ch.proofNote}</p>`
+        : "";
+      const blueChipNote = ch.blueChipNote
+        ? `<p class="memo-launch-callout memo-launch-callout--upside">${ch.blueChipNote}</p>`
+        : "";
+
+      return `
+        <article class="memo-launch-card" id="launch-${ch.id}">
+          <h3 class="memo-launch-title">${ch.title}</h3>
+          <p class="memo-launch-desc">${ch.description}</p>
+          ${renderLaunchForecast(ch.forecast)}
+          ${proofNote}
+          ${blueChipNote}
+          ${renderLaunchDrivers(ch.drivers)}
+        </article>
+      `;
+    })
+    .join("");
+
+  const partnership = `
+    <article class="memo-launch-card memo-launch-card--support">
+      <h3 class="memo-launch-title">${lp.partnership.title}</h3>
+      <p class="memo-launch-desc">${lp.partnership.copy}</p>
+    </article>
+  `;
+
+  el.innerHTML = `
+    <div class="memo-wrap">
+      <h2 class="memo-section-title">${lp.title}</h2>
+      <p class="memo-section-intro">${lp.subtitle}</p>
+      <div class="memo-launch-stack">${cards}${partnership}</div>
+    </div>
+  `;
+}
+
 function renderRoadmap() {
   const el = document.getElementById("roadmap");
   if (!el) return;
@@ -617,6 +688,7 @@ function initInvestorMemo() {
   renderUseOfFunds();
   renderPhases();
   renderChannels();
+  renderLaunchPlan();
   renderRoadmap();
   renderReturns();
   renderPeople();

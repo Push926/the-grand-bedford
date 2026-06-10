@@ -186,6 +186,145 @@ export const landingData = {
         "Channel 3 starts lean: immediate events, ticketing, documentation, and small repeatable program pilots before larger spending.",
     },
   ],
+  launchPlan: {
+    title: "90-Day Revenue Launch Plan",
+    subtitle:
+      "The first 90 days focus on converting the three direct revenue channels into booked events, collected art revenue, ticketed programming, and sponsor/partner pipeline.",
+    channels: [
+      {
+        id: "space",
+        title: "Space Revenue",
+        description:
+          "Private events, gallery rentals, backyard / indoor-outdoor bookings, content shoots, food truck/vendor-supported events, and full-space takeovers.",
+        forecast: [
+          {
+            period: "Month 1",
+            range: "$3K–$7.5K",
+            note: "launch event packages, July 4 activation, private-event outreach",
+          },
+          {
+            period: "Month 2",
+            range: "$8K–$15K",
+            note: "repeat private bookings, backyard/event use, vendor events",
+          },
+          {
+            period: "Month 3",
+            range: "$15K–$25K",
+            note: "recurring event pipeline, full-space rental packages",
+          },
+          {
+            period: "6 Months",
+            range: "$25K–$50K/month",
+            note: "formal private-event venue rhythm",
+          },
+          {
+            period: "12 Months",
+            range: "$450K–$800K annual target",
+            note: "mature space revenue channel",
+          },
+        ],
+        drivers: [
+          "private events",
+          "gallery rentals",
+          "backyard use",
+          "content shoots",
+          "vendor-supported events",
+          "full-space takeovers",
+        ],
+      },
+      {
+        id: "art",
+        title: "Art Revenue",
+        description:
+          "Artist shows, gallery sales, collector previews, pending art-sale collections, show rental fees, buyer follow-up, and high-upside art network opportunities.",
+        forecast: [
+          {
+            period: "Month 1",
+            range: "$10K–$25K",
+            note: "collect pending payments, organize inventory, push warm buyers",
+          },
+          {
+            period: "Month 2",
+            range: "$25K–$50K",
+            note: "collector preview series, artist-show pipeline",
+          },
+          {
+            period: "Month 3",
+            range: "$40K–$75K",
+            note: "repeatable art-sales/show rhythm",
+          },
+          {
+            period: "6 Months",
+            range: "$300K–$400K cumulative",
+            note: "consistent shows plus collector follow-up",
+          },
+          {
+            period: "12 Months",
+            range: "$600K–$800K target",
+            note: "gallery sales, show fees, and representation revenue",
+          },
+        ],
+        proofNote:
+          "A recent artist-show structure generated approximately $50K in gross art sales, approximately $25K in Grand Bedford art revenue, plus a $7.5K show rental fee.",
+        blueChipNote:
+          "Blue-chip and secondary-market opportunities are treated as upside only unless documentation, authority, commission terms, and transaction status are confirmed.",
+        drivers: [
+          "artist shows",
+          "weekly show rental fees",
+          "gallery commissions / revenue share",
+          "collector previews",
+          "pending receivables",
+          "buyer follow-up",
+        ],
+      },
+      {
+        id: "programming",
+        title: "Programming Revenue",
+        description:
+          "Ticketed events, July 4 activation, salons, workshops, kids/family art programs, music/culture events, sponsor-supported programming, and later sports-culture or World Cup-style events.",
+        forecast: [
+          {
+            period: "Month 1",
+            range: "$2K–$5K",
+            note: "July 4 / launch events, ticketing, first RSVP list",
+          },
+          {
+            period: "Month 2",
+            range: "$5K–$12K",
+            note: "workshops, salons, family/kids pilot, small sponsors",
+          },
+          {
+            period: "Month 3",
+            range: "$10K–$20K",
+            note: "recurring ticketed formats and sponsor one-pagers",
+          },
+          {
+            period: "6 Months",
+            range: "$15K–$35K/month",
+            note: "regular programming calendar",
+          },
+          {
+            period: "12 Months",
+            range: "$250K–$500K target",
+            note: "ticketed events, workshops, sponsorships, and brand-supported programming",
+          },
+        ],
+        drivers: [
+          "ticket sales",
+          "workshops",
+          "kids/family programs",
+          "salons",
+          "sponsored events",
+          "music/culture programming",
+          "brand activations",
+        ],
+      },
+    ],
+    partnership: {
+      title: "Community & Partnership Capital",
+      copy: "In parallel, The Grand Bedford will pursue grants, fiscal-sponsor relationships, community arts partnerships, sponsored access programs, and strategic neighborhood partnerships. These are treated separately from ordinary operating revenue and are not relied on in the base-case direct revenue forecast.",
+    },
+  },
   roadmap: {
     title: "Revenue Roadmap",
     subtitle:

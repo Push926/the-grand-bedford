@@ -737,6 +737,146 @@ img {
   color: var(--memo-ink);
 }
 
+/* ── 90-Day Launch Plan ── */
+
+.memo-launch-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.memo-launch-card {
+  background: var(--memo-panel);
+  color: var(--memo-ink);
+  border-radius: var(--memo-radius);
+  padding: 20px 18px;
+  border: 1px solid rgba(154, 123, 90, 0.14);
+}
+
+.memo-launch-card--support {
+  background: rgba(250, 246, 238, 0.92);
+  border-style: dashed;
+  border-color: rgba(154, 123, 90, 0.22);
+}
+
+.memo-launch-title {
+  margin: 0 0 8px;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: var(--memo-ink);
+}
+
+.memo-launch-desc {
+  margin: 0 0 16px;
+  font-size: 0.84rem;
+  line-height: 1.55;
+  color: var(--memo-ink-muted);
+}
+
+.memo-launch-forecast {
+  margin: 0 0 14px;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.memo-launch-forecast-row {
+  padding: 12px 14px;
+  background: var(--memo-panel-muted);
+  border-radius: var(--memo-radius-sm);
+  border-left: 3px solid var(--memo-gold);
+}
+
+.memo-launch-forecast-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px 12px;
+  margin-bottom: 4px;
+}
+
+.memo-launch-period {
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--memo-gold);
+}
+
+.memo-launch-range {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--memo-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.memo-launch-note {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--memo-ink-muted);
+}
+
+.memo-launch-callout {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border-radius: var(--memo-radius-sm);
+  font-size: 0.76rem;
+  line-height: 1.55;
+}
+
+.memo-launch-callout--proof {
+  background: rgba(154, 123, 90, 0.08);
+  color: var(--memo-ink);
+  border: 1px solid rgba(154, 123, 90, 0.14);
+}
+
+.memo-launch-callout--upside {
+  background: #fff;
+  color: var(--memo-ink-muted);
+  border: 1px solid rgba(154, 123, 90, 0.12);
+}
+
+.memo-launch-drivers {
+  margin: 0;
+  padding: 0 14px 14px;
+  list-style: none;
+  display: grid;
+  gap: 6px;
+}
+
+.memo-launch-drivers li {
+  font-size: 0.76rem;
+  line-height: 1.45;
+  color: var(--memo-ink-muted);
+  padding-left: 12px;
+  position: relative;
+}
+
+.memo-launch-drivers li::before {
+  content: "·";
+  position: absolute;
+  left: 0;
+  color: var(--memo-gold);
+  font-weight: 700;
+}
+
+@media (min-width: 640px) {
+  .memo-launch-stack {
+    gap: 20px;
+  }
+
+  .memo-launch-card {
+    padding: 22px 20px;
+  }
+
+  .memo-launch-range {
+    font-size: 1rem;
+  }
+}
+
 /* ── Chart ── */
 
 .memo-toggle-group {
