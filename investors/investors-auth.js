@@ -1,6 +1,6 @@
 const AUTH_KEY = "tgb-investor-auth";
 const PASSWORD_HASH =
-  "cfa704bdadc565b21fd4fc0022902bdd37208b9bcae12cac618b33a1520fba62";
+  "81c2e4f71631321684f01d67f406210c93d27faf73e4bf11bdc602943d65eba0";
 
 async function hashPassword(value) {
   const digest = await crypto.subtle.digest(
