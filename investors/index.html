@@ -24,7 +24,31 @@
       rel="stylesheet"
     />
   </head>
-  <body class="investor-page">
+  <body class="investor-page investor-page--locked">
+
+    <div class="investor-gate" id="investor-gate">
+      <div class="investor-gate-card">
+        <img src="../assets/GB logo.png" alt="" class="investor-gate-logo" width="56" height="56" />
+        <p class="investor-gate-eyebrow">Private Access</p>
+        <h1 class="investor-gate-title">Investor Portal</h1>
+        <p class="investor-gate-copy">Enter the access password to view confidential investor materials.</p>
+        <form class="investor-gate-form" id="investor-gate-form">
+          <label class="investor-gate-label" for="investor-gate-password">Password</label>
+          <input
+            class="investor-gate-input"
+            id="investor-gate-password"
+            name="password"
+            type="password"
+            autocomplete="current-password"
+            required
+          />
+          <p class="investor-gate-error" id="investor-gate-error" hidden>Incorrect password. Please try again.</p>
+          <button class="investor-gate-submit" type="submit">Enter Portal</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="investor-portal" hidden>
 
     <!-- Header / anchor navigation -->
     <header class="investor-header">
@@ -284,6 +308,8 @@
       </div>
     </footer>
 
-    <script type="module" src="investors.js"></script>
+    </div>
+
+    <script type="module" src="investors-auth.js"></script>
   </body>
 </html>

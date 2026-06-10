@@ -2200,7 +2200,7 @@ function initFooterYear() {
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+function initInvestorPortal() {
   renderNav();
   renderHero();
   renderTractionSection();
@@ -2224,4 +2224,10 @@ document.addEventListener("DOMContentLoaded", () => {
   initNavToggle();
   initScrollSpy();
   initFooterYear();
-});
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initInvestorPortal);
+} else {
+  initInvestorPortal();
+}
