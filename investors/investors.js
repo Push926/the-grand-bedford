@@ -709,6 +709,12 @@ function initFooterYear() {
   if (year) year.textContent = new Date().getFullYear();
 }
 
+function resetPageScroll() {
+  window.scrollTo(0, 0);
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
+}
+
 function initInvestorMemo() {
   renderHero();
   renderOffer();
@@ -726,6 +732,10 @@ function initInvestorMemo() {
   initAccordions();
   initStickyCta();
   initFooterYear();
+  resetPageScroll();
+  requestAnimationFrame(() => {
+    resetPageScroll();
+  });
 }
 
 if (document.readyState === "loading") {

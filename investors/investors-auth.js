@@ -2,6 +2,16 @@ const AUTH_KEY = "tgb-investor-auth";
 const PASSWORD_HASH =
   "81c2e4f71631321684f01d67f406210c93d27faf73e4bf11bdc602943d65eba0";
 
+if ("scrollRestoration" in history) {
+  history.scrollRestoration = "manual";
+}
+
+function resetPageScroll() {
+  window.scrollTo(0, 0);
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
+}
+
 async function hashPassword(value) {
   const digest = await crypto.subtle.digest(
     "SHA-256",
@@ -19,6 +29,12 @@ function dismissGate() {
     gate.setAttribute("aria-hidden", "true");
   }
   document.body.classList.remove("memo-page--locked");
+  document.body.style.position = "";
+  document.body.style.top = "";
+  document.body.style.left = "";
+  document.body.style.right = "";
+  document.body.style.width = "";
+  resetPageScroll();
 }
 
 function showLoadError(message) {
@@ -39,7 +55,8 @@ function showLoadError(message) {
 
 function loadPortal() {
   dismissGate();
-  import("./investors.js?v=13").catch((err) => {
+  resetPageScroll();
+  import("./investors.js?v=14").catch((err) => {
     console.error("Failed to load investor memo:", err);
     showLoadError(
       "Unable to load investor materials. Please refresh the page or try again in a moment.",
@@ -48,7 +65,13 @@ function loadPortal() {
 }
 
 function initGate() {
+  resetPageScroll();
   document.body.classList.add("memo-page--locked");
+  document.body.style.position = "fixed";
+  document.body.style.top = "0";
+  document.body.style.left = "0";
+  document.body.style.right = "0";
+  document.body.style.width = "100%";
 
   const form = document.getElementById("investor-gate-form");
   const error = document.getElementById("investor-gate-error");

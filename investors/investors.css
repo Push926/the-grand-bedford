@@ -41,6 +41,11 @@ body.memo-page {
 
 body.memo-page--locked {
   overflow: hidden;
+  width: 100%;
+}
+
+.memo-gate:not(.is-dismissed) ~ #investor-portal {
+  display: none;
 }
 
 img {
